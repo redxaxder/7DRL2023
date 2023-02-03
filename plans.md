@@ -1,4 +1,5 @@
 
+
 7 Nights in Vienna: Party Like It's 1815
 
 
@@ -34,8 +35,9 @@ Evolution rules
                       0 -> RESPECT
                       mutual RESPECT -> FRIENDSHIP
                       LOVE partner -> RIVALRY
-                      MARRIED to partner -> RIVALRY
-                      mutual LOVE -> MARRIAGE
+                      COURTING to partner -> RIVALRY
+                        if parters are also COURTING -> HATE
+                      mutual LOVE -> COURTING
                       RIVALRY -> HATE
   EMBARASSING act     0 -> DISDAIN
                       RIVALRY -> 0
@@ -49,6 +51,7 @@ Evolution rules
                       target HATE -> cause scandal
                       target RESPECT -> LOVE
 
+
 Player abilities:
   - trip someone (embarassing for them)
   - stain their clothing? (embarassing for them, but as a persistent effect instead of immediate)
@@ -60,7 +63,7 @@ Player abilities:
   - pickpocket (take item from character)
   - putpocket (put item on character)
   - poison! (apply debuff to character)
-
+  - ditch partner
   - introduce
     - lead your dance partner to another couple
     - person you're dancing with gains relationship to other people
@@ -79,13 +82,15 @@ NPC traits:
        at a party they are hosting
      - ire generated at a party they are hosting
        is permanent
+   gossipy:
+     - while dancing with this NPC, randomly gain info about other NPCs
 
 NPC Stats:
   - IRE:
     - when this fills up they cause a SCANDAL with the player
   - PIQUE:
     - when this fills up they leave the party early
-    - can cause CASCADING when interacting with relaitonships
+    - can cause CASCADING when interacting with relationships
 
 
 hosting schedule:
@@ -100,7 +105,7 @@ characters have a CONNECT LIMIT (varies per character?)
 Connections:
     TYPE       RANK
   - friendship 3    (mutual only)
-  - marriage   3    (mutual only)
+  - courting   3    (mutual only)
   - love       2
   - hate       2
   - rivalry    1
@@ -125,9 +130,6 @@ Factions:
   - Switzerland
   - Itialian kingdoms
 
-Traits:
-
-
 
 
 Preexisting faction rels:
@@ -136,3 +138,137 @@ Preexisting faction rels:
 
 goals:
   russia: tsar wanted to become king of poland
+
+
+PC state:
+  - scrolling window of inputs
+  - a "grace" guage
+    - this reduces the amount of IRE generated when they pull shenanigans
+
+- how many NPCs?
+  - bigger number:
+      greater variety
+      more immersive (fuller world)
+  - smaller number:
+      easier to implement
+      player needs to understand the political situation
+  - about a dozen major NPCs (maybe more. like 20? ish? feel it out)
+    - these are the characters the player needs to keep track of to play
+    - they are less likely to be the target if minor (ie early game) missions
+  - fill up with minor NPCs to get 50 characters
+    - this fill out the dance room
+    - have have factions
+    - their IRE is fully reset between missions
+    - they are less likely to be the target of major (ie late game) missions
+    - they are never involved in connections
+
+moment-to-moment player experience:
+- title screen
+  - has scrolling text about setting
+  - press button to start
+
+- start is pressed
+  - player appears in preparation room
+  - preparation rooms contains a random game tip!
+  - here they can
+    - practice moves
+    - learn their upcoming mission
+    - fuse moves
+    - get new moves
+    - exit (toward mission start)
+
+- mission starts
+  - player appears in dance room
+  - dance room is populated with other characters
+  - there is dancing going on!
+  - some characters are not dancing
+  - there is a "current dance" consisting of some sequence of steps
+    - there is more than one such sequence
+      - the sequences are the sets of 4 steps that have at least one pair
+        of duplicate consecutive steps
+    - when the player executes that sequence, gain grace
+    - the "current dance" eventually ends
+      - dancers unlink
+      - one turn later, a new dance starts
+        - it has different steps
+        - the music changes
+    - when the player does not have a partner, they cannot gain grace
+      - bumping into a matching unpartnered NPC invites them to dance
+        - if your grace is below a threshold, your partner continuously gains IRE
+      - bumping into anyone else shoves them out of the way
+        - this generates IRE
+  - there is an observation pane
+    - it shows what the player knows about the target NPC
+    - it has an AI-generated portrait of the NPC? <<<<
+    - clicking on an NPC changes the target
+      - mouse-overrides target for duration of mouse-over
+    - when no target, shows mission info
+    - some UI interaction clears current target
+    - shows NPC stats:
+      - IRE is always known
+      - PIQUE is always known
+      - name is always known
+      - faction is always known
+      - dance step history is always known
+      - trait, if known
+      - connections, if known
+  - there is a move assistant pane
+    - this helps the player figure out which moves their current sequence of
+      steps can complete into
+
+  - if the mission is currently complete, there is an exit to the dance area
+  - when the player goes through the exit, they go to the planning zone
+
+
+
+
+
+EX move assistant pane:
+history: ^^><
+moveset:
+  <^>v : move A
+  <><> : current dance
+  >>vv : move C
+  >v^^ : move D
+
+[ move has a tip icon which is transformed here ]
+assistant:
+  [^><]< : move D [ icon ]
+  [><]>< : grace
+
+true fax about assistant pane:
+   - because of collision rules, there are at most 4 moves 1 away from completion
+   - there are at most 16 moves 2 away from completion
+
+UX idea:
+  "shift-move" to filter assistant pane
+  backspace to undo filter
+
+ex: throw dart
+ .>-
+ .@.
+ ...
+
+
+-----------------
+|   |   |   |   |
+|   | X |   |   |
+|   |   |   |   |
+-----------------
+|   |   |   |   |
+|   |   |   |   |
+|   |   |   |   |
+-----------------
+|   |   |   |   |
+|   |   |  X|X  |
+|   |   |   |   |
+-----------------
+|   |   |   |   |
+|   |   |   |   |
+|   |   |   |   |
+-----------------
+|   |   |   |   |
+|   |   |   |   |
+|   |   |   |   |
+
+
