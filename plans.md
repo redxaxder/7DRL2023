@@ -1,5 +1,146 @@
 
 
+first pass:
+  - core gameplay:
+    - dance step triggers
+      - there are dances
+      - a dance has assigned sequences
+  - 12 NPCs in a dance
+  - dance room:
+    - dimensions 20x20
+  - GRACE mechanic
+    - GRACE decays over time
+    - performing the sequence generates GRACE for player
+  - sprites
+    - player sprite
+    - 3-4 other sprites
+    - pallete swaps to generate more of them
+  - representation of dihedral group
+  - action of dihedral group on move sequence
+  - UI:
+    - display player GRACE
+    - display grace triggers for current dance
+    - display move assistant pane
+  - dances end and start
+  - NPCs split up after end
+  - player can get a dance partner by bumping
+  - player can shove by bumping
+  - partnered NPCs move by following current dance steps
+  - unpartnered NPCs move by following dijkstra map to compatible NPCS
+    - one map for unpartnered men
+    - one map for unpartnered women
+  - music
+    - stop music when dance ends
+    - start music when dance starts
+    - [TODO: put list of first-pass songs here]
+
+second pass:
+  - UI:
+    - display IRE of NPC
+  - simple missions
+    - steal document
+    - plant evidence
+  - game ends if IRE guage fills?
+  - IRE
+    - NPCs have an IRE guage
+    - IRE increases in NPCS adjacent to player
+      - possibly larger distance? (max norm? DnD octogon norm?)
+    - high GRACE mitigates the increase
+    - distance mitigates the increase
+
+  - player abilities
+    - action of dihedral group on player ability
+    - swap parnter
+    - pickpocket/plant
+    - ditch partner
+    - trip an NPC
+      - embarasses the npc
+      - other NPCs that can see them break connection
+      - bodies will occlude this
+
+
+third pass:
+  - player can change the activation of abilities
+  - investigate (learn facts about multiple targets at range)
+
+
+misc additions:
+  - display time remaining in current dance
+  - display recent STEPS of NPC
+  - national flags
+  - portraits
+
+ambitious extras:
+  - relationships
+    - relationships evolution rules
+    - relationships somehow have tactical importance
+      - PC's dance partner may generate extra (or less) IRE among related NPCs
+  - NPC traits
+
+
+notes on CONTAGION mechanic:
+  - there is a graph of relationships between NPCs
+    - each pair of NPCs is either connected or not
+  - some player actions cause connections to form/break
+  - each NPC has a CONTAGION state: on or off
+  - between dances, CONTAGION can spread from an NPC to its connections
+    - each NPC has a threshold. if the proortion of ON neighbors
+      is above the threshold, this NPC switches to ON
+  - some NPCs have alliances/grudges
+    - an alliance causes their conection to be restored at the start of the next dance
+    - a grudge similarly breaks the connection
+  - you win the game if at the end a set of key NPCs are ON
+
+
+notes on PICKPICKET/PLANT:
+  - player can hold one item
+  - NPCs can hold one item
+  - if it is targeting a space with no NPC, it fails
+  - if player has an item:
+      that item ends up in NPCs inventory
+  - if NPC has an item:
+      that item ends up in player's inventory
+
+notes on TRIP:
+  - causes player to lose a lot of grace
+  - causes lots of IRE in tripped NPC
+  - breaks connections between target and others who see it
+
+
+NPC Stats:
+  - IRE:
+    - when this fills up they cause a SCANDAL with the player
+  - intel:
+    - CORRUPT or HONEST
+    - alliances
+    - grudges
+    - recalcitrance - activation threshold
+  - grace threshold?:
+    - will refuse to dance with player while their grace is too low
+  - PIQUE?:
+    - when this fills up they leave the party early
+    - can cause CASCADING when interacting with relationships
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 7 Nights in Vienna: Party Like It's 1815
 
 
@@ -69,28 +210,35 @@ Player abilities:
     - person you're dancing with gains relationship to other people
 
 NPC traits:
+   corrupt:
+     - when this NPC gains posession of an item that is not theirs, they keep it
+       this breaks a connection between them and its owner
+   honest:
+     - when this NPC gains posession of an item that is not theirs, they return it
+       this makes a connection between them and its owner
+   gossipy:
+     - while dancing with this NPC, randomly gain info about other NPCs
+   duelist:
+     - if the player causes a scandal with this NPC, it is a duel
+     - this NPC will be injured in the duel and will no longer influence
+       contagion for the rest of the game
    quick reflexes:
      - IMPRESSIVE: catch someone who falls over
-   suave dancer:
-     - IMPRESSIVE if they complete N dance moves in a row
-   two left feet:
-     - prevents dance partner from doing anything impressive
-   beautiful:
-     - always finds a dance partner
+
+
    obsessive host:
      - will not cause a scandal when their ire overflows
        at a party they are hosting
      - ire generated at a party they are hosting
        is permanent
-   gossipy:
-     - while dancing with this NPC, randomly gain info about other NPCs
-
-NPC Stats:
-  - IRE:
-    - when this fills up they cause a SCANDAL with the player
-  - PIQUE:
-    - when this fills up they leave the party early
-    - can cause CASCADING when interacting with relationships
+   suave dancer:
+     - IMPRESSIVE if they complete N dance moves in a row
+   two left feet:
+     - prevents dance partner from doing anything impressive
+   resolute:
+     - never leaves the party early
+   beautiful:
+     - always finds a dance partner
 
 
 hosting schedule:
@@ -112,29 +260,49 @@ Connections:
   - disdain    1
   - respect    1
 
+delightful trivia:
+  - wristwatches were worn exclusively by women
+  - men had pocket watches
 
 Factions:
   - 4 great powers:
-    - United Kingdom
-    - Austria
-    - Russia
-    - Prussia
-  - Spain?
-  - Portugal?
-  - Sweden?
-  - France
+    - United Kingdom (flag: https://en.wikipedia.org/wiki/List_of_United_Kingdom_flags#/media/File:Flag_of_the_United_Kingdom_(3-5).svg)
+    - Austrian Empire (flag: https://en.wikipedia.org/wiki/Austrian_Empire#/media/File:Flag_of_the_Habsburg_Monarchy.svg)
+    - Russia (https://en.wikipedia.org/wiki/File:Flag_of_Russia.svg)
+    - Prussia (flag: https://en.wikipedia.org/wiki/Flag_of_Prussia)
+  - Spain? (flag: https://en.wikipedia.org/wiki/Flag_of_Spain#/media/File:Bandera_de_Espa%C3%B1a.svg)
+  - Portugal? (flag: https://en.wikipedia.org/wiki/History_of_Portugal_(1777%E2%80%931834))
+  - Sweden? (flag: https://en.wikipedia.org/wiki/Gustavian_era)
+  - France (flag: https://commons.wikimedia.org/wiki/File:Flag_of_Royalist_France.svg)
   Minor:
-  - Papacy
-  - Denmark
-  - Netherlands
+  - Papacy (https://en.wikipedia.org/wiki/Coat_of_arms_of_Vatican_City)
+  - Bavaria (flag: https://en.wikipedia.org/wiki/Kingdom_of_Bavaria )
+  - Denmark (https://en.wikipedia.org/wiki/Flag_of_Denmark)
+  - Netherlands (https://en.wikipedia.org/wiki/File:Flag_of_the_Netherlands.svg)
   - Switzerland
   - Itialian kingdoms
 
-
+important NPC names and relationships:
+  - king friedrich wilhelm iii - prussia
+  - tsar alexander - russia
+    - sworn friends with kaiser wilhelm
+      pre-treaty to divvy up poland
+  - francis i - austria
+  - Klemens von Metternich, foreign minister of austria
+  - Prince Charles-Maurice de Talleyrand, France (chief delegate)
+  - nations that send their leader to vienna congress:
+    - prussia
+    - russia
+    - demnark (frederick vi)
+    - austria
+    - some minor german states (created by napolean)
+      - bavaria (Maximilian I Joseph)
+      - wu"rttemberg
 
 Preexisting faction rels:
   - france allied with austria & britian against russia
   - prussia beef w/ austria & britian
+  - prussia & russia have secret agreement to help each other out
 
 goals:
   russia: tsar wanted to become king of poland
@@ -221,6 +389,17 @@ moment-to-moment player experience:
 
 
 
+{-
+>>>v
+
+
+NPC
+
+>>vv>>^^<<
+
+
+
+-}
 
 
 EX move assistant pane:
@@ -272,3 +451,29 @@ ex: throw dart
 |   |   |   |   |
 
 
+- MISSIONS
+  - steal document
+    - one of the NPCs is holding a document
+    - player must perform PICKPOCKET ability on that character
+  - steal document (unknown holder)
+    - as above, except you need to gather info about who has it
+  - make someone late for an appointment
+    - an NPC has a timepiece
+    - player must perform PICKPOCKET ability on that character
+    - this triggers a countdown while you fiddle with the time
+    - player must perform PLANT ability on that character after countdown
+  - dance with a particular NPC
+    - the mission target has a high grace threshold
+  - eavesdrop on a conversation
+    - spend X number of turns within [RANGE] of [NPC]
+  - get two target NPCs to dance with each other
+  - frame an NPC
+    - steal an item from one NPC
+    - plant it on a second NPC
+  - swap NPC items
+    - NPC A is holding item A
+    - NPC B is holding item B
+    - item A has to be in NPC B's inventory and vice versa
+  - create a distraction
+    - cause any SCANDAL between NPCS (if rels)
+    - trip people (if no rels) <-
