@@ -9,7 +9,15 @@ first pass:
   - dance room:
     - dimensions 20x20
   - GRACE mechanic
-    - GRACE decays over time
+    - two tiers:
+       - grace "level"
+       - grace "meter"
+       - grace timer
+       - [3] [----15/30---| - - -] ⏳ 15
+       - higher lever grace has a bigger meter to fill
+       - level decays on a timer
+         after n turns go by, decrease level by 1
+         n = 20?
     - performing the sequence generates GRACE for player
   - sprites
     - player sprite
@@ -37,31 +45,94 @@ first pass:
 second pass:
   - UI:
     - display IRE of NPC
-  - simple missions
-    - steal document
-    - plant evidence
+    - display INTEL of NPC
+  - LOS calculation
+    - TODO: pick algo
   - game ends if IRE guage fills?
+  - NPC state:
+    - NPCs have an INTEL guage
+    - NPCs have an IRE guage (0-100)?
+    - connection data
+    - corrupt/honest state
   - IRE
-    - NPCs have an IRE guage
-    - IRE increases in NPCS adjacent to player
+    - IRE increases in NPCS near the player
+      - just adjacent?
       - possibly larger distance? (max norm? DnD octogon norm?)
     - high GRACE mitigates the increase
+      - gives a chance to not generate IRE
+      - rolled seperately per NPC
+      - chance to increase ire = n / (n + grace level)
+        (n = 7?)
     - distance mitigates the increase
+      - acts as a grace bonus? (multiplier?)
+      - d = max norm
+        g := (g + d) * d
+      - if d > x, then no ire
+        (x = 5?)
+  - INTEL
+    - while you have line of sight to that NPC, the guage fills
+    - when the guage fills up, gain a type of INTEL on this character
+      according to a priority list
+      - 1. this character's support state
+      - 2. location of this character in the connection graph
+           and this character's "saturation"
+           (proportion of ON neighbors)
+      - 3. recalcitrance
+      - character's corrupt/honest state
+  - connection graph screen
+    - use kinematic system
+    - edges are springs
+    - vertices repel each other
+    - each NPC has their portrait inside a circle
+      - the circle has a BLUE/RED halo depending on they support or oppose
+    - each NPC a bar above and below
+      - blue bar and red bar
+    - if their RECALCITRANCE is known, they have a black line through the bars
+    - show percentage on each bar
 
   - player abilities
     - action of dihedral group on player ability
     - swap parnter
     - pickpocket/plant
     - ditch partner
+    - twirl
+      - makes partner IMPRESSIVE, forming connections
+      - requires high GRACE level
+      - does not decay grace
+
+
+third pass:
+  - ability unlocks
+    - swap/introduce
+    - pickpocket
+    - twirl
+    - trip
+    - start game with a random ability
+    - after each of first three nights, gain random ability
+      - but choose among activation sequences
+      - upgrade popup like in orcish fury
+  - investigate (learn facts about multiple targets at range)
+  - NPCs
+    - marriages
+    - alliances
+    - grudges
+    - traits
+    - visible on NPC display
+    - unlockable as INTEL
+    - faction
+    - at the start of the game, there is a clique for each faction
+
+  - player ability:
     - trip an NPC
       - embarasses the npc
       - other NPCs that can see them break connection
       - bodies will occlude this
 
-
-third pass:
-  - player can change the activation of abilities
-  - investigate (learn facts about multiple targets at range)
+fourth pass:
+  - pick an ability to start with
+  - after each of next three nights, choose an ability to upgrade
+    - bind an additional activation sequnce to it
+    - there is a choice of multiple sequences to use
 
 
 misc additions:
@@ -69,27 +140,34 @@ misc additions:
   - display recent STEPS of NPC
   - national flags
   - portraits
+  - animate ire generation
+    - red flash?
+  - animate contagion
+    - colored balls move from neighbors
+    - look at ncase crowds sim
 
 ambitious extras:
-  - relationships
-    - relationships evolution rules
-    - relationships somehow have tactical importance
-      - PC's dance partner may generate extra (or less) IRE among related NPCs
-  - NPC traits
+  - missions?
 
 
 notes on CONTAGION mechanic:
   - there is a graph of relationships between NPCs
     - each pair of NPCs is either connected or not
   - some player actions cause connections to form/break
-  - each NPC has a CONTAGION state: on or off
+  - each NPC has a CONTAGION state: SUPPORT/NEUTRAL/OPPOSE
   - between dances, CONTAGION can spread from an NPC to its connections
-    - each NPC has a threshold. if the proortion of ON neighbors
-      is above the threshold, this NPC switches to ON
+    - each NPC has a saturation theshold. if the proportion of SUPPORT/OPPOSE neighbors
+      is above the threshold, this NPC switches to SUPPORT/OPPOSE
+    - if both SUPPORT and OPPOSE cross the threshold, switch to NEUTRAL
   - some NPCs have alliances/grudges
     - an alliance causes their conection to be restored at the start of the next dance
     - a grudge similarly breaks the connection
   - you win the game if at the end a set of key NPCs are ON
+  - after every night there is one "round" of contagion calculation
+    - assign a random order to all of the NPCs
+      in order, flip it if necessary
+    - after the end of the player's interference, it calculates until stable
+      or looping?  (detect loops somehow if needed)
 
 
 notes on PICKPICKET/PLANT:
@@ -100,11 +178,28 @@ notes on PICKPICKET/PLANT:
       that item ends up in NPCs inventory
   - if NPC has an item:
       that item ends up in player's inventory
+  - target is diagonal
+  - costs 1 grace
+
+notes on TWIRL:
+  - moves the partner clockwise/counterclockwise
+  - based on TAU component of dihedral
+  - requires very high grace
+    - should be unable to maintain necessary grace unless doing a ton of dancing
+    n = 7?
 
 notes on TRIP:
   - causes player to lose a lot of grace
   - causes lots of IRE in tripped NPC
   - breaks connections between target and others who see it
+  - moves the target one space
+  - loses ALL grace
+
+notes on SWAP:
+  - creates connections between your
+    partner and each member of the couple
+  - costs n levels of grace
+    n = 3?
 
 
 NPC Stats:
@@ -170,7 +265,7 @@ Example Goal:
   - ruin the party!
     - get N people to leave
 
-Evolution rules
+Evolution rules<!--{{{-->
   EVENT             EVOLUTIONS
   IMPRESSIVE act      0 -> LOVE
                       0 -> RESPECT
@@ -190,7 +285,7 @@ Evolution rules
                       ALLIANCE -> 0
   DANCE PROPOSAL      target 0 -> RESPECT
                       target HATE -> cause scandal
-                      target RESPECT -> LOVE
+                      target RESPECT -> LOVE}}}
 
 
 Player abilities:
