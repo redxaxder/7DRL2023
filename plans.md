@@ -1,14 +1,12 @@
 
-
 first pass:
   - core gameplay:
     - dance step triggers
       - there are dances
       - a dance has assigned sequences
-  - 12 NPCs in a dance
-  - dance room:
-    - dimensions 20x20
-  - GRACE mechanic
+  - dance room:{{{
+    - dimensions 10x10}}}
+  - GRACE mechanic{{{
     - two tiers:
        - grace "level"
        - grace "meter"
@@ -18,58 +16,69 @@ first pass:
        - level decays on a timer
          after n turns go by, decrease level by 1
          n = 20?
-    - performing the sequence generates GRACE for player
-  - sprites
-    - player sprite
-    - 3-4 other sprites
-    - pallete swaps to generate more of them
+    - performing the sequence generates GRACE for player}}}
+  - player sprite
   - representation of dihedral group
   - action of dihedral group on move sequence
+  - dances end and start
   - UI:
     - display player GRACE
     - display grace triggers for current dance
     - display move assistant pane
-  - dances end and start
-  - NPCs split up after end
-  - player can get a dance partner by bumping
-  - player can shove by bumping
+    - display time until dance end
+    - display time until dance start
+    - display moves of current dance
+
+second pass:
+  - 12 NPCs in a dance
+    - No names, or factions, just letters
+    - they have genders (color coded?)
   - partnered NPCs move by following current dance steps
   - unpartnered NPCs move by following dijkstra map to compatible NPCS
     - one map for unpartnered men
     - one map for unpartnered women
-  - music
-    - stop music when dance ends
-    - start music when dance starts
-    - [TODO: put list of first-pass songs here]
-
-second pass:
+  - player can get a dance partner by bumping
+  - player can shove by bumping
+  - NPCs split up after dance end
   - UI:
-    - display IRE of NPC
+    - display SUSPICION of NPC
     - display INTEL of NPC
-  - LOS calculation
-    - TODO: pick algo
-  - game ends if IRE guage fills?
-  - NPC state:
+  - LOS calculation{{{
+    - check if bressenham line (and reverse line) is unoccupied}}}
+  - game ends if SUSPICION guage fills
+  - NPC state:{{{
     - NPCs have an INTEL guage
-    - NPCs have an IRE guage (0-100)?
+    - NPCs have an SUSPICION guage (0-100)?
     - connection data
-    - corrupt/honest state
-  - IRE
-    - IRE increases in NPCS near the player
+    - corrupt/honest state}}}
+  - connection graph screen{{{
+    - use kinematic system
+    - edges are springs
+    - vertices repel each other
+    - each NPC has their ICON inside a circle
+      - the circle has a BLUE/RED halo depending on they support or oppose
+    - each NPC a bar above and below
+      - blue bar and red bar
+    - if their RECALCITRANCE is known, they have a black line through the bars
+    - show percentage on each bar}}}
+  - SUSPICION{{{
+    - SUSPICION increases in NPCS near the player
       - just adjacent?
       - possibly larger distance? (max norm? DnD octogon norm?)
     - high GRACE mitigates the increase
-      - gives a chance to not generate IRE
+      - gives a chance to not generate SUSPICION
       - rolled seperately per NPC
-      - chance to increase ire = n / (n + grace level)
+      - chance to increase SUSPICION = n / (n + grace level)
         (n = 7?)
     - distance mitigates the increase
       - acts as a grace bonus? (multiplier?)
       - d = max norm
         g := (g + d) * d
-      - if d > x, then no ire
+      - if d > x, dont trigger it
         (x = 5?)
-  - INTEL
+      - if chance is below threshold, dont trigger it
+        (30%?) - need to be careful to not allow invulnerability}}}
+  - INTEL{{{
     - while you have line of sight to that NPC, the guage fills
     - when the guage fills up, gain a type of INTEL on this character
       according to a priority list
@@ -77,77 +86,129 @@ second pass:
       - 2. location of this character in the connection graph
            and this character's "saturation"
            (proportion of ON neighbors)
-      - 3. recalcitrance
-      - character's corrupt/honest state
-  - connection graph screen
-    - use kinematic system
-    - edges are springs
-    - vertices repel each other
-    - each NPC has their portrait inside a circle
-      - the circle has a BLUE/RED halo depending on they support or oppose
-    - each NPC a bar above and below
-      - blue bar and red bar
-    - if their RECALCITRANCE is known, they have a black line through the bars
-    - show percentage on each bar
-
-  - player abilities
-    - action of dihedral group on player ability
-    - swap parnter
-    - pickpocket/plant
-    - ditch partner
-    - twirl
-      - makes partner IMPRESSIVE, forming connections
-      - requires high GRACE level
-      - does not decay grace
-
+      - 3. resolve
+      - character's corrupt/honest state}}}
 
 third pass:
-  - ability unlocks
+  - NPC names
+    - list of fixed names
+    - list of name elements per faction
+    - first names, last names, de la
+    - [ john, carl, freiderich ]
+    - [ schnitzel, sandwich, wellington ]
+    - particle: faction -> particle
+        von
+        de la
+        de
+    - [ Berlin, Vienna, Whateversville ]
+    - seperate list per faction
+      - first name list
+      - last name list
+      - location list
+      - 5 factions (english, french, german, russian, spanish)
+      - 15 lists
+  - player abilities
+    - action of dihedral group on player ability
+    - pilfer
+  - victory / defeat screen
+    - show epilogue
+
+fourth pass:
+  - player abilities
+    - pick an ability to start with
+    - ability unlocks
     - swap/introduce
-    - pickpocket
     - twirl
     - trip
     - start game with a random ability
     - after each of first three nights, gain random ability
       - but choose among activation sequences
       - upgrade popup like in orcish fury
-  - investigate (learn facts about multiple targets at range)
+    - after each of next three nights, choose an ability to upgrade
+      - bind an additional activation sequnce to it
+      - there is a choice of multiple sequences to use
+
   - NPCs
     - marriages
     - alliances
     - grudges
     - traits
+      - gossipy
+      - duelist
+      - reflexes
     - visible on NPC display
     - unlockable as INTEL
     - faction
     - at the start of the game, there is a clique for each faction
 
-  - player ability:
-    - trip an NPC
-      - embarasses the npc
-      - other NPCs that can see them break connection
-      - bodies will occlude this
-
-fourth pass:
-  - pick an ability to start with
-  - after each of next three nights, choose an ability to upgrade
-    - bind an additional activation sequnce to it
-    - there is a choice of multiple sequences to use
-
-
 misc additions:
   - display time remaining in current dance
+  - legit sprites
+    - for the NPCs
+    - for the floor / walls
   - display recent STEPS of NPC
   - national flags
   - portraits
-  - animate ire generation
+  - animate SUSPICION generation
     - red flash?
+    - moving particle?
   - animate contagion
     - colored balls move from neighbors
     - look at ncase crowds sim
+  - music
+    - stop music when dance ends
+    - start music when dance starts
+    - [TODO: put list of first-pass songs here]
+  - NPC intel: there is a list of which dances they will/won't attend
+  - difficulty options:
+    - no opposing NPCs, no alliances/grudges
+    - some opposing NPCs, some alliances/grudges
+    - key NPCs have extra alliances
+    - extra opposition
 
 ambitious extras:
+  - choice of which dance to go to each night
+    - different NPCs will be present at the different dances
+    - the dances have different numbers of attendees (say 12 and 8?)
   - missions?
+
+possible writing stuff:
+  - scrolling prologue on title screen?
+  - epilogue
+    - what if you won
+    - what if you lost
+    - what if you got caught up in a scandal AND lost
+    - what if you got caught up in a scandal AND won
+      - what if it was a duel
+  - blurbs for NPCs
+    - these show up on the info pane for that NPC
+  - blurbs between days
+    - backstory that shows up during day transitions
+    - some stuff that reacts to how the game is going
+  - text for the following events:
+    - connection restored due to alliance
+    - connection broken due to grudge
+    - NPC changing opinion
+      - YES -> NO
+      - YES -> NEUTRAL
+      - NO -> YES
+      - NO -> NEUTRAL
+      - NEUTRAL -> YES
+      - NEUTRAL -> NO
+  - text for triggered SCANDAL
+  - what is the plot?
+    - the austrian emperor had a spymaster doing exactly what we're talking about
+      - spymaster named franz joseph von hager or something
+        - it was illegal to spy in certain locations
+      - emperor named freidrich iii or something
+    - is the player the spymaster?
+    - does the player work for the spymaster?
+    - is the spymaster mentioned, and how?
+       - as the narrator?
+    - player is spymaster's nephew?
+       - you are not austrian
+         - this is the reason you were called in
+         - from the new world?
 
 
 notes on CONTAGION mechanic:
@@ -160,7 +221,9 @@ notes on CONTAGION mechanic:
       is above the threshold, this NPC switches to SUPPORT/OPPOSE
     - if both SUPPORT and OPPOSE cross the threshold, switch to NEUTRAL
   - some NPCs have alliances/grudges
-    - an alliance causes their conection to be restored at the start of the next dance
+    - each of these has a percent chance
+    - an alliance gives a chance for their conection to be restored after the dance
+      ends (before propagation)
     - a grudge similarly breaks the connection
   - you win the game if at the end a set of key NPCs are ON
   - after every night there is one "round" of contagion calculation
@@ -190,7 +253,7 @@ notes on TWIRL:
 
 notes on TRIP:
   - causes player to lose a lot of grace
-  - causes lots of IRE in tripped NPC
+  - causes lots of SUSPICION in tripped NPC
   - breaks connections between target and others who see it
   - moves the target one space
   - loses ALL grace
@@ -201,15 +264,19 @@ notes on SWAP:
   - costs n levels of grace
     n = 3?
 
+notes on UNNAMED ABILITY:
+  - increase max suspicion somehow?
+
+
 
 NPC Stats:
-  - IRE:
+  - SUSPICION:
     - when this fills up they cause a SCANDAL with the player
   - intel:
     - CORRUPT or HONEST
     - alliances
     - grudges
-    - recalcitrance - activation threshold
+    - resolve - activation threshold
   - grace threshold?:
     - will refuse to dance with player while their grace is too low
   - PIQUE?:
@@ -406,7 +473,7 @@ goals:
 PC state:
   - scrolling window of inputs
   - a "grace" guage
-    - this reduces the amount of IRE generated when they pull shenanigans
+    - this reduces the amount of SUSPICION generated when they pull shenanigans
 
 - how many NPCs?
   - bigger number:
@@ -421,7 +488,7 @@ PC state:
   - fill up with minor NPCs to get 50 characters
     - this fill out the dance room
     - have have factions
-    - their IRE is fully reset between missions
+    - their SUSPICION is fully reset between missions
     - they are less likely to be the target of major (ie late game) missions
     - they are never involved in connections
 
@@ -457,9 +524,9 @@ moment-to-moment player experience:
         - the music changes
     - when the player does not have a partner, they cannot gain grace
       - bumping into a matching unpartnered NPC invites them to dance
-        - if your grace is below a threshold, your partner continuously gains IRE
+        - if your grace is below a threshold, your partner continuously gains SUSPICION
       - bumping into anyone else shoves them out of the way
-        - this generates IRE
+        - this generates SUSPICION
   - there is an observation pane
     - it shows what the player knows about the target NPC
     - it has an AI-generated portrait of the NPC? <<<<
@@ -468,7 +535,7 @@ moment-to-moment player experience:
     - when no target, shows mission info
     - some UI interaction clears current target
     - shows NPC stats:
-      - IRE is always known
+      - SUSPICION is always known
       - PIQUE is always known
       - name is always known
       - faction is always known
