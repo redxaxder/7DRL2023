@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://testbed.gd" type="Script" id=3]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="dance_floor" type="Control" parent="."]
+margin_left = 102.0
+margin_top = 49.0
+margin_right = 606.0
+margin_bottom = 369.0
