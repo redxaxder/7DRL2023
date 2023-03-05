@@ -2,6 +2,7 @@ extends Node2D
 
 export var gamestate: Resource = Core.new_game()
 
+onready var dance_floor = $Control/dance_floor
 var glyphs: Array = []
 
 func _ready():
@@ -9,7 +10,7 @@ func _ready():
 	for d in gamestate.dancers:
 		var g = get_dancer_glyph(d)
 		glyphs.append(g)
-		$dance_floor.add_child(g)
+		dance_floor.add_child(g)
 
 func _unhandled_input(event):
 	var dir: int = -1
@@ -28,7 +29,7 @@ func _unhandled_input(event):
 func _on_character_moved(moved_to: Vector2, character: Dancer):
 	glyphs[character.id].position = dancer_screen_pos(moved_to)
 
-const tile_size = Glyph.cell_size / 2.0
+const tile_size = Vector2(32,32)
 func dancer_screen_pos(game_coord: Vector2) -> Vector2:
 	return game_coord * tile_size
 

@@ -1,12 +1,31 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
+[ext_resource path="res://floor_tile.tres" type="Theme" id=1]
 [ext_resource path="res://testbed.gd" type="Script" id=3]
+[ext_resource path="res://dance_floor_background.gd" type="Script" id=4]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 3 )
 
-[node name="dance_floor" type="Control" parent="."]
-margin_left = 102.0
-margin_top = 49.0
-margin_right = 606.0
-margin_bottom = 369.0
+[node name="Control" type="Control" parent="."]
+margin_right = 320.0
+margin_bottom = 320.0
+
+[node name="dance_floor_background" type="GridContainer" parent="Control"]
+modulate = Color( 1, 1, 1, 0.184314 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+custom_constants/vseparation = 0
+custom_constants/hseparation = 0
+columns = 10
+script = ExtResource( 4 )
+pattern = "D"
+
+[node name="dance_floor" type="Control" parent="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 16.0
+margin_top = 16.0
+margin_right = 16.0
+margin_bottom = 16.0

@@ -7,7 +7,7 @@ class_name Glyph
 
 const cell_width: int = 64
 const cell_height: int = 96
-const scale_factor: float = 1.0 / 2.0
+const scale_factor: float = 1.0 / 4.0
 const cell_size: Vector2 = Vector2(cell_width,cell_height)
 
 export var index: int = -1 setget set_index
