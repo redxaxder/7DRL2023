@@ -11,15 +11,36 @@ static func name(g: int) -> String:
 		return names[g]
 
 static func act_dir(g: int, dir: int) -> int:
-	var rot = g && 3
-	var flip = g && 4
-	var result = Dir.rot(dir, rot)
-	if flip > 0:
-		result = Dir.invert(result)
+	var rot = g & 3
+	var flip = g & 4
+	var result = (dir + rot) & 3
+	if g == G.R:
+		pass
+	if flip > 0  && (result & 1) > 0:
+		# up (0x00) & down (0x10) left: constant
+		# left (0x01) <-> right (0x11): swap
+		result = result ^ 2
+	if g == G.R:
+		pass
 	return result
 
-static func act_steps(g: int, steps) -> PoolIntArray:
-	var result = PoolIntArray()
+static func act_steps(g: int, steps) -> PoolByteArray:
+	var result = PoolByteArray()
 	for dir in steps:
 		result.append(act_dir(g, dir))
+	prints(Core.steps_to_string(steps), "-", name(g), "->", Core.steps_to_string(result))
 	return result
+
+static func orbit(steps) -> Array:
+	var dict: Dictionary = {}
+	for g in range(8):
+		var x = act_steps(g, steps)
+		if dict.has(x):
+			continue # in the case of collision, we keep the first element
+		else:
+			dict[x] = g
+	var results = []
+	results.resize(dict.size())
+	for k in dict.keys():
+		results[dict[k]] = k
+	return results

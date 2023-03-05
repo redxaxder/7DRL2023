@@ -2,7 +2,11 @@ extends Node2D
 
 var gamestate: GameState = Core.new_game()
 
+const Dirstring = preload("res://ui/dirstring.tscn")
+
 onready var dance_floor = $dance/dance_floor
+onready var player_history = $step_history
+onready var current_dances = $current_dances
 var glyphs: Array = []
 
 func _ready():
@@ -12,6 +16,7 @@ func _ready():
 		var g = get_dancer_glyph(d)
 		glyphs.append(g)
 		dance_floor.add_child(g)
+	set_current_dances(gamestate.current_dances)
 
 func _unhandled_input(event):
 	var dir: int = -1
@@ -26,6 +31,8 @@ func _unhandled_input(event):
 
 	if dir >= 0:
 		gamestate.try_move_player(dir)
+	
+	
 
 func _on_character_moved(moved_to: Vector2, character: Dancer):
 	glyphs[character.id].position = dancer_screen_pos(moved_to)
@@ -41,3 +48,14 @@ func get_dancer_glyph(_d: Dancer) -> Glyph:
 	var g = Glyph.new()
 	g.index = 13
 	return g
+
+func set_current_dances(dances: Array):
+	for c in current_dances.get_children():
+		c.queue_free()
+	for dance in dances:
+		var orbit = D8.orbit(dance)
+		for steps in orbit:
+			var dirstring = Dirstring.instance()
+			dirstring.steps = Array(steps)
+			print(Core.steps_to_string(steps))
+			current_dances.add_child(dirstring)

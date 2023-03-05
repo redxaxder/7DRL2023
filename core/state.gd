@@ -4,10 +4,11 @@ class_name GameState
 
 signal character_moved(new_pos, character)
 
-export var dancers: Array = []
-
 export var room_width: int = 10
 export var room_height: int = 10
+
+var dancers: Array = []
+var current_dances: Array = [ PoolByteArray([0,1,2,3]) ]
 
 const player_id: int = 0 # player is always added to the array first!
 
