@@ -4,18 +4,17 @@ first pass:
     - dance step triggers
       - there are dances
       - a dance has assigned sequences
+  - dropcap glyphs: https://www.1001fonts.com/morris-initialen-font.html
   - dance room:{{{
     - dimensions 10x10}}}
   - GRACE mechanic{{{
     - two tiers:
        - grace "level"
        - grace "meter"
-       - grace timer
-       - [3] [----15/30---| - - -] ⏳ 15
+       - [3] [----15/30---| - - -]
        - higher lever grace has a bigger meter to fill
-       - level decays on a timer
-         after n turns go by, decrease level by 1
-         n = 20?
+       - meter decays an amount based on level (equal to level?)
+       - filling the meter inrements the level
     - performing the sequence generates GRACE for player}}}
   - player sprite
   - representation of dihedral group
@@ -142,6 +141,7 @@ fourth pass:
     - at the start of the game, there is a clique for each faction
 
 misc additions:
+  - floor patterns: https://www.1001fonts.com/seamless-pattern-icons-font.html
   - display time remaining in current dance
   - legit sprites
     - for the NPCs
@@ -639,3 +639,31 @@ ex: throw dart
   - create a distraction
     - cause any SCANDAL between NPCS (if rels)
     - trip people (if no rels) <-
+
+
+List of people
+  Austria
+    Klemens von Metternich
+                full name: Klemens Wenzel Nepomuk Lothar, Prince of Metternich-Winneburg zu Beilstein
+    S: Eleonore von Kaunitz
+    Johann Philipp Freiherr von Wessenberg-Ampringen (Minister-President of the Austrian Empire)
+    S: ???
+  Britain
+    Field Marshal His Grace The Duke of Wellington
+    S: Catherine Pakenham
+  Russia
+    Tsar Alexander I (Emperor of Russia)
+    S: Louise of Baden
+    Karl Robert Reichsgraf von Nesselrode-Ehreshoven
+    S: Maria Guryeva
+  Prussia
+    Karl August Fürst von Hardenberg (Prime Minister of Prussia)
+    S: Christiane von Reventlow
+    Friedrich Wilhelm Christian Karl Ferdinand von Humboldt
+    S: Caroline von Humboldt
+    Friedrich Wilhelm III (King of Prussia)
+    S: none!
+  France
+    Charles-Maurice de Talleyrand-Périgord
+    S: Catherine Noël Grand
+
