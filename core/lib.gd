@@ -6,5 +6,8 @@ static func new_game() -> GameState:
 	st.add_dancer(player)
 	return st
 
-static func player_move(dir: int, gs: GameState):
-	pass
+static func steps_to_string(steps) -> String:
+	var out: String = ""
+	for step in steps:
+		out += Dir.arrow(step)
+	return out

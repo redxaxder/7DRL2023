@@ -2,6 +2,12 @@ class_name Dir
 
 enum DIR{ UP, LEFT, DOWN, RIGHT }
 
+const arrows: PoolStringArray = PoolStringArray(["↑", "←", "↓", "→"])
+static func arrow(dir: int) -> String:
+	if dir < 0 || dir > 4:
+		return ""
+	return arrows[dir]
+
 static func dir_to_vec(dir: int) -> Vector2:
 	match dir:
 		DIR.UP:

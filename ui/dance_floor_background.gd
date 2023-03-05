@@ -6,8 +6,7 @@ export var pattern: String = "A" setget set_pattern
 export var width: int = 10 setget set_width
 export var height: int = 10 setget set_height
 
-const Tile = preload("res://floor_tile.tscn")
-
+const Tile = preload("res://ui/floor_tile.tscn")
 
 func _ready():
 	_reload_tiles()

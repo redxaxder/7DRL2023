@@ -11,5 +11,5 @@ const max_memory = 4
 
 func remember_move(dir: int):
 	recent_moves.append(dir)
-	while recent_moves.size() >= max_memory:
+	while recent_moves.size() > max_memory:
 		recent_moves.pop_front()

@@ -1,11 +1,12 @@
 extends Node2D
 
-export var gamestate: Resource = Core.new_game()
+var gamestate: GameState = Core.new_game()
 
-onready var dance_floor = $Control/dance_floor
+onready var dance_floor = $dance/dance_floor
 var glyphs: Array = []
 
 func _ready():
+# warning-ignore:return_value_discarded
 	gamestate.connect("character_moved", self, "_on_character_moved")
 	for d in gamestate.dancers:
 		var g = get_dancer_glyph(d)
@@ -28,12 +29,15 @@ func _unhandled_input(event):
 
 func _on_character_moved(moved_to: Vector2, character: Dancer):
 	glyphs[character.id].position = dancer_screen_pos(moved_to)
+	if character.id == gamestate.player_id:
+		$step_history.steps = character.recent_moves
 
 const tile_size = Vector2(32,32)
 func dancer_screen_pos(game_coord: Vector2) -> Vector2:
 	return game_coord * tile_size
 
-func get_dancer_glyph(d: Dancer) -> Glyph:
+func get_dancer_glyph(_d: Dancer) -> Glyph:
+	#TODO: different dancers look different
 	var g = Glyph.new()
 	g.index = 13
 	return g

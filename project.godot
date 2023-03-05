@@ -32,7 +32,7 @@ _global_script_classes=[ {
 "base": "Sprite",
 "class": "Glyph",
 "language": "GDScript",
-"path": "res://glyph.gd"
+"path": "res://ui/glyph.gd"
 } ]
 _global_script_class_icons={
 "Core": "",
