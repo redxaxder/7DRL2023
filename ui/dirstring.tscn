@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://step_history.gd" type="Script" id=1]
+[ext_resource path="res://ui/arrow_style.tres" type="Theme" id=2]
+
+[node name="dirstring" type="HBoxContainer"]
+margin_left = 389.0
+margin_top = 17.0
+margin_right = 429.0
+margin_bottom = 57.0
+theme = ExtResource( 2 )
+custom_constants/separation = 0
+script = ExtResource( 1 )
+steps = [ 0, 1, 2, 3 ]
+
+[node name="Label1" type="Label" parent="."]
+margin_top = 10.0
+margin_right = 10.0
+margin_bottom = 30.0
+text = "↑"
+
+[node name="Label2" type="Label" parent="."]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 20.0
+margin_bottom = 30.0
+text = "←"
+
+[node name="Label3" type="Label" parent="."]
+margin_left = 20.0
+margin_top = 10.0
+margin_right = 30.0
+margin_bottom = 30.0
+text = "↓"
+
+[node name="Label4" type="Label" parent="."]
+margin_left = 30.0
+margin_top = 10.0
+margin_right = 40.0
+margin_bottom = 30.0
+text = "→"
