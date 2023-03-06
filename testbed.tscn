@@ -9,8 +9,9 @@
 script = ExtResource( 3 )
 
 [node name="dance" type="Control" parent="."]
+margin_top = 114.0
 margin_right = 480.0
-margin_bottom = 480.0
+margin_bottom = 594.0
 
 [node name="dance_floor_background" type="GridContainer" parent="dance"]
 modulate = Color( 1, 1, 1, 0.184314 )
@@ -21,7 +22,7 @@ custom_constants/vseparation = 0
 custom_constants/hseparation = 0
 columns = 10
 script = ExtResource( 4 )
-pattern = "E"
+pattern = "N"
 
 [node name="dance_floor" type="Control" parent="dance"]
 anchor_right = 1.0

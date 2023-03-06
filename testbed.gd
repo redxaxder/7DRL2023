@@ -50,7 +50,7 @@ func dancer_screen_pos(game_coord: Vector2) -> Vector2:
 func get_dancer_glyph(_d: Dancer) -> Glyph:
 	#TODO: different dancers look different
 	var g = Glyph.new()
-	g.index = 13
+	g.character = "R"
 	return g
 
 var dance_orbit: Array = []
