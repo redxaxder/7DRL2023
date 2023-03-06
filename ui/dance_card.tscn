@@ -13,9 +13,9 @@ margin_bottom = 45.0
 rect_min_size = Vector2( 86, 45 )
 script = ExtResource( 3 )
 target_speed = 50.0
-top_speed = 800.0
-acceleration = 1600.0
-skid_correction = 0.5
+top_speed = 1000.0
+acceleration = 2000.0
+skid_correction = 10.0
 
 [node name="PanelContainer" type="PanelContainer" parent="Anchor"]
 margin_right = 86.0

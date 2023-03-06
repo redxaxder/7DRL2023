@@ -5,10 +5,22 @@ var dance: Dance setget set_dance
 onready var _string = $Anchor/PanelContainer/dirstring
 onready var anchor = $Anchor
 
+var ix: int setget set_ix
+
 #var prev_index: int setget
 func _ready():
 	anchor.snap()
 	_refresh()
+
+func set_ix(x):
+	if x > ix:
+		kick(Vector2(100 + randf() * 40,0))
+	elif x < ix:
+		kick(Vector2(-50 - randf() * 20,0))
+	ix = x
+
+func kick(v):
+	anchor.kick(v)
 
 func snap():
 	if anchor:
