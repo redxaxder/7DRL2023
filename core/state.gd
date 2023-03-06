@@ -52,8 +52,6 @@ func tick_round():
 	if !grace_triggered:
 		var grace = Core.grace_info(cumulative_grace)
 		cumulative_grace -= grace.level
-		print(grace.level)
-	prints(cumulative_grace, "!!!")
 	grace_triggered = false
 	emit_signal("grace", cumulative_grace)
 

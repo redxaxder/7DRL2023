@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://ui/floor_tile.tres" type="Theme" id=1]
 [ext_resource path="res://ui/dirstring.tscn" type="PackedScene" id=2]
@@ -6,7 +6,8 @@
 [ext_resource path="res://ui/dance_floor_background.gd" type="Script" id=4]
 [ext_resource path="res://ui/guage.tscn" type="PackedScene" id=5]
 [ext_resource path="res://ui/arrow_style.tres" type="Theme" id=6]
-[ext_resource path="res://grace_level.gd" type="Script" id=7]
+[ext_resource path="res://ui/grace_level.gd" type="Script" id=7]
+[ext_resource path="res://ui/hud_style.tres" type="Theme" id=8]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 3 )
@@ -47,36 +48,50 @@ margin_left = 515.0
 margin_top = 48.0
 margin_right = 555.0
 margin_bottom = 88.0
+theme = ExtResource( 6 )
 
 [node name="dance_match" type="VBoxContainer" parent="."]
 margin_left = 853.0
 margin_top = 88.0
 margin_right = 893.0
 margin_bottom = 128.0
+theme = ExtResource( 6 )
 
 [node name="grace" type="HBoxContainer" parent="."]
-margin_right = 40.0
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 318.0
+margin_bottom = 42.0
+theme = ExtResource( 8 )
+
+[node name="Label" type="Label" parent="grace"]
+margin_top = 10.0
+margin_right = 60.0
+margin_bottom = 30.0
+text = "Grace:"
+
+[node name="spacer" type="Control" parent="grace"]
+margin_left = 64.0
+margin_right = 64.0
 margin_bottom = 40.0
 
-[node name="grace_level" type="CenterContainer" parent="grace"]
-margin_right = 40.0
+[node name="grace_level" type="Label" parent="grace"]
+margin_left = 68.0
+margin_right = 108.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 40, 40 )
-script = ExtResource( 7 )
-
-[node name="Label" type="Label" parent="grace/grace_level"]
-margin_left = 15.0
-margin_top = 10.0
-margin_right = 25.0
-margin_bottom = 30.0
-theme = ExtResource( 6 )
-text = "0"
 align = 1
 valign = 1
+script = ExtResource( 7 )
+
+[node name="spacer2" type="Control" parent="grace"]
+margin_left = 112.0
+margin_right = 112.0
+margin_bottom = 40.0
 
 [node name="grace_guage" parent="grace" instance=ExtResource( 5 )]
-margin_left = 44.0
-margin_right = 244.0
+margin_left = 116.0
+margin_right = 316.0
 margin_bottom = 40.0
-rect_min_size = Vector2( 200, 0 )
-display_move_speed = 70.0
+rect_min_size = Vector2( 200, 40 )
+display_move_speed = 50.0

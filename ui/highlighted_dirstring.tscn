@@ -8,23 +8,23 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = -937.0
 margin_bottom = -558.0
-custom_constants/separation = 0
+custom_constants/separation = 4
 alignment = 1
 script = ExtResource( 1 )
 steps = [ 1, 1, 1, 2 ]
 progress = 2
 
 [node name="dirstring1" parent="." instance=ExtResource( 2 )]
-margin_left = 23.0
+margin_left = 7.0
 margin_top = 0.0
-margin_right = 43.0
+margin_right = 41.0
 margin_bottom = 42.0
 steps = [ 1, 1 ]
 
 [node name="dirstring2" parent="." instance=ExtResource( 2 )]
 modulate = Color( 0.5, 0.5, 0.5, 1 )
-margin_left = 43.0
+margin_left = 45.0
 margin_top = 0.0
-margin_right = 63.0
+margin_right = 79.0
 margin_bottom = 42.0
 steps = [ 1, 2 ]
