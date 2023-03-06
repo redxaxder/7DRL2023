@@ -44,6 +44,7 @@ margin_top = 0.0
 margin_right = 893.0
 margin_bottom = 40.0
 steps = [  ]
+color1 = Color( 0.5, 0.5, 0.5, 1 )
 
 [node name="dance_countdown" type="Label" parent="."]
 margin_left = 545.0
@@ -100,19 +101,43 @@ margin_bottom = 40.0
 rect_min_size = Vector2( 200, 40 )
 display_move_speed = 50.0
 
-[node name="Anchor" type="Container" parent="."]
-margin_left = 906.0
-margin_top = 470.0
-margin_right = 966.0
-margin_bottom = 502.0
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 570.0
+margin_top = 114.0
+margin_right = 735.0
+margin_bottom = 321.0
+
+[node name="Anchor" type="Container" parent="VBoxContainer"]
+margin_right = 165.0
+margin_bottom = 101.0
+rect_min_size = Vector2( 165, 101 )
+size_flags_vertical = 3
 script = ExtResource( 10 )
 top_speed = 500.0
 acceleration = 900.0
 skid_correction = 1.0
 
-[node name="Label" type="Label" parent="Anchor"]
-margin_right = 60.0
-margin_bottom = 32.0
+[node name="Label" type="Label" parent="VBoxContainer/Anchor"]
+margin_right = 165.0
+margin_bottom = 101.0
 text = "ALFALFA"
+autowrap = true
+clip_text = true
+
+[node name="Anchor2" type="Container" parent="VBoxContainer"]
+margin_top = 105.0
+margin_right = 165.0
+margin_bottom = 207.0
+rect_min_size = Vector2( 165, 102 )
+size_flags_vertical = 3
+script = ExtResource( 10 )
+top_speed = 500.0
+acceleration = 900.0
+skid_correction = 1.0
+
+[node name="Label" type="Label" parent="VBoxContainer/Anchor2"]
+margin_right = 165.0
+margin_bottom = 102.0
+text = "abasdcads"
 autowrap = true
 clip_text = true

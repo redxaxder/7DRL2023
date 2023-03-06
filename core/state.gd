@@ -20,7 +20,7 @@ var dance_active = false
 const grace_gain = 10
 const player_id: int = 0 # player is always added to the array first!
 const dance_duration = 30
-const rest_duration = 10
+const rest_duration = 1
 
 func init():
 	pass

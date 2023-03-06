@@ -18,16 +18,44 @@ func _init(_steps = PoolByteArray(), _type = 0, _d8: int = 0):
 	type = _type
 	d8 = _d8
 
-func gt(dance: Resource) -> bool:
-	if progress() > dance.progress():
-		return true
-	if type > dance.type:
-		return true
-	if d8 < dance.d8:
-		return true
-	if steps < dance.steps:
-		return true
-	return false
+func base_steps():
+	var inv = D8.invert(d8)
+	return  D8.act_steps(inv, steps)
+
+
+func compare(dance: Resource) -> int:
+	var a = cmp(dance)
+	var b = dance.cmp(self)
+	if (a + b == 0):
+		return a
+	else:
+		prints(Core.steps_to_string(base_steps()), D8.name(d8), Core.steps_to_string(steps), progress())
+		prints(Core.steps_to_string(dance.base_steps()), D8.name(dance.d8), Core.steps_to_string(dance.steps), dance.progress())
+		return compare(dance)
+		pass
+
+func cmp(dance: Resource) -> int:
+	var mine = [-progress(), -type, d8]
+	var theirs = [-dance.progress(), -dance.type, dance.d8]
+	for i in range(3):
+		if mine[i] < theirs[i]:
+			return -1
+		if theirs[i] < mine[i]:
+			return 1
+	return compare_bytes(base_steps(), dance.base_steps())
+
+static func compare_bytes(l: PoolByteArray, r: PoolByteArray) -> int:
+	var n = l.size()
+	var m = r.size()
+	for i in range(n):
+		if i >= m: #shorter string sorts first
+			return -1
+		if l[i] < r[i]:
+			return -1
+		if r[i] < l[i]:
+			return 1
+	return 0
+
 
 enum MATCH { PROGRESS, RESET, FINISH }
 func transition(dir: int) -> int:

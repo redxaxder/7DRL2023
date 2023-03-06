@@ -68,10 +68,13 @@ func load_player_dances():
 		var dance_card = DanceCard.instance()
 		dance_card.dance = dance.duplicate()
 		dance_match.add_child(dance_card)
+	dance_match.sort_children()
+	dance_match.snap()
 
 func track_player_dances(dir: int):
 	for dance_card in dance_match.get_children():
 		dance_card.step(dir)
+	dance_match.sort_children()
 
 func _on_dance_timer(t: int):
 	dance_countdown.text = "{0}".format([t])

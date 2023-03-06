@@ -2,10 +2,17 @@ tool
 extends Control
 
 var dance: Dance setget set_dance
-onready var _string = $dirstring
+onready var _string = $Anchor/PanelContainer/dirstring
+onready var anchor = $Anchor
 
+#var prev_index: int setget
 func _ready():
+	anchor.snap()
 	_refresh()
+
+func snap():
+	if anchor:
+		anchor.snap()
 
 func set_dance(x: Dance):
 	dance = x
@@ -13,7 +20,6 @@ func set_dance(x: Dance):
 
 func _refresh():
 	if !_string: return
-	_string.visible = dance != null
 	if dance:
 		_string.steps = Array(dance.steps)
 		_string.progress = dance.progress()

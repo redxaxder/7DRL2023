@@ -3,12 +3,18 @@ class_name D8
 enum G{ E, P, P2, P3, R, RP, RP2, RP3 }
 
 const names = ["e", "p", "p2", "p3", "r", "rp", "rp2", "rp3"]
-
+const inverses = [ G.E, G.P3, G.P2, G.P, G.R, G.RP, G.RP2, G.RP3 ]
 static func name(g: int) -> String:
 	if g < 0 || g > 8:
 		return ""
 	else:
 		return names[g]
+
+static func invert(g: int) -> int:
+	if g < 0 || g > 8:
+		return 0
+	else:
+		return inverses[g]
 
 static func act_dir(g: int, dir: int) -> int:
 	var rot = g & 3

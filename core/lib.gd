@@ -1,5 +1,7 @@
 class_name Core
 
+
+
 static func steps_to_string(steps) -> String:
 	var out: String = ""
 	for step in steps:
@@ -22,7 +24,7 @@ static func grace_info(cumulative_grace: float) -> Dictionary:
 # generate a random sequence of steps
 # with no consecutive duplicates
 static func gen_steps_ability() -> PoolByteArray:
-	randomize()
+#	randomize()
 	var steps = PoolByteArray()
 	steps.append(randi() % 4)
 	for i in range(3):
@@ -35,7 +37,7 @@ static func gen_steps_ability() -> PoolByteArray:
 # generate a random sequence of steps
 # with at least one pair of consecutive duplicates
 static func gen_steps_dance() -> PoolByteArray:
-	randomize()
+#	randomize()
 	var steps = PoolByteArray()
 	var has_match = false
 	for i in range(4):

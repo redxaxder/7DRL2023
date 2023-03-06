@@ -16,21 +16,27 @@ export var velocity: Vector2  = Vector2.ZERO
 
 func _ready():
 	set_notify_transform(true)
+	snap()
 
-var _last_pos: Vector2 = rect_position
+func snap():
+	offset = Vector2.ZERO
+	velocity = Vector2.ZERO
+	_last_pos = rect_global_position
+
+var _last_pos: Vector2 = Vector2.ZERO
 func _notification(what):
 	if what == NOTIFICATION_TRANSFORM_CHANGED:
-		offset += _last_pos - rect_position
-		_last_pos = rect_position
+		offset += _last_pos - rect_global_position
+		_last_pos = rect_global_position
 		queue_sort()
+		set_process(true)
 
 	if what == NOTIFICATION_SORT_CHILDREN:
 		var i = get_child_count()
 		if i != 1:
 			return
 		var c: Control = get_child(0)
-		rect_min_size = c.rect_min_size
-		c.rect_size = rect_size
+		rect_min_size = c.rect_size
 		if offset != Vector2.ZERO:
 			set_process(true)
 
@@ -40,17 +46,18 @@ func _process(delta):
 		set_process(false)
 		return
 	var c = get_child(0)
-	var target_dir = offset / offset.length()
 	var target = -offset * target_speed
 	velocity = velocity.move_toward(target, delta * acceleration)
 	var skid = velocity - velocity.project(target)
 	var unskid = max(skid_correction * delta,1.0) * -skid
 	velocity += unskid 
 	velocity = velocity.clamped(top_speed)
+	var prev_offset = offset
 	offset += velocity * delta
+	
+	var overshoot = cos(offset.angle_to(prev_offset)) < -0.5
 	var l: float = offset.length()
-	if l <= snap_dist || is_nan(l):
-		offset = Vector2.ZERO
-		velocity = Vector2.ZERO
+	if l <= snap_dist || is_nan(l) || overshoot:
+		snap()
 		set_process(false)
 	c.rect_position = offset
