@@ -1,6 +1,6 @@
 extends Node2D
 
-var gamestate: GameState = Core.new_game()
+var gamestate: GameState = GameState.new()
 
 const Dirstring = preload("res://ui/dirstring.tscn")
 const HDirstring = preload("res://ui/highlighted_dirstring.tscn")
@@ -9,12 +9,16 @@ onready var dance_floor = $dance/dance_floor
 onready var player_history = $step_history
 onready var current_dances = $current_dances
 onready var dance_match = $dance_match
+onready var grace_guage = $grace/grace_guage
+onready var grace_level = $grace/grace_level
 
 var glyphs: Array = []
 
 func _ready():
+	gamestate.add_dancer(Dancer.new()) # player
 # warning-ignore:return_value_discarded
 	gamestate.connect("character_moved", self, "_on_character_moved")
+	gamestate.connect("grace", self, "_on_grace_changed")
 	for d in gamestate.dancers:
 		var g = get_dancer_glyph(d)
 		glyphs.append(g)
@@ -23,6 +27,7 @@ func _ready():
 	update_match()
 
 func _unhandled_input(event):
+	var moved = false
 	var dir: int = -1
 	if event.is_action_pressed("left"):
 		dir = Dir.DIR.LEFT
@@ -34,7 +39,10 @@ func _unhandled_input(event):
 		dir = Dir.DIR.DOWN
 
 	if dir >= 0:
-		gamestate.try_move_player(dir)
+		moved = gamestate.try_move_player(dir)
+	
+	if moved:
+		gamestate.tick_round()
 	
 
 func _on_character_moved(moved_to: Vector2, character: Dancer):
@@ -42,6 +50,10 @@ func _on_character_moved(moved_to: Vector2, character: Dancer):
 	if character.id == gamestate.player_id:
 		player_history.steps = character.recent_moves
 		update_match()
+
+func _on_grace_changed(amount: int):
+	grace_guage.current = amount
+	grace_level.current = Core.grace_info(amount).level
 
 const tile_size = Vector2(48,48)
 func dancer_screen_pos(game_coord: Vector2) -> Vector2:

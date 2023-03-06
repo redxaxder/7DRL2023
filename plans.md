@@ -1,27 +1,27 @@
 
 first pass:
-  - core gameplay:
-    - dance step triggers
+  + core gameplay:
+    + dance step triggers
       + there are dances
       + a dance has assigned sequences
-  - dropcap glyphs: https://www.1001fonts.com/morris-initialen-font.html
+  + dropcap glyphs: https://www.1001fonts.com/morris-initialen-font.html
   + dance room:{{{
     + dimensions 10x10}}}
-  - GRACE mechanic{{{
-    - two tiers:
-       - grace "level"
-       - grace "meter"
-       - [3] [----15/30---| - - -]
-       - higher lever grace has a bigger meter to fill
-       - meter decays an amount based on level (equal to level?)
-       - filling the meter inrements the level
-    - performing the sequence generates GRACE for player}}}
+  + GRACE mechanic{{{
+    + two tiers:
+       + grace "level"
+       + grace "meter"
+       + [3] [----15/30---| - - -]
+       + higher lever grace has a bigger meter to fill
+       + meter decays an amount based on level (equal to level?)
+       + filling the meter inrements the level
+    + performing the sequence generates GRACE for player}}}
   + player sprite
   + representation of dihedral group
   + action of dihedral group on move sequence
   - dances end and start
   - UI:
-    - display player GRACE
+    + display player GRACE
     + display grace triggers for current dance
     + display move assistant pane
     - display time until dance end

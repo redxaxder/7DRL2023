@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://ui/guage.gd" type="Script" id=1]
+[ext_resource path="res://ui/arrow_style.tres" type="Theme" id=2]
+
+[node name="guage" type="MarginContainer"]
+margin_right = 70.0
+margin_bottom = 27.0
+theme = ExtResource( 2 )
+script = ExtResource( 1 )
+color = Color( 0.772549, 0.54902, 0.227451, 1 )
+border_color = Color( 0.28, 0.197167, 0.0812, 1 )
+width = 3.0
+
+[node name="meter" type="Label" parent="."]
+margin_top = 3.0
+margin_right = 70.0
+margin_bottom = 23.0
+text = "0 / 20"
+align = 1
+valign = 1

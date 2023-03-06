@@ -1,11 +1,5 @@
 class_name Core
 
-static func new_game() -> GameState:
-	var st = GameState.new()
-	var player = Dancer.new()
-	st.add_dancer(player)
-	return st
-
 static func steps_to_string(steps) -> String:
 	var out: String = ""
 	for step in steps:
@@ -32,3 +26,16 @@ static func steps_completed(history, goal) -> int:
 		if !mismatch:
 			return x
 	return 0
+
+const grace_stages = [20,40,60,80,100,120,140,160,180,200,220,240,260,280,300]
+static func grace_info(cumulative_grace: int) -> Dictionary:
+	var info = {}
+	var cum_grace_stage = 0
+	for i in grace_stages.size():
+		info["meter"] = cumulative_grace - cum_grace_stage
+		info["next"] = grace_stages[i]
+		cum_grace_stage += grace_stages[i]
+		info["level"] = i
+		if cum_grace_stage > cumulative_grace:
+			break
+	return info
