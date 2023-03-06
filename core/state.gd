@@ -55,8 +55,7 @@ func try_move_dancer(id: int, dir: int) -> bool:
 			for dance in current_dances:
 				var orbit = D8.orbit(dance)
 				for g in orbit.size():
-					var progress = Core.steps_completed(dancer.recent_moves, orbit[g])
-					if progress == 4:
+					if Core.is_complete(dancer.recent_moves, orbit[g]):
 						trigger_grace()
 	emit_signal("character_moved", target_pos, dancer)
 	return true

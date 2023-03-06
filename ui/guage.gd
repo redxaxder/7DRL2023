@@ -8,7 +8,7 @@ export var current: int = 0 setget set_current
 export var display_move_speed: float = 100
 
 var _displayed: float = 0
-var _info = Core.grace_info(_displayed)
+var _info: Dictionary = Core.grace_info(_displayed)
 
 onready var meter = $meter
 
@@ -38,7 +38,7 @@ func set_current(x: int):
 func _refresh():
 	_info = Core.grace_info(_displayed)
 	if meter != null:
-		meter.text = "{0} / {1}".format([_info.meter, _info.next])
+		meter.text = "{0} / {1}".format([int(_info.meter), int(_info.next)])
 	update()
 
 func _process(delta):

@@ -19,8 +19,11 @@ func _ready():
 	gamestate.add_dancer(Dancer.new()) # player
 # warning-ignore:return_value_discarded
 	gamestate.connect("character_moved", self, "_on_character_moved")
+# warning-ignore:return_value_discarded
 	gamestate.connect("grace", self, "_on_grace_changed")
+# warning-ignore:return_value_discarded
 	gamestate.connect("dance_time", self, "_on_dance_timer")
+# warning-ignore:return_value_discarded
 	gamestate.connect("dance_change", self, "_on_dance_change")
 	for d in gamestate.dancers:
 		var g = get_dancer_glyph(d)
@@ -98,9 +101,7 @@ func set_current_dances(dances: Array):
 
 func update_match():
 	for c in dance_match.get_children():
-		c.progress = Core.steps_completed(player_history.steps, c.steps)
-		if c.progress == 4:
-			c.progress = 0
+		c.progress = Core.steps_progress(player_history.steps, c.steps)
 	var children = dance_match.get_children()
 	children.sort_custom(self,"custom_sort_matches")
 	for i in children.size():

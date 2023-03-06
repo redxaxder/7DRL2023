@@ -8,27 +8,32 @@ static func steps_to_string(steps) -> String:
 
 # this calculates the size of the maximum suffix of history
 # which is a prefix of goal
-static func steps_completed(history, goal) -> int:
-	var n = history.size()
-	var m = goal.size()
-	for x in range(m, 0, -1):
-		# example:
-		#   history: ABCDEFG      n = 7
-		#   goal:        EFGH     m = 4
-		#                         shift = 4
-		var shift = n - x
-		if shift < 0: continue
-		var mismatch: bool = false
-		for i in range(x):
-			if history[i+shift] != goal[i]:
-				mismatch = true
-				break
-		if !mismatch:
+static func steps_progress(history, goal) -> int:
+	for x in range(goal.size()-1, 0, -1):
+		if _check_steps_match(history, goal, x):
 			return x
 	return 0
 
+static func _check_steps_match(history, goal, x: int) -> bool:
+		# example:
+		#   history: ABCDEFG      n = 7
+		#   goal:        EFGH     m = 4
+		#                         x = 3
+		#                         shift = 4
+	var n = history.size()
+	var shift = n - x
+	if shift < 0:
+		return false
+	for i in range(x):
+		if history[i+shift] != goal[i]:
+			return false
+	return true
+	
+static func is_complete(history, goal) -> bool:
+	return _check_steps_match(history, goal, goal.size())
+
 const grace_stages = [20,40,60,80,100,120,140,160,180,200,220,240,260,280,300]
-static func grace_info(cumulative_grace: int) -> Dictionary:
+static func grace_info(cumulative_grace: float) -> Dictionary:
 	var info = {}
 	var cum_grace_stage = 0
 	for i in grace_stages.size():
@@ -43,6 +48,7 @@ static func grace_info(cumulative_grace: int) -> Dictionary:
 # generate a random sequence of steps
 # with no consecutive duplicates
 static func gen_steps_ability() -> PoolByteArray:
+	randomize()
 	var steps = PoolByteArray()
 	steps.append(randi() % 4)
 	for i in range(3):
@@ -55,6 +61,7 @@ static func gen_steps_ability() -> PoolByteArray:
 # generate a random sequence of steps
 # with at least one pair of consecutive duplicates
 static func gen_steps_dance() -> PoolByteArray:
+	randomize()
 	var steps = PoolByteArray()
 	var has_match = false
 	for i in range(4):
