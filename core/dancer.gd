@@ -13,3 +13,6 @@ func remember_move(dir: int):
 	recent_moves.append(dir)
 	while recent_moves.size() > max_memory:
 		recent_moves.pop_front()
+
+func forget_moves():
+	recent_moves = []

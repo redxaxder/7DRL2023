@@ -28,6 +28,7 @@ func _ready():
 		dance_floor.add_child(g)
 	set_current_dances(gamestate.current_dances)
 	update_match()
+	gamestate.tick_round()
 
 func _unhandled_input(event):
 	var moved = false
@@ -93,6 +94,7 @@ func set_current_dances(dances: Array):
 			hds.sortkey1 = dance
 			hds.sortkey2 = g
 			dance_match.add_child(hds)
+	update_match()
 
 func update_match():
 	for c in dance_match.get_children():
