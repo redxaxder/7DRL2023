@@ -1,6 +1,12 @@
 class_name Core
 
 
+static func similar(steps1, steps2) -> bool:
+	var orbit = D8.orbit(steps1)
+	for x in orbit:
+		if steps2 == x:
+			return true
+	return false
 
 static func steps_to_string(steps) -> String:
 	var out: String = ""

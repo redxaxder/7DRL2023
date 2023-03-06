@@ -1,6 +1,6 @@
 
 first pass:
-  + core gameplay:
+  + core gameplay:{{{
     + dance step triggers
       + there are dances
       + a dance has assigned sequences
@@ -26,7 +26,7 @@ first pass:
     + display move assistant pane
     + display time until dance end
     + display time until dance start
-    + display moves of current dance
+    + display moves of current dance}}}
 
 second pass:
   - 12 NPCs in a dance

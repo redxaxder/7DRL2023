@@ -13,19 +13,27 @@ onready var grace_level = $grace/grace_level
 var glyphs: Array = []
 
 func _ready():
-	gamestate.add_dancer(Dancer.new()) # player
 # warning-ignore:return_value_discarded
-	gamestate.connect("character_moved", self, "_on_character_moved")
+	gamestate.connect("character_moved", self, "_on_character_moved", [], CONNECT_DEFERRED)
 # warning-ignore:return_value_discarded
 	gamestate.connect("grace", self, "_on_grace_changed")
 # warning-ignore:return_value_discarded
 	gamestate.connect("dance_time", self, "_on_dance_timer")
 # warning-ignore:return_value_discarded
 	gamestate.connect("dance_change", self, "_on_dance_change")
+
+	gamestate.add_dancer(Dancer.new()) # player
+	var dancer2 = Dancer.new()
+	dancer2.pos = gamestate.get_free_space()
+	dancer2.character = "W"
+	gamestate.add_dancer(dancer2)
+
+
 	for d in gamestate.dancers:
 		var g = get_dancer_glyph(d)
 		glyphs.append(g)
 		dance_floor.add_child(g)
+
 	gamestate.tick_round()
 
 func _unhandled_input(event):
@@ -83,8 +91,7 @@ const tile_size = Vector2(48,48)
 func dancer_screen_pos(game_coord: Vector2) -> Vector2:
 	return game_coord * tile_size
 
-func get_dancer_glyph(_d: Dancer) -> Glyph:
-	#TODO: different dancers look different
+func get_dancer_glyph(d: Dancer) -> Glyph:
 	var g = Glyph.new()
-	g.character = "R"
+	g.character = d.character
 	return g

@@ -22,19 +22,7 @@ func base_steps():
 	var inv = D8.invert(d8)
 	return  D8.act_steps(inv, steps)
 
-
 func compare(dance: Resource) -> int:
-	var a = cmp(dance)
-	var b = dance.cmp(self)
-	if (a + b == 0):
-		return a
-	else:
-		prints(Core.steps_to_string(base_steps()), D8.name(d8), Core.steps_to_string(steps), progress())
-		prints(Core.steps_to_string(dance.base_steps()), D8.name(dance.d8), Core.steps_to_string(dance.steps), dance.progress())
-		return compare(dance)
-		pass
-
-func cmp(dance: Resource) -> int:
 	var mine = [-progress(), -type, d8]
 	var theirs = [-dance.progress(), -dance.type, dance.d8]
 	for i in range(3):
@@ -56,7 +44,6 @@ static func compare_bytes(l: PoolByteArray, r: PoolByteArray) -> int:
 			return 1
 	return 0
 
-
 enum MATCH { PROGRESS, RESET, FINISH }
 func transition(dir: int) -> int:
 	var result = MATCH.PROGRESS
@@ -76,6 +63,14 @@ func transition(dir: int) -> int:
 	if dir == steps[0]:
 		next.append(1)
 	_progress = next
+	return result
+
+# what is the longest sequence that a step in this direction would create
+func evaluate(dir: int) -> int:
+	var result = 0
+	for p in _progress:
+		if steps[p] == dir:
+			result = max(p+1, result)
 	return result
 
 func progress() -> int:
