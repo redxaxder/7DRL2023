@@ -6,32 +6,6 @@ static func steps_to_string(steps) -> String:
 		out += Dir.arrow(step)
 	return out
 
-# this calculates the size of the maximum suffix of history
-# which is a prefix of goal
-static func steps_progress(history, goal) -> int:
-	for x in range(goal.size()-1, 0, -1):
-		if _check_steps_match(history, goal, x):
-			return x
-	return 0
-
-static func _check_steps_match(history, goal, x: int) -> bool:
-		# example:
-		#   history: ABCDEFG      n = 7
-		#   goal:        EFGH     m = 4
-		#                         x = 3
-		#                         shift = 4
-	var n = history.size()
-	var shift = n - x
-	if shift < 0:
-		return false
-	for i in range(x):
-		if history[i+shift] != goal[i]:
-			return false
-	return true
-	
-static func is_complete(history, goal) -> bool:
-	return _check_steps_match(history, goal, goal.size())
-
 const grace_stages = [20,40,60,80,100,120,140,160,180,200,220,240,260,280,300]
 static func grace_info(cumulative_grace: float) -> Dictionary:
 	var info = {}

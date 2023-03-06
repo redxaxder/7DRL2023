@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://ui/dance_card.gd" type="Script" id=1]
+[ext_resource path="res://ui/dirstring.tscn" type="PackedScene" id=2]
+
+[node name="dance_card" type="MarginContainer"]
+script = ExtResource( 1 )
+
+[node name="dirstring" parent="." instance=ExtResource( 2 )]
+visible = false
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 72.0
+margin_bottom = 31.0

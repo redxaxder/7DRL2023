@@ -49,14 +49,11 @@ func try_move_dancer(id: int, dir: int) -> bool:
 	if !in_bounds(target_pos):
 		return false
 	dancer.pos = target_pos
-	if dance_active:
-		dancer.remember_move(dir)
-		if dancer.id == player_id:
-			for dance in current_dances:
-				var orbit = D8.orbit(dance)
-				for g in orbit.size():
-					if Core.is_complete(dancer.recent_moves, orbit[g]):
-						trigger_grace()
+	var matches = dancer.step(dir)
+	if dancer.id == player_id:
+		for _dance in matches:
+			#TODO: branch on dance.type
+			trigger_grace()
 	emit_signal("character_moved", target_pos, dancer)
 	return true
 
@@ -76,12 +73,15 @@ func tick_round():
 			dance_countdown = rest_duration
 			current_dances = []
 			for dancer in dancers:
-				dancer.forget_moves()
+				dancer.end_dance()
 		else:
 			dance_active = true
 			dance_countdown = dance_duration
 			for _i in range(2):
 				current_dances.append(Core.gen_steps_dance())
+			for d in dancers:
+				for c in current_dances:
+					d.start_dance(c)
 		emit_signal("dance_change", current_dances)
 	emit_signal("dance_time", dance_countdown)
 	

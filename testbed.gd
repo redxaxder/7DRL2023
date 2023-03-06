@@ -2,13 +2,10 @@ extends Node2D
 
 var gamestate: GameState = GameState.new()
 
-const Dirstring = preload("res://ui/dirstring.tscn")
-const HDirstring = preload("res://ui/highlighted_dirstring.tscn")
 
 onready var dance_floor = $dance/dance_floor
 onready var player_history = $step_history
 onready var dance_countdown = $dance_countdown
-onready var current_dances = $current_dances
 onready var dance_match = $dance_match
 onready var grace_guage = $grace/grace_guage
 onready var grace_level = $grace/grace_level
@@ -29,8 +26,6 @@ func _ready():
 		var g = get_dancer_glyph(d)
 		glyphs.append(g)
 		dance_floor.add_child(g)
-	set_current_dances(gamestate.current_dances)
-	update_match()
 	gamestate.tick_round()
 
 func _unhandled_input(event):
@@ -47,23 +42,36 @@ func _unhandled_input(event):
 
 	if dir >= 0:
 		moved = gamestate.try_move_player(dir)
-	
 	if moved:
 		gamestate.tick_round()
-	
+		track_player_dances(dir)
 
 func _on_character_moved(moved_to: Vector2, character: Dancer):
 	glyphs[character.id].position = dancer_screen_pos(moved_to)
-	if character.id == gamestate.player_id:
-		player_history.steps = character.recent_moves
-		update_match()
 
 func _on_grace_changed(amount: int):
 	grace_guage.current = amount
 	grace_level.current = Core.grace_info(amount).level
 
-func _on_dance_change(dances):
-	set_current_dances(dances)
+func _on_dance_change(_dances):
+	clear_player_dances()
+	load_player_dances()
+
+func clear_player_dances():
+	for c in dance_match.get_children():
+		c.queue_free()
+
+const DanceCard = preload("res://ui/dance_card.tscn")
+func load_player_dances():
+	var player: Dancer = gamestate.dancers[0]
+	for dance in player.dance_tracker:
+		var dance_card = DanceCard.instance()
+		dance_card.dance = dance.duplicate()
+		dance_match.add_child(dance_card)
+
+func track_player_dances(dir: int):
+	for dance_card in dance_match.get_children():
+		dance_card.step(dir)
 
 func _on_dance_timer(t: int):
 	dance_countdown.text = "{0}".format([t])
@@ -77,44 +85,3 @@ func get_dancer_glyph(_d: Dancer) -> Glyph:
 	var g = Glyph.new()
 	g.character = "R"
 	return g
-
-var dance_orbit: Array = []
-func set_current_dances(dances: Array):
-	dance_orbit = []
-	for c in current_dances.get_children():
-		c.queue_free()
-	for c in dance_match.get_children():
-		c.queue_free()
-	for dance in dances:
-		var dirstring = Dirstring.instance()
-		dirstring.steps = Array(dance)
-		current_dances.add_child(dirstring)
-		var orbit = D8.orbit(dance)
-		for g in orbit.size():
-			var steps = orbit[g]
-			var hds = HDirstring.instance()
-			hds.steps = Array(steps)
-			hds.sortkey1 = dance
-			hds.sortkey2 = g
-			dance_match.add_child(hds)
-	update_match()
-
-func update_match():
-	for c in dance_match.get_children():
-		c.progress = Core.steps_progress(player_history.steps, c.steps)
-	var children = dance_match.get_children()
-	children.sort_custom(self,"custom_sort_matches")
-	for i in children.size():
-		dance_match.move_child(children[i], i)
-
-func custom_sort_matches(l: Node, r: Node) -> bool:
-	if l.progress > r.progress:
-		return true
-	elif r.progress > l.progress:
-		return false
-	if l.sortkey1 > r.sortkey1:
-		return true
-	elif r.sortkey1 > l.sortkey1:
-		return false
-	return l.sortkey2 > r.sortkey2
-	
