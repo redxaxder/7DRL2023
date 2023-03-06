@@ -43,6 +43,14 @@ margin_right = 893.0
 margin_bottom = 40.0
 steps = [  ]
 
+[node name="dance_countdown" type="Label" parent="."]
+margin_left = 545.0
+margin_top = 12.0
+margin_right = 585.0
+margin_bottom = 32.0
+theme = ExtResource( 8 )
+text = "30"
+
 [node name="current_dances" type="VBoxContainer" parent="."]
 margin_left = 515.0
 margin_top = 48.0

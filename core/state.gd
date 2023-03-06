@@ -4,6 +4,8 @@ class_name GameState
 
 signal character_moved(new_pos, character)
 signal grace(amount, quick)
+signal dance_time(countdown)
+signal dance_change(dances)
 
 export var room_width: int = 10
 export var room_height: int = 10
@@ -12,8 +14,13 @@ var dancers: Array = []
 var current_dances: Array = [ PoolByteArray([0,1,2,3]), PoolByteArray([0,0,1,1]) ]
 
 var cumulative_grace = 0
+var dance_countdown = dance_duration
+var dance_active = true
+
 const grace_gain = 10
 const player_id: int = 0 # player is always added to the array first!
+const dance_duration = 30
+const rest_duration = 10
 
 func init():
 	pass
@@ -54,6 +61,21 @@ func tick_round():
 		cumulative_grace -= grace.level
 	grace_triggered = false
 	emit_signal("grace", cumulative_grace)
+	
+	dance_countdown -= 1
+	if dance_countdown <= 0:
+		if dance_active:
+			dance_active = false
+			dance_countdown = rest_duration
+			current_dances = []
+		else:
+			dance_active = true
+			dance_countdown = dance_duration
+			for _i in range(2):
+				current_dances.append(Core.gen_steps_dance())
+		emit_signal("dance_change", current_dances)
+	emit_signal("dance_time", dance_countdown)
+	
 
 func trigger_grace():
 	grace_triggered = true

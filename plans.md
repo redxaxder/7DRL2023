@@ -19,13 +19,13 @@ first pass:
   + player sprite
   + representation of dihedral group
   + action of dihedral group on move sequence
-  - dances end and start
-  - UI:
+  + dances end and start
+  + UI:
     + display player GRACE
     + display grace triggers for current dance
     + display move assistant pane
-    - display time until dance end
-    - display time until dance start
+    + display time until dance end
+    + display time until dance start
     + display moves of current dance
 
 second pass:

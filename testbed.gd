@@ -7,6 +7,7 @@ const HDirstring = preload("res://ui/highlighted_dirstring.tscn")
 
 onready var dance_floor = $dance/dance_floor
 onready var player_history = $step_history
+onready var dance_countdown = $dance_countdown
 onready var current_dances = $current_dances
 onready var dance_match = $dance_match
 onready var grace_guage = $grace/grace_guage
@@ -19,6 +20,8 @@ func _ready():
 # warning-ignore:return_value_discarded
 	gamestate.connect("character_moved", self, "_on_character_moved")
 	gamestate.connect("grace", self, "_on_grace_changed")
+	gamestate.connect("dance_time", self, "_on_dance_timer")
+	gamestate.connect("dance_change", self, "_on_dance_change")
 	for d in gamestate.dancers:
 		var g = get_dancer_glyph(d)
 		glyphs.append(g)
@@ -55,6 +58,12 @@ func _on_grace_changed(amount: int):
 	grace_guage.current = amount
 	grace_level.current = Core.grace_info(amount).level
 
+func _on_dance_change(dances):
+	set_current_dances(dances)
+
+func _on_dance_timer(t: int):
+	dance_countdown.text = "{0}".format([t])
+
 const tile_size = Vector2(48,48)
 func dancer_screen_pos(game_coord: Vector2) -> Vector2:
 	return game_coord * tile_size
@@ -69,6 +78,8 @@ var dance_orbit: Array = []
 func set_current_dances(dances: Array):
 	dance_orbit = []
 	for c in current_dances.get_children():
+		c.queue_free()
+	for c in dance_match.get_children():
 		c.queue_free()
 	for dance in dances:
 		var dirstring = Dirstring.instance()
