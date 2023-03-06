@@ -4,10 +4,15 @@ extends Container
 
 class_name Anchor
 
-export var speed: float = 50.0
+export var target_speed: float = 10.0
+export var top_speed: float = 10.0
+export var acceleration: float = 10.0
+export var snap_dist: float = 5.0
+export var skid_correction: float = 2.0
 
 #export var momentum: Vector2 = Vector2(0,0)
-var offset: Vector2 = Vector2(20,20)
+export var offset: Vector2 = Vector2.ZERO
+export var velocity: Vector2  = Vector2.ZERO
 
 func _ready():
 	set_notify_transform(true)
@@ -36,5 +41,16 @@ func _process(delta):
 		return
 	var c = get_child(0)
 	var target_dir = offset / offset.length()
-	offset = offset.move_toward(Vector2.ZERO, delta * speed)
+	var target = -offset * target_speed
+	velocity = velocity.move_toward(target, delta * acceleration)
+	var skid = velocity - velocity.project(target)
+	var unskid = max(skid_correction * delta,1.0) * -skid
+	velocity += unskid 
+	velocity = velocity.clamped(top_speed)
+	offset += velocity * delta
+	var l: float = offset.length()
+	if l <= snap_dist || is_nan(l):
+		offset = Vector2.ZERO
+		velocity = Vector2.ZERO
+		set_process(false)
 	c.rect_position = offset
