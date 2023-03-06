@@ -14,21 +14,16 @@ static func act_dir(g: int, dir: int) -> int:
 	var rot = g & 3
 	var flip = g & 4
 	var result = (dir + rot) & 3
-	if g == G.R:
-		pass
 	if flip > 0  && (result & 1) > 0:
 		# up (0x00) & down (0x10) left: constant
 		# left (0x01) <-> right (0x11): swap
 		result = result ^ 2
-	if g == G.R:
-		pass
 	return result
 
 static func act_steps(g: int, steps) -> PoolByteArray:
 	var result = PoolByteArray()
 	for dir in steps:
 		result.append(act_dir(g, dir))
-	prints(Core.steps_to_string(steps), "-", name(g), "->", Core.steps_to_string(result))
 	return result
 
 static func orbit(steps) -> Array:

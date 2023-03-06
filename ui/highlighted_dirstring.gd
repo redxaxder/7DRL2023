@@ -10,6 +10,9 @@ export var color2: Color = Color(0.5, 0.5, 0.5) setget set_color1
 onready var part1 = $dirstring1
 onready var part2 = $dirstring2
 
+var sortkey1
+var sortkey2
+
 func _ready():
 	_refresh()
 

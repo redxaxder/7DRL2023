@@ -8,7 +8,7 @@ export var room_width: int = 10
 export var room_height: int = 10
 
 var dancers: Array = []
-var current_dances: Array = [ PoolByteArray([0,1,2,3]) ]
+var current_dances: Array = [ PoolByteArray([0,1,2,3]), PoolByteArray([0,0,1,1]) ]
 
 const player_id: int = 0 # player is always added to the array first!
 
