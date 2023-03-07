@@ -10,76 +10,101 @@ export var friction: float = 0.2
 export var static_friction: float = 10
 export var max_velocity: float = 200
 
-export var anchor: bool = true
+export var has_anchor: bool = true setget set_has_anchor
 export var anchor_attraction: float = 0.2
+
+export var edge_gap: float = 50
+export var edge_width: float = 2.0
+export var edge_color: Color = Color(1,1,1)
+
+
 
 var _velocities: PoolVector2Array
 
 func _ready():
+	for c in self.get_children():
+		c.connect("item_rect_changed", self, "_refresh")
+	_refresh()
+
+func add_child(node: Node, legible_unique_name: bool = false):
+	node.connect("item_rect_changed", self, "_refresh")
+	.add_child(node, legible_unique_name)
 	_refresh()
 
 func set_springs(x):
 	springs = x
 	_refresh()
 
-var _neighbors: Dictionary = {}
+func set_has_anchor(x):
+	has_anchor = x
+	_refresh()
+
 func _refresh():
-	_velocities = PoolVector2Array()
-	for c in get_children():
-		_velocities.append(Vector2.ZERO)
-	_neighbors = {}
-	for s in springs:
-		if _neighbors.has(s.x):
-			_neighbors[int(s.x)].append(s.y)
-		else:
-			_neighbors[int(s.x)] = [s.y]
-		if _neighbors.has(s.y):
-			_neighbors[int(s.y)].append(s.x)
-		else:
-			_neighbors[int(s.y)] = [s.x]
+	if _velocities.size() != get_child_count():
+		_velocities = PoolVector2Array()
+		for c in get_children():
+			_velocities.append(Vector2.ZERO)
 	set_physics_process(true)
+
+func _draw():
+	var c = get_children()
+	for s in springs:
+		var v0: Vector2 = c[s.x].rect_position + c[s.x].rect_size / 2.0
+		var v1: Vector2 = c[s.y].rect_position + c[s.y].rect_size / 2.0
+		var edge_start = v0.move_toward(v1,edge_gap)
+		var edge_end = v1.move_toward(v0, edge_gap)
+		draw_line(edge_start,edge_end,edge_color, edge_width, true)
 
 func _physics_process(delta):
 	var n = get_child_count()
 	var c = get_children()
-	for i in range(n): # update velocities
-		var me: Control = c[i]
-		_velocities[i] *= pow(1.0 - friction, delta)
-		for ix in _neighbors.get(i,[]): # attraction
-			var neighbor: Control = c[ix]
-			var v: Vector2 = neighbor.rect_position - me.rect_position
-			var x = v.length()
-			#attraction increases as distance increases
-			var f = attraction_constant * x
-			var v_unit = v / v.length()
-			_velocities[i] += f * v_unit * delta
-		for ix in range(n): # repulsion
-			var neighbor: Control = c[ix]
-			if ix == i: continue
-			var v: Vector2 = neighbor.rect_position - me.rect_position
+
+	for s in springs: # attraction
+		var i = int(s.x)
+		var j = int(s.y)
+		var v: Vector2 = c[i].rect_position - c[j].rect_position
+		var x = v.length()
+		var f = attraction_constant * x / 1000.0
+		var dv = - delta * f * v / x
+		_velocities[i] += dv
+		_velocities[j] -= dv
+		
+	for i in range(n):
+		for j in range(0,i): # repulsion
+			var v: Vector2 = c[j].rect_position - c[i].rect_position
 			while v.length() <= 0.1: #wiggle if too close
-				me.rect_position += Vector2(randf() - 1,randf() - 1)
-				v  =  neighbor.rect_position - me.rect_position
+				c[i].rect_position += Vector2(randf() - 1,randf() - 1)
+				v  =   c[j].rect_position - c[i].rect_position
 			var x = v.length()
-			#repulsion increases as distance decreases
-			var f = - (repulsion_constant * (1.0/x))
-			var v_unit = v / x
-			_velocities[i] += f * v_unit * delta
-		if anchor: # attraction to anchor
-			var v: Vector2 = rect_size / 2.0 - me.rect_position
+			var f = - repulsion_constant * 100.0/(x*x)
+			var dv = delta * f * v / x
+			_velocities[i] += dv
+			_velocities[j] -= dv
+		if has_anchor: # attraction to anchor
+			var v: Vector2 = rect_size / 2.0 - c[i].rect_position
 			var x = v.length()
 			var v_unit = v / v.length()
 			var f = anchor_attraction * x
-			_velocities[i] += (f * v_unit * delta).clamped(max_velocity)
+			var dv = delta * f * v / x
+			_velocities[i] += dv
+
+	for i in range(n): # friction & clamp
+		_velocities[i] *= pow(1.0 - friction, delta)
+		_velocities[i] = _velocities[i].clamped(max_velocity)
+
 	var moved = false
 	for i in range(n): # apply velocities
 		if _velocities[i].length() > static_friction:
 			c[i].rect_position += _velocities[i]
 			moved = true
+		else:
+			_velocities[i] = Vector2.ZERO
 		c[i].rect_position.x = min(rect_size.x - c[i].rect_size.x, c[i].rect_position.x)
 		c[i].rect_position.y = min(rect_size.y - c[i].rect_size.y, c[i].rect_position.y)
 		c[i].rect_position.x = max(0, c[i].rect_position.x)
 		c[i].rect_position.y = max(0, c[i].rect_position.y)
+	if moved:
+		update()
 	if !moved:
 		set_physics_process(false)
-	
+

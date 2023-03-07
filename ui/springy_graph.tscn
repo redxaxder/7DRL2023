@@ -5,44 +5,56 @@
 [node name="springy_graph" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = -1.0
+margin_top = -1.0
+margin_right = -1.0
+margin_bottom = -1.0
 script = ExtResource( 1 )
-springs = PoolVector2Array( 0, 1, 1, 2, 1, 3 )
-repulsion_constant = 800.0
-attraction_constant = 0.1
-friction = 0.95
-static_friction = 1.0
+springs = PoolVector2Array( 0, 1, 1, 2, 1, 3, 2, 4, 3, 4 )
+repulsion_constant = 600.0
+attraction_constant = 100.0
+friction = 0.8
+static_friction = 0.5
+max_velocity = 400.0
+has_anchor = false
+anchor_attraction = 0.5
+edge_gap = 10.0
 
 [node name="Label" type="Label" parent="."]
-margin_left = 336.0
-margin_top = 372.0
-margin_right = 376.0
-margin_bottom = 386.0
+margin_left = 405.198
+margin_top = 397.857
+margin_right = 414.198
+margin_bottom = 411.858
 text = "A"
+align = 1
+valign = 1
 
 [node name="Label2" type="Label" parent="."]
-margin_left = 538.922
-margin_top = 290.429
-margin_right = 578.922
-margin_bottom = 304.43
+margin_left = 508.879
+margin_top = 301.616
+margin_right = 517.879
+margin_bottom = 315.616
 text = "B"
+align = 1
+valign = 1
 
 [node name="Label3" type="Label" parent="."]
-margin_left = 582.568
-margin_top = 230.953
-margin_right = 622.567
-margin_bottom = 244.953
+margin_left = 596.813
+margin_top = 354.747
+margin_right = 604.813
+margin_bottom = 368.747
 text = "C"
 
 [node name="Label4" type="Label" parent="."]
-margin_left = 469.531
-margin_top = 243.683
-margin_right = 509.531
-margin_bottom = 257.683
+margin_left = 511.685
+margin_top = 204.97
+margin_right = 521.685
+margin_bottom = 218.97
 text = "D"
 
 [node name="Label5" type="Label" parent="."]
-margin_left = 514.687
-margin_top = 415.577
-margin_right = 554.685
-margin_bottom = 429.577
+margin_left = 608.518
+margin_top = 240.052
+margin_right = 615.518
+margin_bottom = 254.052
 text = "E"
