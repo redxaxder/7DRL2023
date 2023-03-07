@@ -45,11 +45,11 @@ second pass:
   + LOS calculation{{{
     + check if bressenham line (and reverse line) is unoccupied}}}
   - game ends if SUSPICION guage fills
-  - NPC state:{{{
+  + NPC state:{{{
     + NPCs have an INTEL guage
     + NPCs have an SUSPICION guage (0-100)?
-    - connection data
-    - corrupt/honest state}}}
+    + connection data
+    + corrupt/honest state}}}
   - connection graph screen{{{
     - use kinematic system
     - edges are springs

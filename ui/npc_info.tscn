@@ -46,7 +46,7 @@ hint_tooltip = "Suspicion"
 color = Color( 0.580392, 0.0784314, 0.160784, 1 )
 border_color = Color( 0.3, 0.042, 0.0850001, 1 )
 width = 2.0
-current = 60
+current = 100
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
 margin_top = 95.0

@@ -5,5 +5,9 @@
 [resource]
 script = ExtResource( 1 )
 intel = 30
-suspicion = 60
+suspicion = 100
+gender = 0
+corruption = 0
 scandalous = false
+npc_id = 0
+connections = [  ]
