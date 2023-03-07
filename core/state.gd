@@ -12,7 +12,6 @@ export var room_width: int = 10
 export var room_height: int = 10
 
 var dancers: Array = []
-var turn_order: Array = []
 var location_index: Dictionary = {}
 var current_dances: Array = []
 
@@ -81,33 +80,41 @@ func try_move_dancer(id: int, dir: int) -> bool:
 	if dir < 0 || dir >= 4:
 		return false
 	var dancer: Dancer = dancers[id]
+	var partner_id = -2
+	if dancer.has_partner():
+		partner_id = dancer.partner_id
 	var target_pos = dancer.pos + Dir.dir_to_vec(dir)
 	if !in_bounds(target_pos):
 		return false
-	if location_index.has(target_pos):
-		return try_interact(id, dir, location_index[target_pos])
+	var occupant_id = location_index.get(target_pos, -1)
+	if occupant_id != -1:
+		if occupant_id == partner_id:
+			return move_with_partner(id, dir)
+		else:
+			return try_interact(id, dir, occupant_id)
 	if dancer.has_partner():
-		move_with_partner(id, dir)
+		return move_with_partner(id, dir)
 	else:
-		move_dancer(id, dir)
-	return true
+		return move_dancer_1(id, dir)
 
-func move_with_partner(leader_id: int, dir: int):
+func move_with_partner(leader_id: int, dir: int) -> bool:
 	var leader = dancers[leader_id]
 	var follower_id = leader.partner_id
 	var follower = dancers[leader.partner_id]
 	
 	leader.partner_dir = Dir.invert(dir)
-	move_dancer(leader_id, dir)
-	move_dancer(follower_id, follower.partner_dir)
+	move_dancer_1(leader_id, dir)
+	move_dancer_1(follower_id, follower.partner_dir)
 	follower.partner_dir = dir
+	return true
 
 
-func move_dancer(id: int, dir: int):
+func move_dancer_1(id: int, dir: int) -> bool:
 	var dancer = dancers[id]
 	var target_pos = dancer.pos + Dir.dir_to_vec(dir)
 # warning-ignore:return_value_discarded
-	location_index.erase(dancer.pos)
+	if location_index.get(dancer.pos,-1) == id:
+		location_index.erase(dancer.pos)
 	dancer.pos = target_pos
 	location_index[target_pos] = dancer.id
 	var matches = dancer.step(dir)
@@ -116,6 +123,7 @@ func move_dancer(id: int, dir: int):
 			#TODO: branch on dance.type
 			trigger_grace()
 	emit_signal("character_moved", dancer)
+	return true
 	
 
 func try_interact(id, dir, target_id) -> bool:
@@ -180,8 +188,9 @@ func tick_round():
 	emit_signal("dance_time", dance_countdown)
 
 
-func can_move_to(pos: Vector2) -> bool:
-	return in_bounds(pos) && !location_index.has(pos)
+func can_move_to(pos: Vector2, partner_id = -2) -> bool:
+	var occpant_id = location_index.get(pos, -1)
+	return in_bounds(pos) && (occpant_id == -1 || occpant_id == partner_id)
 
 func do_npc_turn(id: int) -> bool:
 	var dancer: Dancer = dancers[id]
@@ -196,7 +205,7 @@ func npc_dance(id: int) -> bool:
 	var candidates = []
 	for d in range(4):
 		var target_pos = dancers[id].pos + Dir.dir_to_vec(d)
-		if can_move_to(target_pos):
+		if can_move_to(target_pos, dancers[id].partner_id):
 			candidates.append(d)
 	
 	# ask the dancer to JUDGE each dir

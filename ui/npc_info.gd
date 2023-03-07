@@ -15,6 +15,7 @@ func set_dancer(d: Dancer):
 	_refresh()
 
 func _ready():
+	intel.stages = [NPC.intel_threshold]
 	_refresh()
 
 func _refresh():
@@ -44,6 +45,7 @@ func _refresh():
 		var dstring = DirString.instance()
 		dstring.steps = dance.steps
 		dstring.progress = dance.progress()
+		dstring.visible = dstring.progress > 0
 		dance_tracker.add_child(dstring)
 
 func compare_dances(l: Dance, r: Dance) -> bool:

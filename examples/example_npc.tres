@@ -6,3 +6,4 @@
 script = ExtResource( 1 )
 intel = 30
 suspicion = 60
+scandalous = false
