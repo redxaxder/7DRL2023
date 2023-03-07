@@ -8,8 +8,6 @@ export var character: String = "R"
 export (Array, Resource) var dance_tracker: Array
 export (int, "M","F") var gender: int
 
-enum GENDER{M,F}
-
 var pos: Vector2 = Vector2(0,0)
 var id: int = -1
 
@@ -20,6 +18,9 @@ var leading: bool = false
 
 func has_partner() -> bool:
 	return partner_id >= 0
+
+func takes_turn() -> bool:
+	return partner_id < 0 || leading
 
 func step(dir: int) -> Array:
 	var matches = []
@@ -44,3 +45,4 @@ func start_dance(steps, dance_type = Dance.TYPE.GRACE):
 
 func end_dance():
 	dance_tracker = []
+	partner_id = -1

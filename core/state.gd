@@ -29,13 +29,12 @@ func add_dancer(d: Dancer):
 	dancers.append(d)
 	d.id = id
 	location_index[d.pos] = d.id
-	turn_order.append(id)
 	emit_signal("character_moved", d)
 
 func make_partners(id: int, target: int, dir: int):
 	var m
 	var f
-	if dancers[id].gender == Dancer.GENDER.M:
+	if dancers[id].gender == NPC.M:
 		m = id
 		f = target
 	else:
@@ -55,7 +54,6 @@ func make_partners(id: int, target: int, dir: int):
 		follower = m
 	dancers[leader].leading = true
 	dancers[follower].leading = false
-	turn_order.erase(follower)
 
 func get_free_space():
 	var target: Vector2 = Vector2.ZERO
@@ -137,9 +135,13 @@ func tick_round():
 	grace_triggered = false
 	emit_signal("grace", cumulative_grace)
 	
-	#move all dancers except the player
-	for i in range(1, turn_order.size()):
-		var id = turn_order[i]
+	#move npcs
+	var turn_order = []
+	for i in range(1, dancers.size()):
+		if dancers[i].takes_turn():
+			turn_order.append(i)
+	turn_order.shuffle()
+	for id in turn_order:
 # warning-ignore:return_value_discarded
 		do_npc_turn(id)
 	dance_countdown -= 1
@@ -164,17 +166,26 @@ func tick_round():
 		emit_signal("dance_change", current_dances)
 	emit_signal("dance_time", dance_countdown)
 
-# warning-ignore:unused_argument
+
+func can_move_to(pos: Vector2) -> bool:
+	return in_bounds(pos) && !location_index.has(pos)
+
 func do_npc_turn(id: int) -> bool:
+	var dancer: Dancer = dancers[id]
+	if !dance_active:
+		return npc_mill_around(id)
+	elif dancer.has_partner():
+		return npc_dance(id)
+	else:
+		return npc_seek_partner(id)
+
+func npc_dance(id: int) -> bool:
 	var candidates = []
 	for d in range(4):
 		var target_pos = dancers[id].pos + Dir.dir_to_vec(d)
-		if !in_bounds(target_pos):
-			continue
-		if location_index.has(target_pos):
-			continue #TODO: handle swapping with partner
-		candidates.append(d)
-
+		if can_move_to(target_pos):
+			candidates.append(d)
+	
 	# ask the dancer to JUDGE each dir
 	# the judgement should be an integer reflecting preference for that dir
 	var judgements = []
@@ -197,6 +208,91 @@ func do_npc_turn(id: int) -> bool:
 	var dir = good_candidates[0]
 	return try_move_dancer(id, dir)
 
+func npc_seek_partner(id: int) -> bool:
+	var dancer: Dancer = dancers[id]
+	var g = dancer.gender
+	var targets = {}
+	for t in dancers:
+		if t.gender == g: continue
+		if t.has_partner(): continue
+		var d:int = int(Core.manhattan(dancer.pos, t.pos))
+		if targets.has(d):
+			targets[d].append(t)
+		else:
+			targets[d] = [t]
+	
+	var adjacent_targets = targets.get(1,[])
+	adjacent_targets.shuffle()
+	for t in adjacent_targets:
+		if t.id != player_id:
+			var dirs = Dir.approach(dancer.pos, t.pos)
+			make_partners(id, t.id, dirs[0])
+			return true
+
+	var distances = targets.keys()
+	if distances.size() == 0:
+		return npc_mill_around(id)
+	distances.sort()
+	var closest_targets = targets[distances[0]]
+	
+	var candidates = []
+	for t in closest_targets:
+		for d in Dir.approach(dancer.pos, t.pos):
+			var target_pos = Dir.mv(dancer.pos, d)
+			if can_move_to(target_pos):
+				candidates.append(d)
+	if candidates.size() == 0:
+		return npc_mill_around(id)
+	candidates.shuffle()
+	return try_move_dancer(id, candidates[0])
+
+func npc_mill_around(id: int) -> bool:
+	var candidates = []
+	for d in range(4):
+		var target_pos = Dir.mv(dancers[id].pos, d)
+		if can_move_to(target_pos):
+			candidates.append(d)
+	if candidates.size() == 0:
+		return false # didn't move!
+	candidates.shuffle()
+	var dir = candidates[0]
+	return try_move_dancer(id, dir)
+
 func trigger_grace():
 	grace_triggered = true
 	cumulative_grace += grace_gain
+
+func from_linear(ix: int) -> Vector2:
+# warning-ignore:integer_division
+	return Vector2(ix % room_width, ix / room_width)
+
+func to_linear(v: Vector2) -> int:
+	return room_width * int(v.y) + int(v.x)
+
+func make_dijkstra(targets: Array) -> PoolIntArray:
+	var results: Array = []
+	results.resize(room_width * room_height)
+	for i in results.size():
+		results[i] = 9999
+	var frontier = []
+	for t in targets:
+		var ix = to_linear(t)
+		results[ix] = 0
+		frontier.append(ix)
+	while frontier.size() > 0:
+		var next_frontier = []
+		for f in frontier:
+			var value = results[f]
+			var neighbors = [] 
+			var p = from_linear(f)
+			for d in range(4):
+				var t = p + Dir.dir_to_vec(d)
+				if in_bounds(t):
+					neighbors.append(to_linear(t))
+			for n in neighbors:
+				if value + 1 < results[n]:
+					results[n] = value + 1
+					next_frontier.append(n)
+		frontier = next_frontier
+	return PoolIntArray(results)
+

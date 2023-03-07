@@ -1,5 +1,8 @@
 class_name Core
 
+static func manhattan(v: Vector2, w: Vector2) -> float:
+	var a = (v-w).abs()
+	return a.x + a.y
 
 static func similar(steps1, steps2) -> bool:
 	var orbit = D8.orbit(steps1)

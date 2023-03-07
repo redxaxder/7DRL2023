@@ -29,16 +29,16 @@ first pass:
     + display moves of current dance}}}
 
 second pass:
-  - 12 NPCs in a dance
-    - No names, or factions, just letters
-    - they have genders (color coded?)
-  - partnered NPCs move by following current dance steps
-  - unpartnered NPCs move by following dijkstra map to compatible NPCS
-    - one map for unpartnered men
-    - one map for unpartnered women
-  - player can get a dance partner by bumping
+  + 12 NPCs in a dance
+    + No names, or factions, just letters
+    + they have genders (color coded?)
+  + partnered NPCs move by following current dance steps
+  + unpartnered NPCs move by following dijkstra map to compatible NPCS
+    + one map for unpartnered men
+    + one map for unpartnered women
+  + player can get a dance partner by bumping
   - player can shove by bumping
-  - NPCs split up after dance end
+  + NPCs split up after dance end
   - UI:
     - display SUSPICION of NPC
     - display INTEL of NPC

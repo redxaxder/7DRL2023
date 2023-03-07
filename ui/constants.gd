@@ -5,7 +5,7 @@ const f_color: Color = Color(0.068215, 0.481706, 0.921875)
 
 
 static func gender_color(gender:int) -> Color:
-	if gender == Dancer.GENDER.M:
+	if gender == NPC.M:
 		return m_color
 	else:
 		return f_color
