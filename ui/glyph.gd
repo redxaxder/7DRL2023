@@ -16,6 +16,9 @@ const font: DynamicFont = preload("res://ui/glyph.tres")
 
 var _label: Label = null
 
+signal mouse_entered
+signal mouse_exited
+
 func _ready():
 	centered = false
 	_refresh()
@@ -27,6 +30,9 @@ func set_character(x):
 func _refresh():
 	if !_label:
 		_label = Label.new()
+		_label.mouse_filter = Control.MOUSE_FILTER_STOP
+		_label.connect("mouse_entered", self, "emit_signal", ["mouse_entered"])
+		_label.connect("mouse_exited", self, "emit_signal", ["mouse_exited"])
 		_label.add_font_override("font", font)
 		add_child(_label)
 		_label.align = _label.ALIGN_CENTER

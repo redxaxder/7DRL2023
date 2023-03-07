@@ -9,6 +9,7 @@ onready var dance_countdown = $dance_countdown
 onready var dance_match = $dance_match
 onready var grace_guage = $grace/grace_guage
 onready var grace_level = $grace/grace_level
+onready var npc_info = $npc_info
 
 var glyphs: Array = []
 
@@ -36,9 +37,18 @@ func _ready():
 		var g = get_dancer_glyph(d)
 		g.modulate = UIConstants.gender_color(d.gender)
 		glyphs.append(g)
+		g.connect("mouse_entered", self, "_on_dancer_hover", [d])
+		g.connect("mouse_exited", self, "_on_dancer_unhover")
 		dance_floor.add_child(g)
 
 	gamestate.tick_round()
+
+func _on_dancer_hover(d: Dancer):
+	npc_info.dancer = d
+	npc_info.visible = true
+
+func _on_dancer_unhover():
+	npc_info.visible = false
 
 func _unhandled_input(event):
 	var moved = false
@@ -57,6 +67,8 @@ func _unhandled_input(event):
 	if moved:
 		gamestate.tick_round()
 		track_player_dances(dir)
+		if npc_info.visible:
+			npc_info._refresh()
 
 func _on_character_moved(moved_to: Vector2, character: Dancer):
 	glyphs[character.id].position = dancer_screen_pos(moved_to)
