@@ -4,14 +4,19 @@ class_name Dancer
 
 const Dance = preload("res://core/dance.gd")
 
+export var character: String = "R"
+export (Array, Resource) var dance_tracker: Array
+export (int, "M","F") var gender: int
+
+enum GENDER{M,F}
+
 var pos: Vector2 = Vector2(0,0)
 var id: int = -1
-var character: String = "R"
 
 var partner_id: int = -1
 var leading: bool = false
 
-var dance_tracker: Array = []
+
 
 func step(dir: int) -> Array:
 	var matches = []

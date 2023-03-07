@@ -1,0 +1,36 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://ui/npc_info.gd" type="Script" id=1]
+[ext_resource path="res://examples/example_dancer.tres" type="Resource" id=2]
+[ext_resource path="res://ui/glyph.tres" type="DynamicFont" id=3]
+
+[node name="npc_info" type="PanelContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+dancer = ExtResource( 2 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 1017.0
+margin_bottom = 593.0
+
+[node name="glyph" type="Label" parent="VBoxContainer"]
+modulate = Color( 0.78125, 0.536413, 0.189944, 1 )
+margin_right = 1010.0
+margin_bottom = 33.0
+custom_fonts/font = ExtResource( 3 )
+text = "A"
+align = 1
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+margin_top = 37.0
+margin_right = 1010.0
+margin_bottom = 41.0
+
+[node name="dance_tracker" type="VBoxContainer" parent="VBoxContainer"]
+margin_top = 45.0
+margin_right = 1010.0
+margin_bottom = 76.0
+alignment = 1

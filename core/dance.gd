@@ -1,3 +1,4 @@
+tool
 extends Resource
 
 class_name Dance
@@ -17,6 +18,12 @@ func _init(_steps = PoolByteArray(), _type = 0, _d8: int = 0):
 	steps = PoolByteArray(_steps)
 	type = _type
 	d8 = _d8
+
+func progress() -> int:
+	if _progress.size() == 0:
+		return 0
+	else:
+		return _progress[0]
 
 func base_steps():
 	var inv = D8.invert(d8)
@@ -73,11 +80,6 @@ func evaluate(dir: int) -> int:
 			result = max(p+1, result)
 	return result
 
-func progress() -> int:
-	if _progress.size() == 0:
-		return 0
-	else:
-		return _progress[0]
 
 func next_step() -> int:
 	return steps[progress()]

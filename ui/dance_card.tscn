@@ -22,6 +22,10 @@ margin_right = 86.0
 margin_bottom = 45.0
 
 [node name="dirstring" parent="Anchor/PanelContainer" instance=ExtResource( 2 )]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 79.0

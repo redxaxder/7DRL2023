@@ -23,14 +23,18 @@ func _ready():
 	gamestate.connect("dance_change", self, "_on_dance_change")
 
 	gamestate.add_dancer(Dancer.new()) # player
-	var dancer2 = Dancer.new()
-	dancer2.pos = gamestate.get_free_space()
-	dancer2.character = "W"
-	gamestate.add_dancer(dancer2)
+	var letters = ["A","B","W","X","Y","Z","D","E","F","S","T"]
+	for i in letters.size():
+		var dancer = Dancer.new()
+		dancer.pos = gamestate.get_free_space()
+		dancer.character = letters[i]
+		dancer.gender = (i % 2) ^ 1
+		gamestate.add_dancer(dancer)
 
 
 	for d in gamestate.dancers:
 		var g = get_dancer_glyph(d)
+		g.modulate = UIConstants.gender_color(d.gender)
 		glyphs.append(g)
 		dance_floor.add_child(g)
 

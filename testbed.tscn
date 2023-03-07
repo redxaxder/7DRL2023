@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://ui/floor_tile.tres" type="Theme" id=1]
 [ext_resource path="res://ui/dirstring.tscn" type="PackedScene" id=2]
@@ -9,9 +9,15 @@
 [ext_resource path="res://ui/grace_level.gd" type="Script" id=7]
 [ext_resource path="res://ui/hud_style.tres" type="Theme" id=8]
 [ext_resource path="res://dance_match.gd" type="Script" id=9]
+[ext_resource path="res://ui/npc_info.tscn" type="PackedScene" id=10]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 3 )
+
+[node name="Panel" type="Panel" parent="."]
+modulate = Color( 0, 0, 0, 1 )
+margin_right = 1024.0
+margin_bottom = 600.0
 
 [node name="dance" type="Control" parent="."]
 margin_top = 114.0
@@ -46,9 +52,9 @@ steps = [  ]
 color1 = Color( 0.5, 0.5, 0.5, 1 )
 
 [node name="dance_countdown" type="Label" parent="."]
-margin_left = 545.0
+margin_left = 405.0
 margin_top = 12.0
-margin_right = 585.0
+margin_right = 445.0
 margin_bottom = 32.0
 theme = ExtResource( 8 )
 text = "30"
@@ -99,3 +105,8 @@ margin_right = 316.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 200, 40 )
 display_move_speed = 50.0
+
+[node name="npc_info" parent="." instance=ExtResource( 10 )]
+margin_left = 506.0
+margin_right = 592.0
+margin_bottom = 600.0

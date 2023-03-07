@@ -48,6 +48,11 @@ _global_script_classes=[ {
 "class": "Glyph",
 "language": "GDScript",
 "path": "res://ui/glyph.gd"
+}, {
+"base": "Reference",
+"class": "UIConstants",
+"language": "GDScript",
+"path": "res://ui/constants.gd"
 } ]
 _global_script_class_icons={
 "Anchor": "",
@@ -57,7 +62,8 @@ _global_script_class_icons={
 "Dancer": "",
 "Dir": "",
 "GameState": "",
-"Glyph": ""
+"Glyph": "",
+"UIConstants": ""
 }
 
 [application]
