@@ -7,6 +7,7 @@ const Dance = preload("res://core/dance.gd")
 export var character: String = "R"
 export (Array, Resource) var dance_tracker: Array
 export (int, "M","F") var gender: int
+export var npc: Resource
 
 var pos: Vector2 = Vector2(0,0)
 var id: int = -1
@@ -21,6 +22,10 @@ func has_partner() -> bool:
 
 func takes_turn() -> bool:
 	return partner_id < 0 || leading
+
+func advance_intel():
+	if npc != null:
+		npc.advance_intel()
 
 func step(dir: int) -> Array:
 	var matches = []

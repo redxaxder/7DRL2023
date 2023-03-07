@@ -2,7 +2,8 @@ extends Resource
 
 class_name GameState
 
-signal character_moved(character)
+signal character_moved(dancer)
+signal got_intel(dancer)
 signal grace(amount, quick)
 signal dance_time(countdown)
 signal dance_change(dances)
@@ -135,6 +136,18 @@ func tick_round():
 	grace_triggered = false
 	emit_signal("grace", cumulative_grace)
 	
+	#gain intel
+	var ppos = dancers[player_id].pos
+	for i in range(1, dancers.size()):
+		var los = Core.los(ppos, dancers[i].pos)
+		var occluded = false
+		for pos in los:
+			if location_index.has(pos):
+				occluded = true
+				break
+		if !occluded:
+			dancers[i].advance_intel()
+			emit_signal("got_intel", dancers[i])
 	#move npcs
 	var turn_order = []
 	for i in range(1, dancers.size()):
