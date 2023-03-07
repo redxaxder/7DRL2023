@@ -25,4 +25,5 @@ func _draw():
 		var t = range_lerp(i, 0, detail-1, 0, 2*PI)
 		var pt = center + (r * Vector2(cos(t),sin(t)))
 		points.append(pt)
-		draw_colored_polygon(points,color)
+		if points.size() >= 3:
+			draw_colored_polygon(points,color * modulate,PoolVector2Array(),null,null,true)

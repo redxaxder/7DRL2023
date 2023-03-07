@@ -6,8 +6,10 @@
 script = ExtResource( 1 )
 intel = 30
 suspicion = 100
+letter = "A"
 gender = 0
 corruption = 0
+faction = 2
 scandalous = false
 npc_id = 0
 connections = [  ]

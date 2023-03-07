@@ -103,11 +103,12 @@ func move_with_partner(leader_id: int, dir: int) -> bool:
 	var follower = dancers[leader.partner_id]
 	
 	leader.partner_dir = Dir.invert(dir)
+# warning-ignore:return_value_discarded
 	move_dancer_1(leader_id, dir)
+# warning-ignore:return_value_discarded
 	move_dancer_1(follower_id, follower.partner_dir)
 	follower.partner_dir = dir
 	return true
-
 
 func move_dancer_1(id: int, dir: int) -> bool:
 	var dancer = dancers[id]

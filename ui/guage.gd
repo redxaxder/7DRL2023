@@ -4,8 +4,9 @@ extends Control
 export var color: Color setget set_color
 export var border_color: Color setget set_border_color
 export var width: float = 1 setget set_width
-export var current: int = 0 setget set_current
+export var current: float = 0 setget set_current
 export var display_move_speed: float = 100
+export var show_numbers: bool = true setget set_show_numbers
 export  (Array, int) var stages = [100]
 
 var _displayed: float = 0
@@ -32,11 +33,14 @@ func set_color(c):
 	color = c
 	update()
 
-func set_current(x: int):
+func set_current(x):
 	current = x
 	_refresh()
 	set_process(true)
 
+func set_show_numbers(x):
+	show_numbers = x
+	_refresh()
 
 func _refresh():
 	_amount = _displayed
@@ -52,6 +56,7 @@ func _refresh():
 		_next = stages[stage]
 
 	if meter != null:
+		meter.visible = show_numbers
 		meter.text = "{0} / {1}".format([int(_amount), int(_next)])
 	update()
 
