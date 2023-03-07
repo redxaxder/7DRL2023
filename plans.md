@@ -51,9 +51,9 @@ second pass:
     + connection data
     + corrupt/honest state}}}
   - connection graph screen{{{
-    - use kinematic system
-    - edges are springs
-    - vertices repel each other
+    + use kinematic system
+    + edges are springs
+    + vertices repel each other
     - each NPC has their ICON inside a circle
       - the circle has a BLUE/RED halo depending on they support or oppose
     - each NPC a bar above and below

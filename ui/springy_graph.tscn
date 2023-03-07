@@ -1,0 +1,48 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://ui/springy_graph.gd" type="Script" id=1]
+
+[node name="springy_graph" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+springs = PoolVector2Array( 0, 1, 1, 2, 1, 3 )
+repulsion_constant = 800.0
+attraction_constant = 0.1
+friction = 0.95
+static_friction = 1.0
+
+[node name="Label" type="Label" parent="."]
+margin_left = 336.0
+margin_top = 372.0
+margin_right = 376.0
+margin_bottom = 386.0
+text = "A"
+
+[node name="Label2" type="Label" parent="."]
+margin_left = 538.922
+margin_top = 290.429
+margin_right = 578.922
+margin_bottom = 304.43
+text = "B"
+
+[node name="Label3" type="Label" parent="."]
+margin_left = 582.568
+margin_top = 230.953
+margin_right = 622.567
+margin_bottom = 244.953
+text = "C"
+
+[node name="Label4" type="Label" parent="."]
+margin_left = 469.531
+margin_top = 243.683
+margin_right = 509.531
+margin_bottom = 257.683
+text = "D"
+
+[node name="Label5" type="Label" parent="."]
+margin_left = 514.687
+margin_top = 415.577
+margin_right = 554.685
+margin_bottom = 429.577
+text = "E"
