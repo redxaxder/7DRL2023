@@ -1,5 +1,41 @@
 class_name Core
 
+
+#returns all positions which may occlude line of sight between v and w
+static func los(v: Vector2, w: Vector2) -> Array:
+	var d = {}
+	for p in bressenham(v,w, false): d[p]=0
+	for p in bressenham(w,v, false): d[p]=0
+	return d.keys()
+
+# returns all points on the bressenham line from v to w
+static func bressenham(v: Vector2, w: Vector2, endpoints = true) -> Array:
+	var result = []
+	var y0 = int(v.y)
+	var y1 = int(w.y)
+	var x0 = int(v.x)
+	var x1 = int(w.x)
+	var dx = abs(x1 - x0)
+	var dy = -abs(y1 - y0)
+	var sx = sign(x1 - x0)
+	var sy = sign(y1 - y0)
+	var err = dx + dy
+	while true:
+		var r = Vector2(x0,y0)
+		if endpoints || (r != v && r != w):
+			result.append(Vector2(x0,y0))
+		if x0 == x1 && y0 == y1: break
+		var e2 = 2 * err
+		if e2 >= dy:
+			if x0 == x1: break
+			err += dy
+			x0 += sx
+		if e2 <= dx:
+			if y0 == y1: break
+			err += dx
+			y0 += sy
+	return result
+
 static func manhattan(v: Vector2, w: Vector2) -> float:
 	var a = (v-w).abs()
 	return a.x + a.y
