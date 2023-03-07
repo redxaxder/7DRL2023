@@ -39,15 +39,15 @@ second pass:
   + player can get a dance partner by bumping
   - player can shove by bumping
   + NPCs split up after dance end
-  - UI:
-    - display SUSPICION of NPC
-    - display INTEL of NPC
-  - LOS calculation{{{
-    - check if bressenham line (and reverse line) is unoccupied}}}
+  + UI:
+    + display SUSPICION of NPC
+    + display INTEL of NPC
+  + LOS calculation{{{
+    + check if bressenham line (and reverse line) is unoccupied}}}
   - game ends if SUSPICION guage fills
   - NPC state:{{{
-    - NPCs have an INTEL guage
-    - NPCs have an SUSPICION guage (0-100)?
+    + NPCs have an INTEL guage
+    + NPCs have an SUSPICION guage (0-100)?
     - connection data
     - corrupt/honest state}}}
   - connection graph screen{{{
@@ -78,7 +78,7 @@ second pass:
       - if chance is below threshold, dont trigger it
         (30%?) - need to be careful to not allow invulnerability}}}
   - INTEL{{{
-    - while you have line of sight to that NPC, the guage fills
+    + while you have line of sight to that NPC, the guage fills
     - when the guage fills up, gain a type of INTEL on this character
       according to a priority list
       - 1. this character's support state
@@ -165,6 +165,8 @@ misc additions:
     - some opposing NPCs, some alliances/grudges
     - key NPCs have extra alliances
     - extra opposition
+  - agressive trait: forcibly initiates dance with player
+  - patron trait: will never cause a scandal with player. no suspicion guage
 
 ambitious extras:
   - choice of which dance to go to each night

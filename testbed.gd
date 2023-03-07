@@ -27,6 +27,7 @@ func _ready():
 	var letters = ["A","B","W","X","Y","Z","D","E","F","S","T"]
 	for i in letters.size():
 		var dancer = Dancer.new()
+		dancer.npc = NPC.new()
 		dancer.pos = gamestate.get_free_space()
 		dancer.character = letters[i]
 		dancer.gender = (i % 2) ^ 1

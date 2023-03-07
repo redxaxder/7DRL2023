@@ -5,6 +5,8 @@ export var dancer: Resource setget set_dancer
 
 onready var dance_tracker = $VBoxContainer/dance_tracker
 onready var glyph = $VBoxContainer/glyph
+onready var intel = $VBoxContainer/intel
+onready var suspicion = $VBoxContainer/suspicion
 
 const DirString = preload("res://ui/dirstring.tscn")
 
@@ -19,6 +21,15 @@ func _refresh():
 	if !dancer: return
 	if !dance_tracker: return
 	var d: Dancer = dancer
+
+	if d.npc != null:
+		intel.current = d.npc.intel
+		intel.visible = true
+		suspicion.current = d.npc.suspicion
+		suspicion.visible = true
+	else:
+		intel.visible = false
+		suspicion.visible = false
 
 	glyph.text = d.character
 	glyph.modulate = UIConstants.gender_color(d.gender)
@@ -37,3 +48,8 @@ func _refresh():
 
 func compare_dances(l: Dance, r: Dance) -> bool:
 	return l.compare(r) < 0
+
+func _notification(what):
+	if what == NOTIFICATION_VISIBILITY_CHANGED:
+		if intel: intel.snap()
+		if suspicion: suspicion.snap()
