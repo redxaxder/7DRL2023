@@ -14,9 +14,12 @@ var pos: Vector2 = Vector2(0,0)
 var id: int = -1
 
 var partner_id: int = -1
+var partner_dir: int = 0
 var leading: bool = false
 
 
+func has_partner() -> bool:
+	return partner_id >= 0
 
 func step(dir: int) -> Array:
 	var matches = []

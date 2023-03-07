@@ -2,7 +2,7 @@ extends Resource
 
 class_name GameState
 
-signal character_moved(new_pos, character)
+signal character_moved(character)
 signal grace(amount, quick)
 signal dance_time(countdown)
 signal dance_change(dances)
@@ -30,8 +30,32 @@ func add_dancer(d: Dancer):
 	d.id = id
 	location_index[d.pos] = d.id
 	turn_order.append(id)
-	emit_signal("character_moved", d.pos, d)
+	emit_signal("character_moved", d)
 
+func make_partners(id: int, target: int, dir: int):
+	var m
+	var f
+	if dancers[id].gender == Dancer.GENDER.M:
+		m = id
+		f = target
+	else:
+		m = target
+		f = id
+	dancers[m].partner_id = f
+	dancers[f].partner_id = m
+	dancers[id].partner_dir = dir
+	dancers[target].partner_dir = Dir.invert(dir)
+	emit_signal("character_moved", dancers[id])
+	emit_signal("character_moved", dancers[target])
+
+	var leader = m
+	var follower = f
+	if randi() % 20 == 0 && m != player_id:
+		leader = f
+		follower = m
+	dancers[leader].leading = true
+	dancers[follower].leading = false
+	turn_order.erase(follower)
 
 func get_free_space():
 	var target: Vector2 = Vector2.ZERO
@@ -48,6 +72,7 @@ func in_bounds(pos: Vector2) -> bool:
 		pos.x >= 0 && pos.x < room_width && \
 		pos.y >= 0 && pos.y < room_height
 
+
 func try_move_player(dir: int) -> bool:
 	return try_move_dancer(player_id, dir)
 
@@ -62,7 +87,26 @@ func try_move_dancer(id: int, dir: int) -> bool:
 		return false
 	if location_index.has(target_pos):
 		return try_interact(id, dir, location_index[target_pos])
+	if dancer.has_partner():
+		move_with_partner(id, dir)
+	else:
+		move_dancer(id, dir)
+	return true
 
+func move_with_partner(leader_id: int, dir: int):
+	var leader = dancers[leader_id]
+	var follower_id = leader.partner_id
+	var follower = dancers[leader.partner_id]
+	
+	leader.partner_dir = Dir.invert(dir)
+	move_dancer(leader_id, dir)
+	move_dancer(follower_id, follower.partner_dir)
+	follower.partner_dir = dir
+
+
+func move_dancer(id: int, dir: int):
+	var dancer = dancers[id]
+	var target_pos = dancer.pos + Dir.dir_to_vec(dir)
 # warning-ignore:return_value_discarded
 	location_index.erase(dancer.pos)
 	dancer.pos = target_pos
@@ -72,14 +116,16 @@ func try_move_dancer(id: int, dir: int) -> bool:
 		for _dance in matches:
 			#TODO: branch on dance.type
 			trigger_grace()
-	emit_signal("character_moved", target_pos, dancer)
-	return true
+	emit_signal("character_moved", dancer)
+	
 
-# warning-ignore:unused_argument
-# warning-ignore:unused_argument
-# warning-ignore:unused_argument
 func try_interact(id, dir, target_id) -> bool:
-	# TODO
+	var is_solo = !dancers[id].has_partner()
+	var target_solo = !dancers[target_id].has_partner()
+	var can_dance = dancers[id].gender != dancers[target_id].gender
+	if is_solo && target_solo && can_dance:
+		make_partners(id, target_id, dir)
+		return true
 	return false
 
 var grace_triggered = false
@@ -96,7 +142,6 @@ func tick_round():
 		var id = turn_order[i]
 # warning-ignore:return_value_discarded
 		do_npc_turn(id)
-	
 	dance_countdown -= 1
 	if dance_countdown <= 0:
 		if dance_active:

@@ -70,8 +70,13 @@ func _unhandled_input(event):
 		if npc_info.visible:
 			npc_info._refresh()
 
-func _on_character_moved(moved_to: Vector2, character: Dancer):
-	glyphs[character.id].position = dancer_screen_pos(moved_to)
+const partner_offset: float = 10.0
+func _on_character_moved(d: Dancer):
+	var pos = d.pos
+	var v = dancer_screen_pos(d.pos)
+	if d.has_partner():
+		v += Dir.dir_to_vec(d.partner_dir) * partner_offset
+	glyphs[d.id].position = v
 
 func _on_grace_changed(amount: int):
 	grace_guage.current = amount
