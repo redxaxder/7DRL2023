@@ -125,6 +125,7 @@ func _on_dance_change(_dances):
 	load_player_dances()
 
 func _on_dance_tracking_start():
+	clear_player_dances()
 	load_player_dances()
 
 func clear_player_dances():

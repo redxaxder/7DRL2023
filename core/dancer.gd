@@ -4,6 +4,9 @@ class_name Dancer
 
 const Dance = preload("res://core/dance.gd")
 
+signal suspicion_gained
+signal intel_gained
+
 export var character: String = "R"
 export (Array, Resource) var dance_tracker: Array
 export (int, "M","F") var gender: int
@@ -27,6 +30,18 @@ func takes_turn() -> bool:
 func advance_intel():
 	if npc != null:
 		npc.advance_intel()
+
+const suspicion_n: float = 7.0
+func roll_suspicion(grace: float, distance: float) -> bool:
+	var sneaky = (grace + distance) * distance
+	var f = suspicion_n / (suspicion_n + sneaky)
+	if f < 0.3:
+		return false
+	elif randf() < f:
+		emit_signal("suspicion_gained")
+		return npc.advance_suspicion()
+	else:
+		return false
 
 func step(dir: int) -> Array:
 	var matches = []
