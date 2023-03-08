@@ -93,7 +93,7 @@ script = ExtResource( 11 )
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 109.0
-margin_bottom = 40.0
+margin_bottom = 57.0
 count = 0
 
 [node name="Label" type="Label" parent="grace"]
@@ -107,7 +107,7 @@ text = "Grace:"
 [node name="spacer" type="Control" parent="grace"]
 margin_left = 113.0
 margin_right = 113.0
-margin_bottom = 40.0
+margin_bottom = 57.0
 
 [node name="grace_level" type="Label" parent="grace"]
 visible = false
@@ -123,12 +123,12 @@ script = ExtResource( 7 )
 [node name="spacer2" type="Control" parent="grace"]
 margin_left = 117.0
 margin_right = 117.0
-margin_bottom = 40.0
+margin_bottom = 57.0
 
 [node name="grace_guage" parent="grace" instance=ExtResource( 5 )]
 margin_left = 121.0
 margin_right = 321.0
-margin_bottom = 40.0
+margin_bottom = 57.0
 rect_min_size = Vector2( 200, 40 )
 color = Color( 0.772549, 0.54902, 0.227451, 1 )
 display_move_speed = 50.0

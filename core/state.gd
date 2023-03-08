@@ -23,7 +23,7 @@ var dance_active = false
 const grace_gain = 10
 const player_id: int = 0 # player is always added to the array first!
 const dance_duration = 30
-const rest_duration = 1
+const rest_duration = 5
 
 
 # special dancer ids
@@ -144,14 +144,16 @@ func move_dancer_1(id: int, dir: int) -> bool:
 	emit_signal("character_moved", dancer)
 	return true
 
-func shove(id, dir, target_id) -> bool:
+func shove(_id, dir, target_id) -> bool:
 	if valid_dir_for_move(target_id, dir):
 		var dancer = dancers[target_id]
 		dancer.stun = true
 		if dancer.has_partner():
 			dancers[dancer.partner_id].stun = true
 		break_partners(target_id)
+# warning-ignore:return_value_discarded
 		try_move_dancer(target_id, dir)
+# warning-ignore:return_value_discarded
 		try_move_player(dir)
 		return true
 	return false
@@ -170,7 +172,7 @@ func is_dancer_solo(id):
 func try_interact(id, dir, target_id) -> bool:
 	var is_solo = is_dancer_solo(id)
 	var target_solo = is_dancer_solo(target_id)
-	var can_dance = dancers[id].gender != dancers[target_id].gender
+	var can_dance = dancers[id].gender != dancers[target_id].gender && dance_active
 	if is_solo && target_solo && can_dance:
 		make_partners(id, target_id, dir)
 		return true
