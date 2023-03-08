@@ -15,7 +15,6 @@ onready var view_connections = $view_connections
 
 var glyphs: Array = []
 var npcs: Array = []
-var npc_to_vertex = {}
 
 const Vertex = preload("res://ui/vertex.tscn")
 
@@ -48,12 +47,15 @@ func _ready():
 
 		var vertex = Vertex.instance()
 		vertex.npc = npc
-		npc_to_vertex[npc] = vertex
+		connection_graph.add_child(vertex)
+		vertex.visible = false
 
 		npc.connections = []
 		for j in range(i):
 			if randi() % 3 == 0:
 				npc.connections.append(j)
+				npcs[j].connections.append(i)
+				connection_graph.add_spring(i,j)
 
 		npcs.append(npc) # TODO: gamestate should shepard the NPCs
 
@@ -159,9 +161,7 @@ func get_dancer_glyph(d: Dancer) -> Glyph:
 	g.character = d.character
 	return g
 
-func _on_intel_level_up(npc: NPC, intel_level: int):
-	if (intel_level == 2):
-		connection_graph.add_child(npc_to_vertex[npc])
-		for i in npcs[npc.npc_id].connections:
-			if i < npc.npc_id:
-				connection_graph.add_spring(i,npc.npc_id)
+func _on_intel_level_up(npc: NPC, discovery: int):
+	if (discovery == NPC.INTEL.CONNECTIONS):
+		connection_graph.get_child(npc.npc_id).visible = true
+		connection_graph._refresh()

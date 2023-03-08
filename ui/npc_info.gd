@@ -29,7 +29,7 @@ func _refresh():
 		intel.visible = true
 		suspicion.current = d.npc.suspicion
 		suspicion.visible = true
-		faction.visible = d.npc.intel_level > 0
+		faction.visible = d.npc.intel_known(NPC.INTEL.FACTION)
 		faction.text = d.npc.describe_faction(d.npc.faction)
 	else:
 		intel.visible = false

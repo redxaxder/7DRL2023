@@ -5,8 +5,7 @@
 [resource]
 script = ExtResource( 1 )
 intel = 30
-known_intel = 5
-intel_level = 0
+known_intel = 4
 suspicion = 100
 letter = "A"
 gender = 0

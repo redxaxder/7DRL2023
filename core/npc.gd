@@ -31,17 +31,29 @@ export var npc_id: int = 0
 export (Array, int) var connections: Array = [] # array of npc ids
 
 signal intel_level_up(npc, intel_type)
-func intel_known(intel_type: int) -> bool:
-	return known_intel & intel_type > 0
 
  # return true when unlocking something with intel
 func advance_intel() -> bool:
 	intel += 1
 	if intel % intel_threshold == 0:
-		intel_level += 1
-		emit_signal("intel_level_up", self, intel_level)
+		var discovered_intel = 0
+		for i in intel_priority:
+			if !intel_known(i):
+				discovered_intel = i
+				break
+		discover_intel(discovered_intel)
 		return true
 	return false
+
+const intel_priority: Array = [INTEL.FACTION, INTEL.CONNECTIONS, INTEL.RESOLVE, INTEL.CORRUPTION, INTEL.INVENTORY]
+
+func intel_known(intel_type: int) -> bool:
+	return known_intel & intel_type > 0
+
+func discover_intel(intel_type: int):
+	if intel_type > 0:
+		known_intel = known_intel | intel_type
+		emit_signal("intel_level_up", self, intel_type)
 
 func advance_suspicion() -> bool:
 	suspicion += 1
