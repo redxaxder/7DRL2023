@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/grace.wav-861c12c6a2abf45c8ffd8e3838356d15.sample"
+
+[deps]
+
+source_file="res://resources/grace.wav"
+dest_files=[ "res://.import/grace.wav-861c12c6a2abf45c8ffd8e3838356d15.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

@@ -11,6 +11,7 @@ onready var npc_info = $npc_info
 onready var connection_panel = $PanelContainer
 onready var connection_graph = $PanelContainer/springy_graph
 onready var view_connections = $view_connections
+onready var sfx = $sfx
 
 var glyphs: Array = []
 var npcs: Array = []
@@ -147,6 +148,7 @@ func _on_character_moved(d: Dancer, kick_dir: int = Dir.NO_DIR, was_shove: bool 
 	var kick = kick_intensity * Dir.dir_to_vec(kick_dir)
 	if was_shove:
 		kick *= 5 # yeet
+		sfx.play(sfx.SFX.SHOVE)
 	move_queue_glyph.append(glyph)
 	move_queue_pos.append(target_pos)
 	move_queue_kick.append(kick)
@@ -192,6 +194,7 @@ func _on_grace_changed(amount: int):
 		var from = glyphs[0].global_position
 		var to = grace.rect_global_position + grace.rect_size / 2
 		send_particle(from,to,particle)
+		sfx.play(sfx.SFX.GRACE)
 	grace.amount = amount
 
 func _on_dance_change(_dances):
@@ -249,3 +252,4 @@ func _on_intel_level_up(npc: NPC, discovery: int):
 	if (discovery == NPC.INTEL.CONNECTIONS):
 		connection_graph.get_child(npc.npc_id).visible = true
 		connection_graph._refresh()
+
