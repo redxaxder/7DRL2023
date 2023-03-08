@@ -2,7 +2,7 @@ extends Resource
 
 class_name GameState
 
-signal character_moved(dancer, anim_kick_dir)
+signal character_moved(dancer, anim_kick_dir, was_shove)
 signal got_intel(dancer)
 signal grace(amount, quick)
 signal dance_time(countdown)
@@ -118,16 +118,16 @@ func move_with_partner(leader_id: int, dir: int) -> bool:
 	var leader = dancers[leader_id]
 	var follower_id = leader.partner_id
 	var follower = dancers[leader.partner_id]
-
+	var spin = dir == leader.partner_dir
 	leader.partner_dir = Dir.invert(dir)
 # warning-ignore:return_value_discarded
-	move_dancer_1(leader_id, dir)
+	move_dancer_1(leader_id, dir, spin)
 # warning-ignore:return_value_discarded
-	move_dancer_1(follower_id, follower.partner_dir)
+	move_dancer_1(follower_id, follower.partner_dir, spin)
 	follower.partner_dir = dir
 	return true
 
-func move_dancer_1(id: int, dir: int) -> bool:
+func move_dancer_1(id: int, dir: int, spin: bool = false, got_shoved: bool = false) -> bool:
 	var dancer = dancers[id]
 	var target_pos = dancer.pos + Dir.dir_to_vec(dir)
 # warning-ignore:return_value_discarded
@@ -140,7 +140,10 @@ func move_dancer_1(id: int, dir: int) -> bool:
 		for _dance in matches:
 			#TODO: branch on dance.type
 			trigger_grace()
-	emit_signal("character_moved", dancer, dir)
+	var kick_dir = dir
+	if spin:
+		kick_dir = Dir.rot(kick_dir)
+	emit_signal("character_moved", dancer, kick_dir, got_shoved)
 	return true
 
 func shove(_id, dir, target_id) -> bool:
@@ -151,7 +154,7 @@ func shove(_id, dir, target_id) -> bool:
 			dancers[dancer.partner_id].stun = true
 		break_partners(target_id)
 # warning-ignore:return_value_discarded
-		try_move_dancer(target_id, dir)
+		move_dancer_1(target_id, dir, false, true)
 # warning-ignore:return_value_discarded
 		try_move_player(dir)
 		return true
@@ -162,8 +165,8 @@ func break_partners(id: int):
 	var partner = dancers[dancer.partner_id]
 	dancer.end_dance()
 	partner.end_dance()
-	emit_signal("character_moved", dancer)
-	emit_signal("character_moved", partner)
+	emit_signal("character_moved", dancer, dancer.partner_dir)
+	emit_signal("character_moved", partner, partner.partner_dir)
 
 func is_dancer_solo(id):
 	return !dancers[id].has_partner()

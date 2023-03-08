@@ -110,31 +110,31 @@ func _unhandled_input(event):
 		if npc_info.visible:
 			npc_info._refresh()
 
-const kick_intensity: float = 100.0
-const default_wait: float = 0.5
+const kick_intensity: float = 200.0
+const default_wait: float = 0.1
 const partner_offset: float = 10.0
-func _on_character_moved(d: Dancer, kick_dir: int = Dir.NO_DIR):
+func _on_character_moved(d: Dancer, kick_dir: int = Dir.NO_DIR, was_shove: bool = false):
+	if d.id == GameState.player_id:
+		flush_moves()
 	var target_pos = dancer_screen_pos(d.pos)
 	if d.has_partner():
 		target_pos += Dir.dir_to_vec(d.partner_dir) * partner_offset
 	var glyph = glyphs[d.id]
 	var kick = kick_intensity * Dir.dir_to_vec(kick_dir)
-	glyph.position = target_pos
-	if kick == Vector2.ZERO:
-		glyph.snap()
-	else:
-		glyph.kick(kick)
-#	move_queue_glyph.append(glyph)
-#	move_queue_pos.append(target_pos)
-#	move_queue_kick.append(kick)
-#	var wait = default_wait
-#	if d.has_partner() && !d.leading:
-#		wait = 0.1
-#	if kick_dir == Dir.NO_DIR:
-#		wait = 0
-#	move_queue_wait.append(wait)
-#	prints("wait", wait)
-#	set_process(true)
+	if was_shove:
+		kick *= 5
+	move_queue_glyph.append(glyph)
+	move_queue_pos.append(target_pos)
+	move_queue_kick.append(kick)
+	var wait = default_wait
+	if d.has_partner() && !d.leading:
+		wait = 0.05
+	if kick_dir == Dir.NO_DIR:
+		wait = 0
+	if d.id == GameState.player_id:
+		wait = 0
+	move_queue_wait.append(wait)
+	set_physics_process(true)
 
 var move_queue_glyph: Array = []
 var move_queue_pos: Array = []
@@ -147,19 +147,18 @@ func flush_moves():
 
 func advance_move_queue():
 	var w = move_queue_wait.pop_front()
-	var k = move_queue_kick.pop_front()
-	var p = move_queue_pos.pop_front()
-	var g = move_queue_glyph.pop_front()
-	prints("unwait", w, g.character, p)
-	g.position = p
-	if k == Vector2.ZERO:
-		g.snap()
+	var kick = move_queue_kick.pop_front()
+	var target_pos = move_queue_pos.pop_front()
+	var glyph = move_queue_glyph.pop_front()
+	glyph.position = target_pos
+	if kick == Vector2.ZERO:
+		glyph.snap()
 	else:
-		g.kick(k)
+		glyph.kick(kick)
 
-func _process(delta):
+func _physics_process(delta):
 	if move_queue_wait.size() == 0:
-		set_process(false)
+		set_physics_process(false)
 		return
 	move_queue_wait[0] -= delta
 	if move_queue_wait[0] <= 0:

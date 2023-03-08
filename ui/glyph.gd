@@ -43,8 +43,11 @@ func _refresh():
 		_anchor = Anchor.new()
 		_anchor.acceleration = 1600
 		_anchor.target_speed = 50
-		_anchor.top_speed = 300
+		_anchor.top_speed = 800
 		_anchor.skid_correction = 5
+		_anchor.friction = 0.996
+		_anchor.snap_close = false
+		_anchor.snap_overshoot = false
 		add_child(_anchor)
 	if !_label:
 		_label = Label.new()

@@ -7,7 +7,12 @@ class_name Anchor
 export var target_speed: float = 10.0
 export var top_speed: float = 10.0
 export var acceleration: float = 10.0
+
+export var friction: float = 0.0
+
+export var snap_close: bool = true
 export var snap_dist: float = 5.0
+export var snap_overshoot: bool = true
 export var skid_correction: float = 2.0
 
 #export var momentum: Vector2 = Vector2(0,0)
@@ -56,6 +61,7 @@ func _process(delta):
 	var skid = velocity - velocity.project(target)
 	var unskid = min(skid_correction * delta,1.0) * -skid
 	velocity += unskid 
+	velocity *= pow(1.0 - friction, delta)
 	velocity = velocity.clamped(top_speed)
 	if cos(velocity.angle_to(-offset)) < -0.5:
 		velocity *= pow(0.5, delta)
@@ -63,9 +69,13 @@ func _process(delta):
 	var prev_offset = offset
 	offset += velocity * delta
 	
-	var overshoot = cos(offset.angle_to(prev_offset)) < -0.5
 	var l: float = offset.length()
-	if l <= snap_dist || is_nan(l) || overshoot:
+	var do_snap = false
+	if snap_close && offset.length() < snap_dist:
+		do_snap = true
+	if snap_overshoot && cos(offset.angle_to(prev_offset)) < -0.5:
+		do_snap = true
+	if do_snap || is_nan(l):
 		snap()
 		set_process(false)
 	c.rect_position = offset
