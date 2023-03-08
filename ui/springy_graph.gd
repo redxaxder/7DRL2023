@@ -1,4 +1,3 @@
-tool
 extends Control
 
 #graph edges v.x <-> v.y
@@ -27,6 +26,7 @@ func _ready():
 	_refresh()
 
 func add_child(node: Node, legible_unique_name: bool = false):
+# warning-ignore:return_value_discarded
 	node.connect("item_rect_changed", self, "_refresh")
 	.add_child(node, legible_unique_name)
 	_refresh()
@@ -37,6 +37,28 @@ func set_springs(x):
 
 func set_has_anchor(x):
 	has_anchor = x
+	_refresh()
+
+func clear_springs():
+	springs = PoolVector2Array()
+	_refresh()
+
+func add_spring(i: int, j: int):
+	if i == j: return
+	var v = Vector2(min(i,j),max(i,j))
+	for s in springs:
+		if s == v:
+			return
+	springs.append(v)
+	_refresh()
+
+func remove_spring(i: int, j: int):
+	var v = Vector2(min(i,j),max(i,j))
+	var new_springs = PoolVector2Array()
+	for s in springs:
+		if v != s:
+			new_springs.append(s)
+	springs = new_springs
 	_refresh()
 
 func _refresh():
@@ -64,10 +86,11 @@ func _physics_process(delta):
 		var j = int(s.y)
 		var v: Vector2 = c[i].rect_position - c[j].rect_position
 		var x = v.length()
-		var f = attraction_constant * x / 1000.0
-		var dv = - delta * f * v / x
-		_velocities[i] += dv
-		_velocities[j] -= dv
+		if x > 0.1:
+			var f = attraction_constant * x / 1000.0
+			var dv = - delta * f * v / x
+			_velocities[i] += dv
+			_velocities[j] -= dv
 		
 	for i in range(n):
 		for j in range(0,i): # repulsion
@@ -83,7 +106,6 @@ func _physics_process(delta):
 		if has_anchor: # attraction to anchor
 			var v: Vector2 = rect_size / 2.0 - c[i].rect_position
 			var x = v.length()
-			var v_unit = v / v.length()
 			var f = anchor_attraction * x
 			var dv = delta * f * v / x
 			_velocities[i] += dv

@@ -7,24 +7,23 @@
 [ext_resource path="res://ui/glyph.tres" type="DynamicFont" id=5]
 
 [node name="vertex" type="MarginContainer"]
-margin_right = 1024.0
-margin_bottom = 600.0
+margin_right = 50.0
+margin_bottom = 78.0
 script = ExtResource( 2 )
 npc = ExtResource( 4 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_right = 1024.0
-margin_bottom = 600.0
+margin_right = 50.0
+margin_bottom = 86.0
 alignment = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
-margin_top = 261.0
-margin_right = 1024.0
-margin_bottom = 271.0
+margin_right = 50.0
+margin_bottom = 14.0
 
 [node name="support" parent="VBoxContainer/MarginContainer" instance=ExtResource( 3 )]
-margin_right = 1024.0
-margin_bottom = 10.0
+margin_right = 50.0
+margin_bottom = 14.0
 rect_min_size = Vector2( 0, 10 )
 color = Color( 0.227451, 0.466667, 0.772549, 1 )
 border_color = Color( 0.227451, 0.466667, 0.772549, 1 )
@@ -32,13 +31,12 @@ width = 1.0
 show_numbers = false
 
 [node name="CenterContainer" type="CenterContainer" parent="VBoxContainer"]
-margin_top = 275.0
-margin_right = 1024.0
-margin_bottom = 325.0
+margin_top = 18.0
+margin_right = 50.0
+margin_bottom = 68.0
 
 [node name="faction" type="Control" parent="VBoxContainer/CenterContainer"]
-margin_left = 487.0
-margin_right = 537.0
+margin_right = 50.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 50, 50 )
 script = ExtResource( 1 )
@@ -46,9 +44,9 @@ detail = 30
 color = Color( 0.227451, 0.466667, 0.772549, 1 )
 
 [node name="ring" type="Control" parent="VBoxContainer/CenterContainer"]
-margin_left = 492.0
+margin_left = 5.0
 margin_top = 5.0
-margin_right = 532.0
+margin_right = 45.0
 margin_bottom = 45.0
 rect_min_size = Vector2( 40, 40 )
 script = ExtResource( 1 )
@@ -56,9 +54,9 @@ detail = 30
 color = Color( 0, 0, 0, 1 )
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/CenterContainer"]
-margin_left = 500.0
+margin_left = 13.0
 margin_top = 6.0
-margin_right = 523.0
+margin_right = 36.0
 margin_bottom = 44.0
 custom_constants/margin_top = 5
 
@@ -73,13 +71,13 @@ align = 1
 valign = 1
 
 [node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer"]
-margin_top = 329.0
-margin_right = 1024.0
-margin_bottom = 339.0
+margin_top = 72.0
+margin_right = 50.0
+margin_bottom = 86.0
 
 [node name="opposition" parent="VBoxContainer/MarginContainer2" instance=ExtResource( 3 )]
-margin_right = 1024.0
-margin_bottom = 10.0
+margin_right = 50.0
+margin_bottom = 14.0
 rect_min_size = Vector2( 0, 10 )
 color = Color( 0.823529, 0.0980392, 0.0980392, 1 )
 border_color = Color( 0.823529, 0.0980392, 0.0980392, 1 )

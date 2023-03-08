@@ -4,14 +4,18 @@ var gamestate: GameState = GameState.new()
 
 
 onready var dance_floor = $dance/dance_floor
-onready var player_history = $step_history
 onready var dance_countdown = $dance_countdown
 onready var dance_match = $dance_match
 onready var grace_guage = $grace/grace_guage
 onready var grace_level = $grace/grace_level
 onready var npc_info = $npc_info
+onready var connection_panel = $PanelContainer
+onready var connection_graph = $PanelContainer/springy_graph
+onready var view_connections = $view_connections
 
 var glyphs: Array = []
+
+const Vertex = preload("res://ui/vertex.tscn")
 
 func _ready():
 # warning-ignore:return_value_discarded
@@ -23,18 +27,44 @@ func _ready():
 # warning-ignore:return_value_discarded
 	gamestate.connect("dance_change", self, "_on_dance_change")
 
-	gamestate.add_dancer(Dancer.new()) # player
-	var player = gamestate.dancers[0]
+	view_connections.connect("mouse_entered", self , "_on_connection_hover")
+	view_connections.connect("mouse_exited", self , "_on_connection_unhover")
+
+	var player = Dancer.new()
+	player.pos = gamestate.get_free_space()
+	gamestate.add_dancer(player)
 	player.connect("start_dance_tracker", self, "_on_dance_tracking_start")
 	var letters = ["A","B","W","X","Y","Z","D","E","F","S","T"]
-	for i in letters.size():
-		var dancer = Dancer.new()
-		dancer.npc = NPC.new()
-		dancer.pos = gamestate.get_free_space()
-		dancer.character = letters[i]
-		dancer.gender = (i % 2) ^ 1
-		gamestate.add_dancer(dancer)
+	var n = letters.size()
+	var npcs = []
+	for i in range(n):
+		var npc = NPC.new()
+		npc.letter = letters[i]
+		npc.npc_id = i
+		npc.gender = (i % 2) ^ 1
+		
+		var vertex = Vertex.instance()
+		vertex.npc = npc
+		connection_graph.add_child(vertex)
+		
+		npc.connections = []
+		for j in range(i):
+			if randi() % 3 == 0:
+				npc.connections.append(j)
+		
+		npcs.append(npc) # TODO: gamestate should shepard the NPCs
 
+		var dancer = Dancer.new()
+		dancer.npc = npc
+		dancer.pos = gamestate.get_free_space()
+		dancer.character = npc.letter
+		dancer.gender = npc.gender
+		gamestate.add_dancer(dancer)
+	
+	for i in range(n):
+		for j in npcs[i].connections:
+			if j < i:
+				connection_graph.add_spring(i,j)
 
 	for d in gamestate.dancers:
 		var g = get_dancer_glyph(d)
@@ -52,6 +82,12 @@ func _on_dancer_hover(d: Dancer):
 
 func _on_dancer_unhover():
 	npc_info.visible = false
+
+func _on_connection_hover():
+	connection_panel.visible = true
+func _on_connection_unhover():
+	connection_panel.visible = false || view_connections.pressed
+	
 
 func _unhandled_input(event):
 	var moved = false

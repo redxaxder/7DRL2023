@@ -19,42 +19,4 @@ max_velocity = 400.0
 has_anchor = false
 anchor_attraction = 0.5
 edge_gap = 10.0
-
-[node name="Label" type="Label" parent="."]
-margin_left = 624.954
-margin_top = 378.589
-margin_right = 633.954
-margin_bottom = 392.59
-text = "A"
-align = 1
-valign = 1
-
-[node name="Label2" type="Label" parent="."]
-margin_left = 540.264
-margin_top = 281.445
-margin_right = 549.264
-margin_bottom = 295.445
-text = "B"
-align = 1
-valign = 1
-
-[node name="Label3" type="Label" parent="."]
-margin_left = 534.457
-margin_top = 153.808
-margin_right = 542.457
-margin_bottom = 167.809
-text = "C"
-
-[node name="Label4" type="Label" parent="."]
-margin_left = 414.607
-margin_top = 258.211
-margin_right = 424.607
-margin_bottom = 272.211
-text = "D"
-
-[node name="Label5" type="Label" parent="."]
-margin_left = 417.51
-margin_top = 140.573
-margin_right = 424.51
-margin_bottom = 154.573
-text = "E"
+edge_color = Color( 0.61, 0.61, 0.61, 0.407843 )

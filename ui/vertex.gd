@@ -33,7 +33,6 @@ func _refresh():
 	if label:
 		label.text = n.letter
 		label.modulate = UIConstants.gender_color(n.gender)
-		print(label.modulate)
 	if support_guage:
 		support_guage.current = support
 	if opposition_guage:

@@ -55,10 +55,10 @@ second pass:
     + use kinematic system
     + edges are springs
     + vertices repel each other
-    - each NPC has their ICON inside a circle
-      - the circle has a BLUE/RED halo depending on they support or oppose
-    - each NPC a bar above and below
-      - blue bar and red bar
+    + each NPC has their ICON inside a circle
+      + the circle has a BLUE/RED halo depending on they support or oppose
+    + each NPC a bar above and below
+      + blue bar and red bar
     - if their RECALCITRANCE is known, they have a black line through the bars
     - show percentage on each bar}}}
   - SUSPICION{{{
