@@ -7,6 +7,7 @@ signal got_intel(dancer)
 signal grace(amount, quick)
 signal dance_time(countdown)
 signal dance_change(dances)
+signal game_end()
 
 export var room_width: int = 10
 export var room_height: int = 10
@@ -139,7 +140,6 @@ func move_dancer_1(id: int, dir: int) -> bool:
 	return true
 
 func shove(id, dir, target_id) -> bool:
-	#TODO generate suspicion
 	if is_dancer_solo(target_id):
 		if try_move_dancer(target_id, dir):
 			try_move_player(dir)
@@ -174,7 +174,10 @@ func try_interact(id, dir, target_id) -> bool:
 		make_partners(id, target_id, dir)
 		return true
 	elif id == player_id:
-		return shove(id, dir, target_id)
+		if shove(id, dir, target_id):
+			dancers[target_id].npc.suspicion += 20
+			return true
+		return false
 	return false
 
 var grace_triggered = false
@@ -207,6 +210,7 @@ func tick_round():
 		var suspicion_critical = dancers[i].roll_suspicion(grace.level, dist)
 		if suspicion_critical:
 			print("very sus!")
+			emit_signal("game_end")
 
 	#move npcs
 	var turn_order = []

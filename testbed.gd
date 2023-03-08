@@ -28,6 +28,7 @@ func _ready():
 	gamestate.connect("dance_time", self, "_on_dance_timer")
 # warning-ignore:return_value_discarded
 	gamestate.connect("dance_change", self, "_on_dance_change")
+	gamestate.connect("game_end", self, "_on_game_end")
 
 	view_connections.connect("mouse_entered", self , "_on_connection_hover")
 	view_connections.connect("mouse_exited", self , "_on_connection_unhover")
@@ -85,6 +86,8 @@ func _on_connection_hover():
 func _on_connection_unhover():
 	connection_panel.visible = false || view_connections.pressed
 
+func _on_game_end():
+	get_tree().quit()
 
 func _unhandled_input(event):
 	var moved = false
