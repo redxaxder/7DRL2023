@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://ui/floor_tile.tres" type="Theme" id=1]
 [ext_resource path="res://ui/dirstring.tscn" type="PackedScene" id=2]
@@ -11,6 +11,8 @@
 [ext_resource path="res://dance_match.gd" type="Script" id=9]
 [ext_resource path="res://ui/npc_info.tscn" type="PackedScene" id=10]
 [ext_resource path="res://grace.gd" type="Script" id=11]
+[ext_resource path="res://ui/springy_graph.tscn" type="PackedScene" id=12]
+[ext_resource path="res://resources/mesh-network.png" type="Texture" id=13]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 3 )
@@ -45,34 +47,34 @@ margin_right = 176.0
 margin_bottom = 176.0
 
 [node name="step_history" parent="." instance=ExtResource( 2 )]
-margin_left = 853.0
-margin_top = 0.0
-margin_right = 893.0
-margin_bottom = 40.0
+margin_left = 804.0
+margin_top = 81.0
+margin_right = 937.0
+margin_bottom = 600.0
 steps = [  ]
 color1 = Color( 0.5, 0.5, 0.5, 1 )
 
 [node name="dance_countdown" type="Label" parent="."]
-margin_left = 405.0
-margin_top = 12.0
-margin_right = 445.0
-margin_bottom = 32.0
+margin_left = 447.0
+margin_top = 25.0
+margin_right = 487.0
+margin_bottom = 45.0
 theme = ExtResource( 8 )
 text = "30"
 
 [node name="dance_match" type="VBoxContainer" parent="."]
-margin_left = 887.0
-margin_top = 4.0
-margin_right = 927.0
-margin_bottom = 44.0
+margin_left = 838.0
+margin_top = 86.0
+margin_right = 935.0
+margin_bottom = 600.0
 theme = ExtResource( 6 )
 script = ExtResource( 9 )
 
 [node name="grace" type="HBoxContainer" parent="."]
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 318.0
-margin_bottom = 42.0
+margin_left = 89.0
+margin_top = 15.0
+margin_right = 405.0
+margin_bottom = 55.0
 theme = ExtResource( 8 )
 script = ExtResource( 11 )
 
@@ -110,6 +112,37 @@ display_move_speed = 50.0
 stages = [ 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300 ]
 
 [node name="npc_info" parent="." instance=ExtResource( 10 )]
-margin_left = 506.0
-margin_right = 592.0
+margin_left = 937.0
+margin_right = 1023.0
 margin_bottom = 600.0
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 79.0
+margin_right = 937.0
+margin_bottom = 600.0
+
+[node name="springy_graph" parent="PanelContainer" instance=ExtResource( 12 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 930.0
+margin_bottom = 514.0
+springs = PoolVector2Array(  )
+repulsion_constant = 800.0
+attraction_constant = 7.0
+max_velocity = 30.0
+anchor_attraction = 0.1
+
+[node name="view_connections" type="Button" parent="."]
+margin_left = 859.0
+margin_top = 2.0
+margin_right = 935.0
+margin_bottom = 78.0
+focus_mode = 0
+toggle_mode = true
+enabled_focus_mode = 0
+icon = ExtResource( 13 )
