@@ -1,39 +1,57 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://ui/circle.gd" type="Script" id=1]
 [ext_resource path="res://ui/vertex.gd" type="Script" id=2]
 [ext_resource path="res://ui/guage.tscn" type="PackedScene" id=3]
 [ext_resource path="res://examples/example_npc.tres" type="Resource" id=4]
 [ext_resource path="res://ui/glyph.tres" type="DynamicFont" id=5]
+[ext_resource path="res://ui/tick_mark.gd" type="Script" id=6]
 
 [node name="vertex" type="MarginContainer"]
 margin_right = 50.0
 margin_bottom = 78.0
 script = ExtResource( 2 )
 npc = ExtResource( 4 )
+support = 30.0
+opposition = 60.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 margin_right = 50.0
-margin_bottom = 86.0
+margin_bottom = 114.0
 alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+[node name="support_percent" type="Label" parent="VBoxContainer"]
 margin_right = 50.0
 margin_bottom = 14.0
+text = "30%"
+align = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+margin_top = 18.0
+margin_right = 50.0
+margin_bottom = 28.0
+
+[node name="TickMark" type="Control" parent="VBoxContainer/MarginContainer"]
+margin_right = 50.0
+margin_bottom = 10.0
+script = ExtResource( 6 )
+percentage = 0.518
+width = 1.5
+extension = 2.0
 
 [node name="support" parent="VBoxContainer/MarginContainer" instance=ExtResource( 3 )]
 margin_right = 50.0
-margin_bottom = 14.0
+margin_bottom = 10.0
 rect_min_size = Vector2( 0, 10 )
 color = Color( 0.227451, 0.466667, 0.772549, 1 )
-border_color = Color( 0.227451, 0.466667, 0.772549, 1 )
+border_color = Color( 0.8, 0.78, 0.752, 0.439216 )
 width = 1.0
 show_numbers = false
 
 [node name="CenterContainer" type="CenterContainer" parent="VBoxContainer"]
-margin_top = 18.0
+margin_top = 32.0
 margin_right = 50.0
-margin_bottom = 68.0
+margin_bottom = 82.0
 
 [node name="faction" type="Control" parent="VBoxContainer/CenterContainer"]
 margin_right = 50.0
@@ -71,15 +89,30 @@ align = 1
 valign = 1
 
 [node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer"]
-margin_top = 72.0
+margin_top = 86.0
 margin_right = 50.0
-margin_bottom = 86.0
+margin_bottom = 96.0
+
+[node name="TickMark" type="Control" parent="VBoxContainer/MarginContainer2"]
+margin_right = 50.0
+margin_bottom = 10.0
+script = ExtResource( 6 )
+percentage = 0.518
+width = 1.5
+extension = 2.0
 
 [node name="opposition" parent="VBoxContainer/MarginContainer2" instance=ExtResource( 3 )]
 margin_right = 50.0
-margin_bottom = 14.0
+margin_bottom = 10.0
 rect_min_size = Vector2( 0, 10 )
 color = Color( 0.823529, 0.0980392, 0.0980392, 1 )
-border_color = Color( 0.823529, 0.0980392, 0.0980392, 1 )
+border_color = Color( 0.8, 0.780392, 0.752941, 0.439216 )
 width = 1.0
 show_numbers = false
+
+[node name="opposed_percent" type="Label" parent="VBoxContainer"]
+margin_top = 100.0
+margin_right = 50.0
+margin_bottom = 114.0
+text = "30%"
+align = 1
