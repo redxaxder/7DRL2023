@@ -38,6 +38,7 @@ second pass:
     + one map for unpartnered women
   + player can get a dance partner by bumping
   - player can shove by bumping
+  - dancing only happens when you have a partner
   + NPCs split up after dance end
   + UI:
     + display SUSPICION of NPC

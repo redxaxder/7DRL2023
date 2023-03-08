@@ -24,6 +24,8 @@ func _ready():
 	gamestate.connect("dance_change", self, "_on_dance_change")
 
 	gamestate.add_dancer(Dancer.new()) # player
+	var player = gamestate.dancers[0]
+	player.connect("start_dance_tracker", self, "_on_dance_tracking_start")
 	var letters = ["A","B","W","X","Y","Z","D","E","F","S","T"]
 	for i in letters.size():
 		var dancer = Dancer.new()
@@ -84,6 +86,9 @@ func _on_grace_changed(amount: int):
 
 func _on_dance_change(_dances):
 	clear_player_dances()
+	load_player_dances()
+
+func _on_dance_tracking_start():
 	load_player_dances()
 
 func clear_player_dances():

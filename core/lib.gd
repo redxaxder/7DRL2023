@@ -78,7 +78,7 @@ static func gen_steps_ability() -> PoolByteArray:
 			x += 1
 		steps.append(x)
 	return steps
-	
+
 # generate a random sequence of steps
 # with at least one pair of consecutive duplicates
 static func gen_steps_dance() -> PoolByteArray:

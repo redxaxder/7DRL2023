@@ -16,6 +16,7 @@ var partner_id: int = -1
 var partner_dir: int = 0
 var leading: bool = false
 
+signal start_dance_tracker()
 
 func has_partner() -> bool:
 	return partner_id >= 0
@@ -43,10 +44,15 @@ func evaluate(dir: int) -> int:
 	return result
 
 func start_dance(steps, dance_type = Dance.TYPE.GRACE):
+	if !has_partner():
+		dance_tracker= []
+		return
 	var orbit = D8.orbit(steps)
 	for g in orbit.size():
 		var d = Dance.new(orbit[g], dance_type, g)
 		dance_tracker.append(d)
+	if id == 0: #player
+		emit_signal("start_dance_tracker")
 
 func end_dance():
 	dance_tracker = []

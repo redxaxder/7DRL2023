@@ -55,6 +55,10 @@ func make_partners(id: int, target: int, dir: int):
 	dancers[leader].leading = true
 	dancers[follower].leading = false
 
+	for c in current_dances:
+		dancers[leader].start_dance(c)
+		dancers[follower].start_dance(c)
+
 func get_free_space():
 	var target: Vector2 = Vector2.ZERO
 	var attempts = 100
@@ -101,7 +105,7 @@ func move_with_partner(leader_id: int, dir: int) -> bool:
 	var leader = dancers[leader_id]
 	var follower_id = leader.partner_id
 	var follower = dancers[leader.partner_id]
-	
+
 	leader.partner_dir = Dir.invert(dir)
 # warning-ignore:return_value_discarded
 	move_dancer_1(leader_id, dir)
@@ -125,7 +129,7 @@ func move_dancer_1(id: int, dir: int) -> bool:
 			trigger_grace()
 	emit_signal("character_moved", dancer)
 	return true
-	
+
 
 func try_interact(id, dir, target_id) -> bool:
 	var is_solo = !dancers[id].has_partner()
@@ -144,7 +148,7 @@ func tick_round():
 		cumulative_grace -= grace.level
 	grace_triggered = false
 	emit_signal("grace", cumulative_grace)
-	
+
 	#gain intel
 	var ppos = dancers[player_id].pos
 	for i in range(1, dancers.size()):
@@ -208,7 +212,7 @@ func npc_dance(id: int) -> bool:
 		var target_pos = dancers[id].pos + Dir.dir_to_vec(d)
 		if can_move_to(target_pos, dancers[id].partner_id):
 			candidates.append(d)
-	
+
 	# ask the dancer to JUDGE each dir
 	# the judgement should be an integer reflecting preference for that dir
 	var judgements = []
@@ -223,10 +227,10 @@ func npc_dance(id: int) -> bool:
 	for i in candidates.size():
 		if judgements[i] == best_score:
 			good_candidates.append(candidates[i])
-	
+
 	if good_candidates.size() == 0:
 		return false # probably cornered or something
-	
+
 	good_candidates.shuffle()
 	var dir = good_candidates[0]
 	return try_move_dancer(id, dir)
@@ -243,7 +247,7 @@ func npc_seek_partner(id: int) -> bool:
 			targets[d].append(t)
 		else:
 			targets[d] = [t]
-	
+
 	var adjacent_targets = targets.get(1,[])
 	adjacent_targets.shuffle()
 	for t in adjacent_targets:
@@ -257,7 +261,7 @@ func npc_seek_partner(id: int) -> bool:
 		return npc_mill_around(id)
 	distances.sort()
 	var closest_targets = targets[distances[0]]
-	
+
 	var candidates = []
 	for t in closest_targets:
 		for d in Dir.approach(dancer.pos, t.pos):
@@ -306,7 +310,7 @@ func make_dijkstra(targets: Array) -> PoolIntArray:
 		var next_frontier = []
 		for f in frontier:
 			var value = results[f]
-			var neighbors = [] 
+			var neighbors = []
 			var p = from_linear(f)
 			for d in range(4):
 				var t = p + Dir.dir_to_vec(d)
