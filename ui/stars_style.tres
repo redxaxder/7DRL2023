@@ -1,0 +1,15 @@
+[gd_resource type="Theme" load_steps=3 format=2]
+
+[ext_resource path="res://resources/quivira.regular.otf" type="DynamicFontData" id=1]
+
+[sub_resource type="DynamicFont" id=1]
+size = 48
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 1 )
+
+[resource]
+Label/colors/font_color_shadow = Color( 0, 0, 0, 0.584314 )
+Label/constants/shadow_offset_x = -3
+Label/constants/shadow_offset_y = -1
+Label/fonts/font = SubResource( 1 )

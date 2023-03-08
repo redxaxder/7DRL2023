@@ -1,0 +1,82 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://ui/stars.gd" type="Script" id=1]
+[ext_resource path="res://ui/stars_style.tres" type="Theme" id=2]
+
+[node name="stars" type="HBoxContainer"]
+modulate = Color( 0.772549, 0.54902, 0.227451, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -915.0
+margin_bottom = -543.0
+rect_min_size = Vector2( 109, 57 )
+theme = ExtResource( 2 )
+custom_constants/separation = -32
+alignment = 2
+script = ExtResource( 1 )
+count = 1
+
+[node name="Label" type="Label" parent="."]
+margin_right = 39.0
+margin_bottom = 57.0
+text = "★"
+
+[node name="Label2" type="Label" parent="."]
+margin_left = 7.0
+margin_right = 46.0
+margin_bottom = 57.0
+text = "★"
+
+[node name="Label3" type="Label" parent="."]
+margin_left = 14.0
+margin_right = 53.0
+margin_bottom = 57.0
+text = "★"
+
+[node name="Label4" type="Label" parent="."]
+margin_left = 21.0
+margin_right = 60.0
+margin_bottom = 57.0
+text = "★"
+
+[node name="Label5" type="Label" parent="."]
+margin_left = 28.0
+margin_right = 67.0
+margin_bottom = 57.0
+text = "★"
+
+[node name="Label6" type="Label" parent="."]
+margin_left = 35.0
+margin_right = 74.0
+margin_bottom = 57.0
+text = "★"
+
+[node name="Label7" type="Label" parent="."]
+margin_left = 42.0
+margin_right = 81.0
+margin_bottom = 57.0
+text = "★"
+
+[node name="Label8" type="Label" parent="."]
+margin_left = 49.0
+margin_right = 88.0
+margin_bottom = 57.0
+text = "★"
+
+[node name="Label9" type="Label" parent="."]
+margin_left = 56.0
+margin_right = 95.0
+margin_bottom = 57.0
+text = "★"
+
+[node name="Label10" type="Label" parent="."]
+margin_left = 63.0
+margin_right = 102.0
+margin_bottom = 57.0
+text = "★"
+
+[node name="Label11" type="Label" parent="."]
+margin_left = 70.0
+margin_right = 109.0
+margin_bottom = 57.0
+text = "★"

@@ -3,11 +3,10 @@ extends Node2D
 var gamestate: GameState = GameState.new()
 
 
-onready var dance_floor = $dance/dance_floor
+onready var dance_floor = $dance/MarginContainer/Control/dance_floor
 onready var dance_countdown = $dance_countdown
 onready var dance_match = $dance_match
-onready var grace_guage = $grace/grace_guage
-onready var grace_level = $grace/grace_level
+onready var grace = $grace
 onready var npc_info = $npc_info
 onready var connection_panel = $PanelContainer
 onready var connection_graph = $PanelContainer/springy_graph
@@ -119,8 +118,7 @@ func _on_character_moved(d: Dancer):
 	glyphs[d.id].position = v
 
 func _on_grace_changed(amount: int):
-	grace_guage.current = amount
-	grace_level.current = Core.grace_info(amount).level
+	grace.amount = amount
 
 func _on_dance_change(_dances):
 	clear_player_dances()

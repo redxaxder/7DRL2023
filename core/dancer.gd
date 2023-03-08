@@ -30,6 +30,7 @@ func takes_turn() -> bool:
 
 func advance_intel():
 	if npc != null:
+		emit_signal("intel_gained")
 		npc.advance_intel()
 
 const suspicion_n: float = 7.0

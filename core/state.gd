@@ -9,8 +9,8 @@ signal dance_time(countdown)
 signal dance_change(dances)
 signal game_end()
 
-export var room_width: int = 10
-export var room_height: int = 10
+export var room_width: int = 9
+export var room_height: int = 9
 
 var dancers: Array = []
 var location_index: Dictionary = {}

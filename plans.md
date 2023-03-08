@@ -92,6 +92,11 @@ second pass:
 third pass:
   - can exit a dance
   - multiple nights
+    - new set of dancers chosen from subset of NPCs
+    - level will wire up the dancers repeatedly
+  - title screen
+    - can start game
+    - game options?
   - NPC names
     - list of fixed names
   - player abilities
