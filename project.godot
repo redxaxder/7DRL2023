@@ -59,6 +59,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://core/npc.gd"
 }, {
+"base": "Control",
+"class": "TickMark",
+"language": "GDScript",
+"path": "res://ui/tick_mark.gd"
+}, {
 "base": "Reference",
 "class": "UIConstants",
 "language": "GDScript",
@@ -75,6 +80,7 @@ _global_script_class_icons={
 "GameState": "",
 "Glyph": "",
 "NPC": "",
+"TickMark": "",
 "UIConstants": ""
 }
 

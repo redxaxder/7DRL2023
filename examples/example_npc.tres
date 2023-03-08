@@ -11,5 +11,6 @@ gender = 0
 corruption = 0
 faction = 2
 scandalous = false
+resolve = 70
 npc_id = 0
 connections = [  ]
