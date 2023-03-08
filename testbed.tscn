@@ -52,10 +52,10 @@ margin_right = 432.0
 margin_bottom = 432.0
 
 [node name="dance_floor" type="Control" parent="dance/MarginContainer/Control"]
-margin_left = 16.0
-margin_top = 16.0
-margin_right = 16.0
-margin_bottom = 16.0
+margin_left = 14.0
+margin_top = 10.0
+margin_right = 14.0
+margin_bottom = 10.0
 
 [node name="step_history" parent="." instance=ExtResource( 2 )]
 margin_left = 804.0

@@ -66,9 +66,14 @@ func _ready():
 		gamestate.add_dancer(dancer)
 
 	for d in gamestate.dancers:
-		var g = get_dancer_glyph(d)
+		var g = Glyph.new()
+		g.visible = false
+		g.character = d.character
 		g.modulate = UIConstants.gender_color(d.gender)
 		glyphs.append(g)
+		g.position = dancer_screen_pos(d.pos)
+		g.snap()
+		g.visible = true
 		g.connect("mouse_entered", self, "_on_dancer_hover", [d])
 		g.connect("mouse_exited", self, "_on_dancer_unhover")
 		dance_floor.add_child(g)
@@ -112,7 +117,7 @@ func _unhandled_input(event):
 
 const kick_intensity: float = 200.0
 const default_wait: float = 0.1
-const partner_offset: float = 10.0
+const partner_offset: float = 11.0
 func _on_character_moved(d: Dancer, kick_dir: int = Dir.NO_DIR, was_shove: bool = false):
 	if d.id == GameState.player_id:
 		flush_moves()
@@ -122,7 +127,7 @@ func _on_character_moved(d: Dancer, kick_dir: int = Dir.NO_DIR, was_shove: bool 
 	var glyph = glyphs[d.id]
 	var kick = kick_intensity * Dir.dir_to_vec(kick_dir)
 	if was_shove:
-		kick *= 5
+		kick *= 5 # yeet
 	move_queue_glyph.append(glyph)
 	move_queue_pos.append(target_pos)
 	move_queue_kick.append(kick)
@@ -200,11 +205,6 @@ func _on_dance_timer(t: int):
 const tile_size = Vector2(48,48)
 func dancer_screen_pos(game_coord: Vector2) -> Vector2:
 	return game_coord * tile_size
-
-func get_dancer_glyph(d: Dancer) -> Glyph:
-	var g = Glyph.new()
-	g.character = d.character
-	return g
 
 
 func _on_intel_level_up(npc: NPC, discovery: int):
