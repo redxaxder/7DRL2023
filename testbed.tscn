@@ -15,29 +15,41 @@
 [ext_resource path="res://resources/mesh-network.png" type="Texture" id=13]
 [ext_resource path="res://ui/stars.tscn" type="PackedScene" id=14]
 
-[node name="Node2D" type="Node2D"]
+[node name="Node2D" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 script = ExtResource( 3 )
 
 [node name="Panel" type="Panel" parent="."]
 modulate = Color( 0, 0, 0, 1 )
-margin_right = 1024.0
-margin_bottom = 600.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="dance" type="CenterContainer" parent="."]
-margin_top = 114.0
-margin_right = 480.0
-margin_bottom = 594.0
+anchor_top = 0.19
+anchor_right = 0.46875
+anchor_bottom = 0.99
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="MarginContainer" type="MarginContainer" parent="dance"]
 margin_left = 24.0
 margin_top = 24.0
 margin_right = 456.0
 margin_bottom = 456.0
+mouse_filter = 2
 
 [node name="dance_floor_background" type="GridContainer" parent="dance/MarginContainer"]
 modulate = Color( 1, 1, 1, 0.184314 )
 margin_right = 432.0
 margin_bottom = 432.0
+mouse_filter = 2
 theme = ExtResource( 1 )
 custom_constants/vseparation = 0
 custom_constants/hseparation = 0
@@ -50,44 +62,61 @@ height = 9
 [node name="Control" type="Control" parent="dance/MarginContainer"]
 margin_right = 432.0
 margin_bottom = 432.0
+mouse_filter = 2
 
 [node name="dance_floor" type="Control" parent="dance/MarginContainer/Control"]
 margin_left = 14.0
 margin_top = 10.0
 margin_right = 14.0
 margin_bottom = 10.0
+mouse_filter = 1
 
 [node name="step_history" parent="." instance=ExtResource( 2 )]
-margin_left = 804.0
-margin_top = 81.0
-margin_right = 937.0
-margin_bottom = 600.0
+anchor_left = 0.785156
+anchor_top = 0.135
+anchor_right = 0.915039
+anchor_bottom = 1.0
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 0.0
+margin_bottom = 0.0
 steps = [  ]
 color1 = Color( 0.5, 0.5, 0.5, 1 )
 
 [node name="dance_countdown" type="Label" parent="."]
-margin_left = 447.0
-margin_top = 25.0
-margin_right = 487.0
-margin_bottom = 45.0
+anchor_left = 0.436523
+anchor_top = 0.0416667
+anchor_right = 0.475586
+anchor_bottom = 0.075
 theme = ExtResource( 8 )
 text = "30"
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="dance_match" type="VBoxContainer" parent="."]
-margin_left = 838.0
-margin_top = 86.0
-margin_right = 935.0
-margin_bottom = 600.0
+anchor_left = 0.818359
+anchor_top = 0.143333
+anchor_right = 0.913086
+anchor_bottom = 1.0
 theme = ExtResource( 6 )
 script = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="grace" type="HBoxContainer" parent="."]
-margin_left = 89.0
-margin_top = 15.0
-margin_right = 405.0
-margin_bottom = 55.0
+anchor_left = 0.0869141
+anchor_top = 0.025
+anchor_right = 0.400391
+anchor_bottom = 0.12
+margin_right = -5.0
+margin_bottom = -17.0
 theme = ExtResource( 8 )
 script = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="stars" parent="grace" instance=ExtResource( 14 )]
 anchor_right = 0.0
@@ -134,24 +163,25 @@ display_move_speed = 50.0
 stages = [ 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300 ]
 
 [node name="npc_info" parent="." instance=ExtResource( 10 )]
-margin_left = 937.0
-margin_right = 1023.0
-margin_bottom = 600.0
+visible = false
+anchor_left = 0.915039
+anchor_right = 0.999023
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 visible = false
+anchor_top = 0.131667
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 79.0
-margin_right = 937.0
-margin_bottom = 600.0
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="springy_graph" parent="PanelContainer" instance=ExtResource( 12 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 930.0
+margin_right = 1017.0
 margin_bottom = 514.0
 springs = PoolVector2Array(  )
 repulsion_constant = 800.0
@@ -160,11 +190,14 @@ max_velocity = 30.0
 anchor_attraction = 0.1
 
 [node name="view_connections" type="Button" parent="."]
-margin_left = 859.0
-margin_top = 2.0
-margin_right = 935.0
-margin_bottom = 78.0
+anchor_left = 0.838867
+anchor_top = 0.00333333
+anchor_right = 0.913086
+anchor_bottom = 0.13
 focus_mode = 0
 toggle_mode = true
 enabled_focus_mode = 0
 icon = ExtResource( 13 )
+__meta__ = {
+"_edit_use_anchors_": true
+}

@@ -55,7 +55,6 @@ func _refresh():
 func compare_dances(l: Dance, r: Dance) -> bool:
 	return l.compare(r) < 0
 
-func _notification(what):
-	if what == NOTIFICATION_VISIBILITY_CHANGED:
-		if intel: intel.snap()
-		if suspicion: suspicion.snap()
+func snap():
+	if intel: intel.snap()
+	if suspicion: suspicion.snap()

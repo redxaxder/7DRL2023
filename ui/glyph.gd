@@ -48,10 +48,11 @@ func _refresh():
 		_anchor.friction = 0.996
 		_anchor.snap_close = false
 		_anchor.snap_overshoot = false
+		_anchor.mouse_filter = Control.MOUSE_FILTER_PASS
 		add_child(_anchor)
 	if !_label:
 		_label = Label.new()
-		_label.mouse_filter = Control.MOUSE_FILTER_STOP
+		_label.mouse_filter = Control.MOUSE_FILTER_PASS
 # warning-ignore:return_value_discarded
 		_label.connect("mouse_entered", self, "emit_signal", ["mouse_entered"])
 # warning-ignore:return_value_discarded

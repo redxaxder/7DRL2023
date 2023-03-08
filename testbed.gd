@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 
 var gamestate: GameState = GameState.new()
 
@@ -80,12 +80,30 @@ func _ready():
 
 	gamestate.tick_round()
 
+var sticky_dancer: Dancer = null
+func _gui_input(event):
+	if event.is_class("InputEventMouseButton"):
+		var m: InputEventMouseButton = event
+		if m.is_pressed():
+			if m.button_index == BUTTON_LEFT:
+				if npc_info.visible:
+					sticky_dancer = npc_info.dancer
+			if m.button_index == BUTTON_RIGHT:
+				if npc_info.visible:
+					npc_info.visible = false
+					sticky_dancer = null
 func _on_dancer_hover(d: Dancer):
 	npc_info.dancer = d
 	npc_info.visible = true
+	npc_info.snap()
+
 
 func _on_dancer_unhover():
 	npc_info.visible = false
+	if sticky_dancer:
+		npc_info.dancer = sticky_dancer
+		npc_info.visible = true
+		npc_info.snap()
 
 func _on_connection_hover():
 	connection_panel.visible = true
@@ -156,10 +174,7 @@ func advance_move_queue():
 	var target_pos = move_queue_pos.pop_front()
 	var glyph = move_queue_glyph.pop_front()
 	glyph.position = target_pos
-	if kick == Vector2.ZERO:
-		glyph.snap()
-	else:
-		glyph.kick(kick)
+	glyph.kick(kick)
 
 func _physics_process(delta):
 	if move_queue_wait.size() == 0:
