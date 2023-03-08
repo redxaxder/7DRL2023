@@ -35,7 +35,7 @@ func _ready():
 	var player = Dancer.new()
 	player.pos = gamestate.get_free_space()
 	gamestate.add_dancer(player)
-	player.connect("start_dance_tracker", self, "_on_dance_tracking_start")
+	player.connect("start_dance_tracker", self, "_on_dance_tracking_start", [], CONNECT_DEFERRED)
 	var letters = ["A","B","W","X","Y","Z","D","E","F","S","T"]
 	var n = letters.size()
 	for i in range(n):
