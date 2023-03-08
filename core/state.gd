@@ -101,6 +101,14 @@ func try_move_dancer(id: int, dir: int) -> bool:
 	else:
 		return move_dancer_1(id, dir)
 
+func valid_dir_for_move(id: int, dir: int) -> bool:
+	var dancer: Dancer = dancers[id]
+	var target_pos = dancer.pos + Dir.dir_to_vec(dir)
+	if !in_bounds(target_pos):
+		return false
+	var occupant_id = location_index.get(target_pos, -1)
+	return occupant_id == -1
+
 func move_with_partner(leader_id: int, dir: int) -> bool:
 	var leader = dancers[leader_id]
 	var follower_id = leader.partner_id
@@ -130,14 +138,43 @@ func move_dancer_1(id: int, dir: int) -> bool:
 	emit_signal("character_moved", dancer)
 	return true
 
+func shove(id, dir, target_id) -> bool:
+	#TODO generate suspicion
+	if is_dancer_solo(target_id):
+		if try_move_dancer(target_id, dir):
+			try_move_player(dir)
+			return true
+		else:
+			return false
+	else:
+		if valid_dir_for_move(target_id, dir):
+			break_partners(target_id)
+			try_move_dancer(target_id, dir)
+			try_move_player(dir)
+			return true
+		else:
+			return false
+
+func break_partners(id: int):
+	var dancer = dancers[id]
+	var partner = dancers[dancer.partner_id]
+	dancer.end_dance()
+	partner.end_dance()
+	emit_signal("character_moved", dancer)
+	emit_signal("character_moved", partner)
+
+func is_dancer_solo(id):
+	return !dancers[id].has_partner()
 
 func try_interact(id, dir, target_id) -> bool:
-	var is_solo = !dancers[id].has_partner()
-	var target_solo = !dancers[target_id].has_partner()
+	var is_solo = is_dancer_solo(id)
+	var target_solo = is_dancer_solo(target_id)
 	var can_dance = dancers[id].gender != dancers[target_id].gender
 	if is_solo && target_solo && can_dance:
 		make_partners(id, target_id, dir)
 		return true
+	elif id == player_id:
+		return shove(id, dir, target_id)
 	return false
 
 var grace_triggered = false
