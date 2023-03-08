@@ -51,7 +51,7 @@ second pass:
     + NPCs have an SUSPICION guage (0-100)?
     + connection data
     + corrupt/honest state}}}
-  - connection graph screen{{{
+  + connection graph screen{{{
     + use kinematic system
     + edges are springs
     + vertices repel each other
@@ -59,8 +59,8 @@ second pass:
       + the circle has a BLUE/RED halo depending on they support or oppose
     + each NPC a bar above and below
       + blue bar and red bar
-    - if their RECALCITRANCE is known, they have a black line through the bars
-    - show percentage on each bar}}}
+    + if their RECALCITRANCE is known, they have a black line through the bars
+    + show percentage on each bar}}}
   + SUSPICION{{{
     + SUSPICION increases in NPCS near the player
       + just adjacent?
@@ -78,18 +78,21 @@ second pass:
         (x = 5?)
       + if chance is below threshold, dont trigger it
         (30%?) - need to be careful to not allow invulnerability}}}
-  - INTEL{{{
+  + INTEL{{{
     + while you have line of sight to that NPC, the guage fills
-    - when the guage fills up, gain a type of INTEL on this character
+    + when the guage fills up, gain a type of INTEL on this character
       according to a priority list
       + 1. this character's support state
       + 2. location of this character in the connection graph
            and this character's "saturation"
            (proportion of ON neighbors)
-      - 3. resolve
-      - character's corrupt/honest state}}}
+      + 3. resolve
+      + character's corrupt/honest state}}}
 
 third pass:
+  - can exit a dance
+  - multiple nights
+  - perform contagion modeling after dance
   - NPC names
     - list of fixed names
     - list of name elements per faction
