@@ -2,7 +2,7 @@ tool
 extends Control
 
 var dance: Dance setget set_dance
-onready var _string = $Anchor/PanelContainer/dirstring
+onready var _string = $Anchor/PanelContainer/HBoxContainer/dirstring
 onready var anchor = $Anchor
 
 var ix: int setget set_ix

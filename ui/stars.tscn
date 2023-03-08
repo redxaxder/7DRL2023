@@ -17,65 +17,76 @@ script = ExtResource( 1 )
 count = 1
 
 [node name="Label" type="Label" parent="."]
-margin_right = 39.0
+margin_left = 70.0
+margin_right = 109.0
 margin_bottom = 57.0
 text = "★"
 
 [node name="Label2" type="Label" parent="."]
+visible = false
 margin_left = 7.0
 margin_right = 46.0
 margin_bottom = 57.0
 text = "★"
 
 [node name="Label3" type="Label" parent="."]
+visible = false
 margin_left = 14.0
 margin_right = 53.0
 margin_bottom = 57.0
 text = "★"
 
 [node name="Label4" type="Label" parent="."]
+visible = false
 margin_left = 21.0
 margin_right = 60.0
 margin_bottom = 57.0
 text = "★"
 
 [node name="Label5" type="Label" parent="."]
+visible = false
 margin_left = 28.0
 margin_right = 67.0
 margin_bottom = 57.0
 text = "★"
 
 [node name="Label6" type="Label" parent="."]
+visible = false
 margin_left = 35.0
 margin_right = 74.0
 margin_bottom = 57.0
 text = "★"
 
 [node name="Label7" type="Label" parent="."]
+visible = false
 margin_left = 42.0
 margin_right = 81.0
 margin_bottom = 57.0
 text = "★"
 
 [node name="Label8" type="Label" parent="."]
+visible = false
 margin_left = 49.0
 margin_right = 88.0
 margin_bottom = 57.0
 text = "★"
 
 [node name="Label9" type="Label" parent="."]
+visible = false
 margin_left = 56.0
 margin_right = 95.0
 margin_bottom = 57.0
 text = "★"
 
 [node name="Label10" type="Label" parent="."]
+visible = false
 margin_left = 63.0
 margin_right = 102.0
 margin_bottom = 57.0
 text = "★"
 
 [node name="Label11" type="Label" parent="."]
+visible = false
 margin_left = 70.0
 margin_right = 109.0
 margin_bottom = 57.0

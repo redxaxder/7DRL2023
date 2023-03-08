@@ -26,6 +26,7 @@ func _ready():
 	gamestate.connect("dance_time", self, "_on_dance_timer")
 # warning-ignore:return_value_discarded
 	gamestate.connect("dance_change", self, "_on_dance_change")
+# warning-ignore:return_value_discarded
 	gamestate.connect("game_end", self, "_on_game_end")
 
 	view_connections.connect("mouse_entered", self , "_on_connection_hover")
@@ -169,7 +170,7 @@ func flush_moves():
 		advance_move_queue()
 
 func advance_move_queue():
-	var w = move_queue_wait.pop_front()
+	var _w = move_queue_wait.pop_front()
 	var kick = move_queue_kick.pop_front()
 	var target_pos = move_queue_pos.pop_front()
 	var glyph = move_queue_glyph.pop_front()
@@ -184,7 +185,13 @@ func _physics_process(delta):
 	if move_queue_wait[0] <= 0:
 		advance_move_queue()
 
+const grace_particle = preload("res://ui/grace_particle.tscn")
 func _on_grace_changed(amount: int):
+	if amount > grace.amount:
+		var particle = grace_particle.instance()
+		var from = glyphs[0].global_position
+		var to = grace.rect_global_position + grace.rect_size / 2
+		send_particle(from,to,particle)
 	grace.amount = amount
 
 func _on_dance_change(_dances):
@@ -194,6 +201,23 @@ func _on_dance_change(_dances):
 func _on_dance_tracking_start():
 	clear_player_dances()
 	load_player_dances()
+
+
+const particle_kick: float = 500.0
+func send_particle(from: Vector2, to: Vector2, what: Node):
+	var anch: Anchor = Anchor.new()
+	anch.visible = false
+	add_child(anch)
+	anch.add_child(what)
+	anch.rect_global_position = from
+	anch.visible = true
+	anch.friction = 0.3
+	anch.snap()
+	anch.rect_global_position = to
+	var kickdir = Vector2(randi(), randi()) - Vector2(0.5,0.5)
+	anch.kick(particle_kick * kickdir)
+	anch.autoremove = true
+
 
 func clear_player_dances():
 	for c in dance_match.get_children():
@@ -220,7 +244,6 @@ func _on_dance_timer(t: int):
 const tile_size = Vector2(48,48)
 func dancer_screen_pos(game_coord: Vector2) -> Vector2:
 	return game_coord * tile_size
-
 
 func _on_intel_level_up(npc: NPC, discovery: int):
 	if (discovery == NPC.INTEL.CONNECTIONS):

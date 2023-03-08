@@ -4,11 +4,13 @@ extends Container
 
 class_name Anchor
 
-export var target_speed: float = 10.0
-export var top_speed: float = 10.0
-export var acceleration: float = 10.0
+export var target_speed: float = 50.0
+export var top_speed: float = 600.0
+export var acceleration: float = 1600.0
 
 export var friction: float = 0.0
+
+export var autoremove: bool = false
 
 export var snap_close: bool = true
 export var snap_dist: float = 5.0
@@ -26,7 +28,8 @@ func _ready():
 func snap():
 	offset = Vector2.ZERO
 	velocity = Vector2.ZERO
-	_last_pos = rect_global_position
+	if is_visible_in_tree():
+		_last_pos = rect_global_position
 
 func kick(v: Vector2):
 	velocity += v
@@ -35,10 +38,11 @@ func kick(v: Vector2):
 var _last_pos: Vector2 = Vector2.ZERO
 func _notification(what):
 	if what == NOTIFICATION_TRANSFORM_CHANGED:
-		offset += _last_pos - rect_global_position
-		_last_pos = rect_global_position
-		queue_sort()
-		set_process(true)
+		if is_visible_in_tree():
+			offset += _last_pos - rect_global_position
+			_last_pos = rect_global_position
+			queue_sort()
+			set_process(true)
 
 	if what == NOTIFICATION_SORT_CHILDREN:
 		var i = get_child_count()
@@ -54,6 +58,7 @@ func _process(delta):
 	var i = get_child_count()
 	if i != 1:
 		set_process(false)
+		_stop()
 		return
 	var c = get_child(0)
 	var target = -offset * target_speed
@@ -77,5 +82,11 @@ func _process(delta):
 		do_snap = true
 	if do_snap || is_nan(l):
 		snap()
-		set_process(false)
 	c.rect_position = offset
+	if (velocity.abs() + offset.abs()).length_squared() < 0.1:
+		_stop()
+	
+func _stop():
+		set_process(false)
+		if autoremove:
+			queue_free()
