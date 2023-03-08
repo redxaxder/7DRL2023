@@ -14,6 +14,8 @@ onready var connection_graph = $PanelContainer/springy_graph
 onready var view_connections = $view_connections
 
 var glyphs: Array = []
+var npcs: Array = []
+var npc_to_vertex = {}
 
 const Vertex = preload("res://ui/vertex.tscn")
 
@@ -36,16 +38,16 @@ func _ready():
 	player.connect("start_dance_tracker", self, "_on_dance_tracking_start")
 	var letters = ["A","B","W","X","Y","Z","D","E","F","S","T"]
 	var n = letters.size()
-	var npcs = []
 	for i in range(n):
 		var npc = NPC.new()
 		npc.letter = letters[i]
 		npc.npc_id = i
 		npc.gender = (i % 2) ^ 1
+		npc.connect("intel_level_up", self, "_on_intel_level_up")
 
 		var vertex = Vertex.instance()
 		vertex.npc = npc
-		connection_graph.add_child(vertex)
+		npc_to_vertex[npc] = vertex
 
 		npc.connections = []
 		for j in range(i):
@@ -60,11 +62,6 @@ func _ready():
 		dancer.character = npc.letter
 		dancer.gender = npc.gender
 		gamestate.add_dancer(dancer)
-
-	for i in range(n):
-		for j in npcs[i].connections:
-			if j < i:
-				connection_graph.add_spring(i,j)
 
 	for d in gamestate.dancers:
 		var g = get_dancer_glyph(d)
@@ -158,3 +155,10 @@ func get_dancer_glyph(d: Dancer) -> Glyph:
 	var g = Glyph.new()
 	g.character = d.character
 	return g
+
+func _on_intel_level_up(npc: NPC, intel_level: int):
+	if (intel_level == 2):
+		connection_graph.add_child(npc_to_vertex[npc])
+		for i in npcs[npc.npc_id].connections:
+			if i < npc.npc_id:
+				connection_graph.add_spring(i,npc.npc_id)

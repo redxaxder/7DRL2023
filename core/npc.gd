@@ -26,11 +26,14 @@ export var scandalous: bool = false
 export var npc_id: int = 0
 export (Array, int) var connections: Array = [] # array of npc ids
 
+signal intel_level_up(npc, intel_level)
+
  # return true when unlocking something with intel
 func advance_intel() -> bool:
 	intel += 1
 	if intel % intel_threshold == 0:
 		intel_level += 1
+		emit_signal("intel_level_up", self, intel_level)
 		return true
 	return false
 

@@ -83,7 +83,7 @@ second pass:
     - when the guage fills up, gain a type of INTEL on this character
       according to a priority list
       + 1. this character's support state
-      - 2. location of this character in the connection graph
+      + 2. location of this character in the connection graph
            and this character's "saturation"
            (proportion of ON neighbors)
       - 3. resolve

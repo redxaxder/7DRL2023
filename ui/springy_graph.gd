@@ -69,8 +69,13 @@ func _refresh():
 	set_physics_process(true)
 
 func _draw():
+	var n = get_child_count()
+	if n == 0:
+		return
 	var c = get_children()
 	for s in springs:
+		if s.x >= c.size() or s.y >= c.size():
+			continue
 		var v0: Vector2 = c[s.x].rect_position + c[s.x].rect_size / 2.0
 		var v1: Vector2 = c[s.y].rect_position + c[s.y].rect_size / 2.0
 		var edge_start = v0.move_toward(v1,edge_gap)
@@ -79,11 +84,15 @@ func _draw():
 
 func _physics_process(delta):
 	var n = get_child_count()
+	if n == 0:
+		return
 	var c = get_children()
 
 	for s in springs: # attraction
 		var i = int(s.x)
 		var j = int(s.y)
+		if i >= c.size() or j >= c.size():
+			continue
 		var v: Vector2 = c[i].rect_position - c[j].rect_position
 		var x = v.length()
 		if x > 0.1:
@@ -91,7 +100,7 @@ func _physics_process(delta):
 			var dv = - delta * f * v / x
 			_velocities[i] += dv
 			_velocities[j] -= dv
-		
+
 	for i in range(n):
 		for j in range(0,i): # repulsion
 			var v: Vector2 = c[j].rect_position - c[i].rect_position

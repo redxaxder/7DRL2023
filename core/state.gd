@@ -198,7 +198,7 @@ func tick_round():
 		if !occluded:
 			dancers[i].advance_intel()
 			emit_signal("got_intel", dancers[i])
-	
+
 	# roll suspicion
 	var grace = Core.grace_info(cumulative_grace)
 	for i in range(1, dancers.size()):
