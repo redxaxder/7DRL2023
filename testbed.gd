@@ -42,16 +42,16 @@ func _ready():
 		npc.letter = letters[i]
 		npc.npc_id = i
 		npc.gender = (i % 2) ^ 1
-		
+
 		var vertex = Vertex.instance()
 		vertex.npc = npc
 		connection_graph.add_child(vertex)
-		
+
 		npc.connections = []
 		for j in range(i):
 			if randi() % 3 == 0:
 				npc.connections.append(j)
-		
+
 		npcs.append(npc) # TODO: gamestate should shepard the NPCs
 
 		var dancer = Dancer.new()
@@ -60,7 +60,7 @@ func _ready():
 		dancer.character = npc.letter
 		dancer.gender = npc.gender
 		gamestate.add_dancer(dancer)
-	
+
 	for i in range(n):
 		for j in npcs[i].connections:
 			if j < i:
@@ -87,7 +87,7 @@ func _on_connection_hover():
 	connection_panel.visible = true
 func _on_connection_unhover():
 	connection_panel.visible = false || view_connections.pressed
-	
+
 
 func _unhandled_input(event):
 	var moved = false

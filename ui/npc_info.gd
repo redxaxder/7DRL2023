@@ -7,6 +7,7 @@ onready var dance_tracker = $VBoxContainer/dance_tracker
 onready var glyph = $VBoxContainer/glyph
 onready var intel = $VBoxContainer/intel
 onready var suspicion = $VBoxContainer/suspicion
+onready var faction = $VBoxContainer/faction
 
 const DirString = preload("res://ui/dirstring.tscn")
 
@@ -28,13 +29,16 @@ func _refresh():
 		intel.visible = true
 		suspicion.current = d.npc.suspicion
 		suspicion.visible = true
+		faction.visible = d.npc.intel_level > 0
+		faction.text = d.npc.describe_faction(d.npc.faction)
 	else:
 		intel.visible = false
 		suspicion.visible = false
+		faction.visible = false
 
 	glyph.text = d.character
 	glyph.modulate = UIConstants.gender_color(d.gender)
-	
+
 	for c in dance_tracker.get_children():
 		c.queue_free()
 	var dances = []

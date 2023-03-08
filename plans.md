@@ -82,7 +82,7 @@ second pass:
     + while you have line of sight to that NPC, the guage fills
     - when the guage fills up, gain a type of INTEL on this character
       according to a priority list
-      - 1. this character's support state
+      + 1. this character's support state
       - 2. location of this character in the connection graph
            and this character's "saturation"
            (proportion of ON neighbors)
