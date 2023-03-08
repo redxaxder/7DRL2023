@@ -14,6 +14,7 @@ export var character: String = "A" setget set_character
 
 const font: DynamicFont = preload("res://ui/glyph.tres")
 
+var _anchor: Anchor = null
 var _label: Label = null
 
 # warning-ignore:unused_signal
@@ -24,12 +25,27 @@ signal mouse_exited
 func _ready():
 	centered = false
 	_refresh()
+	snap()
 
 func set_character(x):
 	character = x
 	_refresh()
 
+func kick(v: Vector2):
+	if _anchor:
+		_anchor.kick(v)
+
+func snap():
+	_anchor.snap()
+
 func _refresh():
+	if !_anchor:
+		_anchor = Anchor.new()
+		_anchor.acceleration = 1600
+		_anchor.target_speed = 50
+		_anchor.top_speed = 300
+		_anchor.skid_correction = 5
+		add_child(_anchor)
 	if !_label:
 		_label = Label.new()
 		_label.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -38,9 +54,9 @@ func _refresh():
 # warning-ignore:return_value_discarded
 		_label.connect("mouse_exited", self, "emit_signal", ["mouse_exited"])
 		_label.add_font_override("font", font)
-		add_child(_label)
 		_label.align = _label.ALIGN_CENTER
 		_label.rect_position = shift
+		_anchor.add_child(_label)
 	_label.text = character
 	
 	if Engine.editor_hint: # the script is running in the editor!

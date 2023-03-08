@@ -110,12 +110,60 @@ func _unhandled_input(event):
 		if npc_info.visible:
 			npc_info._refresh()
 
+const kick_intensity: float = 100.0
+const default_wait: float = 0.5
 const partner_offset: float = 10.0
-func _on_character_moved(d: Dancer):
-	var v = dancer_screen_pos(d.pos)
+func _on_character_moved(d: Dancer, kick_dir: int = Dir.NO_DIR):
+	var target_pos = dancer_screen_pos(d.pos)
 	if d.has_partner():
-		v += Dir.dir_to_vec(d.partner_dir) * partner_offset
-	glyphs[d.id].position = v
+		target_pos += Dir.dir_to_vec(d.partner_dir) * partner_offset
+	var glyph = glyphs[d.id]
+	var kick = kick_intensity * Dir.dir_to_vec(kick_dir)
+	glyph.position = target_pos
+	if kick == Vector2.ZERO:
+		glyph.snap()
+	else:
+		glyph.kick(kick)
+#	move_queue_glyph.append(glyph)
+#	move_queue_pos.append(target_pos)
+#	move_queue_kick.append(kick)
+#	var wait = default_wait
+#	if d.has_partner() && !d.leading:
+#		wait = 0.1
+#	if kick_dir == Dir.NO_DIR:
+#		wait = 0
+#	move_queue_wait.append(wait)
+#	prints("wait", wait)
+#	set_process(true)
+
+var move_queue_glyph: Array = []
+var move_queue_pos: Array = []
+var move_queue_kick: Array = []
+var move_queue_wait: Array = []
+
+func flush_moves():
+	while move_queue_wait.size() > 0:
+		advance_move_queue()
+
+func advance_move_queue():
+	var w = move_queue_wait.pop_front()
+	var k = move_queue_kick.pop_front()
+	var p = move_queue_pos.pop_front()
+	var g = move_queue_glyph.pop_front()
+	prints("unwait", w, g.character, p)
+	g.position = p
+	if k == Vector2.ZERO:
+		g.snap()
+	else:
+		g.kick(k)
+
+func _process(delta):
+	if move_queue_wait.size() == 0:
+		set_process(false)
+		return
+	move_queue_wait[0] -= delta
+	if move_queue_wait[0] <= 0:
+		advance_move_queue()
 
 func _on_grace_changed(amount: int):
 	grace.amount = amount
@@ -158,6 +206,7 @@ func get_dancer_glyph(d: Dancer) -> Glyph:
 	var g = Glyph.new()
 	g.character = d.character
 	return g
+
 
 func _on_intel_level_up(npc: NPC, discovery: int):
 	if (discovery == NPC.INTEL.CONNECTIONS):

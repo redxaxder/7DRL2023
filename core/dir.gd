@@ -2,6 +2,8 @@ class_name Dir
 
 enum DIR{ UP, LEFT, DOWN, RIGHT }
 
+const NO_DIR = -1
+
 const arrows: PoolStringArray = PoolStringArray(["↑", "←", "↓", "→"])
 static func arrow(dir: int) -> String:
 	if dir < 0 || dir > 4:

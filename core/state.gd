@@ -2,7 +2,7 @@ extends Resource
 
 class_name GameState
 
-signal character_moved(dancer)
+signal character_moved(dancer, anim_kick_dir)
 signal got_intel(dancer)
 signal grace(amount, quick)
 signal dance_time(countdown)
@@ -25,7 +25,6 @@ const player_id: int = 0 # player is always added to the array first!
 const dance_duration = 30
 const rest_duration = 5
 
-
 # special dancer ids
 const NO_PARTNER = -2
 const NO_OCCUPANT = -1
@@ -35,7 +34,7 @@ func add_dancer(d: Dancer):
 	dancers.append(d)
 	d.id = id
 	location_index[d.pos] = d.id
-	emit_signal("character_moved", d)
+	emit_signal("character_moved", d, Dir.NO_DIR)
 
 func make_partners(id: int, target: int, dir: int):
 	var m
@@ -50,8 +49,8 @@ func make_partners(id: int, target: int, dir: int):
 	dancers[f].partner_id = m
 	dancers[id].partner_dir = dir
 	dancers[target].partner_dir = Dir.invert(dir)
-	emit_signal("character_moved", dancers[id])
-	emit_signal("character_moved", dancers[target])
+	emit_signal("character_moved", dancers[id], dir)
+	emit_signal("character_moved", dancers[target], dir)
 
 	var leader = m
 	var follower = f
@@ -141,7 +140,7 @@ func move_dancer_1(id: int, dir: int) -> bool:
 		for _dance in matches:
 			#TODO: branch on dance.type
 			trigger_grace()
-	emit_signal("character_moved", dancer)
+	emit_signal("character_moved", dancer, dir)
 	return true
 
 func shove(_id, dir, target_id) -> bool:

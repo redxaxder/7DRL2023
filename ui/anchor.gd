@@ -40,7 +40,8 @@ func _notification(what):
 		if i != 1:
 			return
 		var c: Control = get_child(0)
-		rect_min_size = c.rect_size
+		c.rect_size = rect_size
+		rect_size = c.rect_size
 		if offset != Vector2.ZERO:
 			set_process(true)
 

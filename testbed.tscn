@@ -130,7 +130,6 @@ margin_left = 121.0
 margin_right = 321.0
 margin_bottom = 57.0
 rect_min_size = Vector2( 200, 40 )
-color = Color( 0.772549, 0.54902, 0.227451, 1 )
 display_move_speed = 50.0
 stages = [ 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300 ]
 
