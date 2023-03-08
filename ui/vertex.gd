@@ -45,9 +45,11 @@ func _refresh():
 	if opposition_label:
 		opposition_label.text = "{0}%".format([int(opposition)])
 	if faction:
+		faction.visible = npc.intel_known(NPC.INTEL.FACTION)
 		faction.color = faction_colors[npc.faction]
 	if ticks:
 		for tick in ticks:
 			if tick:
+				tick.visible = npc.intel_known(NPC.INTEL.RESOLVE)
 				tick.percentage = float(n.resolve) / 100.0
 
