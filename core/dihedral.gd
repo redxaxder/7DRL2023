@@ -26,6 +26,23 @@ static func act_dir(g: int, dir: int) -> int:
 		result = result ^ 2
 	return result
 
+static func act_vec(g: int, v: Vector2) -> Vector2:
+	var rot = g & 3
+	var flip = g & 4
+	var r: Vector2 = v
+	# one level of rotation goes anticlockwise
+	# up -> left -> down -> right -> up
+	# also, the y axis points down, so:
+	# up(0,-1) -> left(-1,0) -> down(0,1) -> right(1,0)
+	match rot:
+		0: pass
+		1: r = Vector2(r.y,-r.x)
+		2: r *= -1
+		3: r = Vector2(-r.y,r.x)
+	if flip > 0: # this is a left/right flip
+		r.x = -r.x
+	return r
+
 static func act_steps(g: int, steps) -> PoolByteArray:
 	var result = PoolByteArray()
 	for dir in steps:

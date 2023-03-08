@@ -25,6 +25,11 @@ const player_id: int = 0 # player is always added to the array first!
 const dance_duration = 30
 const rest_duration = 1
 
+
+# special dancer ids
+const NO_PARTNER = -2
+const NO_OCCUPANT = -1
+
 func add_dancer(d: Dancer):
 	var id = dancers.size()
 	dancers.append(d)
@@ -85,14 +90,14 @@ func try_move_dancer(id: int, dir: int) -> bool:
 	if dir < 0 || dir >= 4:
 		return false
 	var dancer: Dancer = dancers[id]
-	var partner_id = -2
+	var partner_id = NO_PARTNER
 	if dancer.has_partner():
 		partner_id = dancer.partner_id
 	var target_pos = dancer.pos + Dir.dir_to_vec(dir)
 	if !in_bounds(target_pos):
 		return false
-	var occupant_id = location_index.get(target_pos, -1)
-	if occupant_id != -1:
+	var occupant_id = location_index.get(target_pos, NO_OCCUPANT)
+	if occupant_id != NO_OCCUPANT:
 		if occupant_id == partner_id:
 			return move_with_partner(id, dir)
 		else:
@@ -107,8 +112,8 @@ func valid_dir_for_move(id: int, dir: int) -> bool:
 	var target_pos = dancer.pos + Dir.dir_to_vec(dir)
 	if !in_bounds(target_pos):
 		return false
-	var occupant_id = location_index.get(target_pos, -1)
-	return occupant_id == -1
+	var occupant_id = location_index.get(target_pos, NO_OCCUPANT)
+	return occupant_id == NO_OCCUPANT
 
 func move_with_partner(leader_id: int, dir: int) -> bool:
 	var leader = dancers[leader_id]
@@ -127,7 +132,7 @@ func move_dancer_1(id: int, dir: int) -> bool:
 	var dancer = dancers[id]
 	var target_pos = dancer.pos + Dir.dir_to_vec(dir)
 # warning-ignore:return_value_discarded
-	if location_index.get(dancer.pos,-1) == id:
+	if location_index.get(dancer.pos,NO_OCCUPANT) == id:
 		location_index.erase(dancer.pos)
 	dancer.pos = target_pos
 	location_index[target_pos] = dancer.id
@@ -140,20 +145,16 @@ func move_dancer_1(id: int, dir: int) -> bool:
 	return true
 
 func shove(id, dir, target_id) -> bool:
-	if is_dancer_solo(target_id):
-		if try_move_dancer(target_id, dir):
-			try_move_player(dir)
-			return true
-		else:
-			return false
-	else:
-		if valid_dir_for_move(target_id, dir):
-			break_partners(target_id)
-			try_move_dancer(target_id, dir)
-			try_move_player(dir)
-			return true
-		else:
-			return false
+	if valid_dir_for_move(target_id, dir):
+		var dancer = dancers[target_id]
+		dancer.stun = true
+		if dancer.has_partner():
+			dancers[dancer.partner_id].stun = true
+		break_partners(target_id)
+		try_move_dancer(target_id, dir)
+		try_move_player(dir)
+		return true
+	return false
 
 func break_partners(id: int):
 	var dancer = dancers[id]
@@ -241,12 +242,15 @@ func tick_round():
 	emit_signal("dance_time", dance_countdown)
 
 
-func can_move_to(pos: Vector2, partner_id = -2) -> bool:
-	var occpant_id = location_index.get(pos, -1)
-	return in_bounds(pos) && (occpant_id == -1 || occpant_id == partner_id)
+func can_move_to(pos: Vector2, partner_id = NO_PARTNER) -> bool:
+	var occpant_id = location_index.get(pos, NO_OCCUPANT)
+	return in_bounds(pos) && (occpant_id == NO_OCCUPANT || occpant_id == partner_id)
 
 func do_npc_turn(id: int) -> bool:
 	var dancer: Dancer = dancers[id]
+	if dancer.stun:
+		dancer.stun = false
+		return true
 	if !dance_active:
 		return npc_mill_around(id)
 	elif dancer.has_partner():

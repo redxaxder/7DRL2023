@@ -92,29 +92,34 @@ second pass:
 third pass:
   - can exit a dance
   - multiple nights
-  - perform contagion modeling after dance
   - NPC names
     - list of fixed names
-    - list of name elements per faction
-    - first names, last names, de la
-    - [ john, carl, freiderich ]
-    - [ schnitzel, sandwich, wellington ]
-    - particle: faction -> particle
-        von
-        de la
-        de
-    - [ Berlin, Vienna, Whateversville ]
-    - seperate list per faction
-      - first name list
-      - last name list
-      - location list
-      - 5 factions (english, french, german, russian, spanish)
-      - 15 lists
   - player abilities
+    - completing dance steps takes a deliberate action (and a turn)
+      - for both player and NPCs
     - action of dihedral group on player ability
     - pilfer
+    - player dance tracker has icon representing action
+  - don't list dance steps on follower
+  - after dance:
+    - make/break connections from pilfer
+    - perform contagion modeling
   - victory / defeat screen
     - show epilogue
+  - animate movement
+  - play/stop music
+  - log
+    - intel revealed
+    - connection changed
+    - faction changed
+    - pilfer action
+    - suspicion critical
+  - sound effects:
+    - dancer moves
+    - grace gained
+    - intel revealed
+    - faction changed (x3)
+
 
 fourth pass:
   - player abilities
@@ -145,8 +150,8 @@ fourth pass:
     - at the start of the game, there is a clique for each faction
 
 misc additions:
-  - floor patterns: https://www.1001fonts.com/seamless-pattern-icons-font.html
-  - display time remaining in current dance
+  + floor patterns: https://www.1001fonts.com/seamless-pattern-icons-font.html
+  + display time remaining in current dance
   - legit sprites
     - for the NPCs
     - for the floor / walls

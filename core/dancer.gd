@@ -18,6 +18,7 @@ var id: int = -1
 var partner_id: int = -1
 var partner_dir: int = 0
 var leading: bool = false
+var stun = false
 
 signal start_dance_tracker()
 
