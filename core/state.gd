@@ -198,6 +198,16 @@ func tick_round():
 		if !occluded:
 			dancers[i].advance_intel()
 			emit_signal("got_intel", dancers[i])
+	
+	# roll suspicion
+	var grace = Core.grace_info(cumulative_grace)
+	for i in range(1, dancers.size()):
+		var v = (ppos - dancers[i].pos).abs()
+		var dist = max(v.x,v.y)
+		var suspicion_critical = dancers[i].roll_suspicion(grace.level, dist)
+		if suspicion_critical:
+			print("very sus!")
+
 	#move npcs
 	var turn_order = []
 	for i in range(1, dancers.size()):
@@ -223,9 +233,6 @@ func tick_round():
 			while Core.similar(dance1,dance2):
 				dance2 = Core.gen_steps_dance()
 			current_dances = [dance1, dance2]
-			for d in dancers:
-				for c in current_dances:
-					d.start_dance(c)
 		emit_signal("dance_change", current_dances)
 	emit_signal("dance_time", dance_countdown)
 

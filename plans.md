@@ -61,22 +61,22 @@ second pass:
       + blue bar and red bar
     - if their RECALCITRANCE is known, they have a black line through the bars
     - show percentage on each bar}}}
-  - SUSPICION{{{
-    - SUSPICION increases in NPCS near the player
-      - just adjacent?
-      - possibly larger distance? (max norm? DnD octogon norm?)
-    - high GRACE mitigates the increase
-      - gives a chance to not generate SUSPICION
-      - rolled seperately per NPC
-      - chance to increase SUSPICION = n / (n + grace level)
+  + SUSPICION{{{
+    + SUSPICION increases in NPCS near the player
+      + just adjacent?
+      + possibly larger distance? (max norm? DnD octogon norm?)
+    + high GRACE mitigates the increase
+      + gives a chance to not generate SUSPICION
+      + rolled seperately per NPC
+      + chance to increase SUSPICION = n / (n + grace level)
         (n = 7?)
-    - distance mitigates the increase
-      - acts as a grace bonus? (multiplier?)
-      - d = max norm
+    + distance mitigates the increase
+      + acts as a grace bonus? (multiplier?)
+      + d = max norm
         g := (g + d) * d
-      - if d > x, dont trigger it
+      + if d > x, dont trigger it
         (x = 5?)
-      - if chance is below threshold, dont trigger it
+      + if chance is below threshold, dont trigger it
         (30%?) - need to be careful to not allow invulnerability}}}
   - INTEL{{{
     + while you have line of sight to that NPC, the guage fills
