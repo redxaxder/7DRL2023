@@ -408,7 +408,6 @@ func make_dijkstra(targets: Array) -> PoolIntArray:
 		frontier = next_frontier
 	return PoolIntArray(results)
 
-<<<<<<< HEAD
 func make_npc(id: int) -> NPC:
 	var npc = NPC.new()
 	var available: Array = available_npcs.keys()
@@ -426,10 +425,8 @@ func make_npc(id: int) -> NPC:
 
 	npcs.append(npc)
 	return npc
-=======
+
 func get_item_name(item_id: int) -> String:
 	if item_id >= 0 && item_id < items.size():
 		return "{0}'s {1}".format([dancers[item_id].character, items[item_id]])
 	return ""
-	
->>>>>>> bc92d71e05de20d450edb6f31811a7709452ecfb
