@@ -15,7 +15,6 @@ export var room_height: int = 9
 var dancers: Array = []
 var location_index: Dictionary = {}
 var current_dances: Array = []
-#var player_abilities: Array = [preload("res://examples/example_ability.tres")]
 
 var cumulative_grace = 0
 var dance_countdown = rest_duration
