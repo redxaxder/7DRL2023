@@ -45,7 +45,7 @@ func _refresh():
 		_anchor.target_speed = 50
 		_anchor.top_speed = 800
 		_anchor.skid_correction = 5
-		_anchor.friction = 0.996
+		_anchor.friction = 0.999
 		_anchor.snap_close = false
 		_anchor.snap_overshoot = false
 		_anchor.mouse_filter = Control.MOUSE_FILTER_PASS
