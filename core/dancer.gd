@@ -67,7 +67,7 @@ func start_dance(steps, dance_type = Dance.TYPE.GRACE, ability_dir: Vector2 = Ve
 	var orbit = D8.orbit(steps)
 	for g in orbit.size():
 		var modified_dir = D8.act_vec(g, ability_dir)
-		var d = Dance.new(orbit[g], dance_type, g)
+		var d = Dance.new(orbit[g], dance_type, g, modified_dir)
 		dance_tracker.append(d)
 	if id == 0: #player
 		emit_signal("start_dance_tracker")

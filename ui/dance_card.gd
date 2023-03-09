@@ -4,6 +4,7 @@ extends Control
 var dance: Dance setget set_dance
 onready var _string = $Anchor/HBoxContainer/PanelContainer/dirstring
 onready var anchor = $Anchor
+onready var icon = $Anchor/HBoxContainer/ability_icon
 
 var ix: int setget set_ix
 
@@ -32,6 +33,8 @@ func set_dance(x: Dance):
 
 func _refresh():
 	if !_string: return
+	icon.type = dance.type
+	icon.action_dir = dance.action_dir
 	if dance:
 		_string.steps = Array(dance.steps)
 		_string.progress = dance.progress()
