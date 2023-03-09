@@ -5,19 +5,21 @@ class_name Dance
 # state machine for modeling progress through dance matches
 
 export var steps: PoolByteArray = PoolByteArray()
-export (int, "Grace") var type: int = 0
+export (int, "Grace", "Pilfer") var type: int = 0
+export var action_dir: Vector2 = Vector2.ZERO
 export var _progress: PoolByteArray = PoolByteArray()
 export var d8: int = 0
 
 signal matched
 signal mismatch
 
-enum TYPE { GRACE }
+enum TYPE { GRACE, PILFER }
 
-func _init(_steps = PoolByteArray(), _type = 0, _d8: int = 0):
+func _init(_steps = PoolByteArray(), _type = 0, _d8: int = 0, _action_dir = Vector2.ZERO):
 	steps = PoolByteArray(_steps)
 	type = _type
 	d8 = _d8
+	action_dir = _action_dir
 
 func progress() -> int:
 	if _progress.size() == 0:

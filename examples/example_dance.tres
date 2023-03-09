@@ -6,5 +6,6 @@
 script = ExtResource( 1 )
 steps = PoolByteArray( 0, 1, 2, 3 )
 type = 0
+action_dir = Vector2( 0, 0 )
 _progress = PoolByteArray( 1 )
 d8 = 0

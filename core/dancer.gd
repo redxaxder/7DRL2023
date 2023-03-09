@@ -60,12 +60,13 @@ func evaluate(dir: int) -> int:
 		result = max(result, dance.evaluate(dir))
 	return result
 
-func start_dance(steps, dance_type = Dance.TYPE.GRACE):
+func start_dance(steps, dance_type = Dance.TYPE.GRACE, ability_dir: Vector2 = Vector2.ZERO):
 	if !has_partner():
 		dance_tracker= []
 		return
 	var orbit = D8.orbit(steps)
 	for g in orbit.size():
+		var modified_dir = D8.act_vec(g, ability_dir)
 		var d = Dance.new(orbit[g], dance_type, g)
 		dance_tracker.append(d)
 	if id == 0: #player

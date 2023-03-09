@@ -112,7 +112,7 @@ third pass:
     - perform contagion modeling
   - victory / defeat screen
     - show epilogue
-  - animate movement
+  + animate movement
   - play/stop music
   - log
     - intel revealed
@@ -121,8 +121,9 @@ third pass:
     - pilfer action
     - suspicion critical
   - sound effects:
-    - dancer moves
-    - grace gained
+    - dancer moves (maybe not this one. it plays a lot!)
+    + grace gained
+    + shove
     - intel revealed
     - faction changed (x3)
 

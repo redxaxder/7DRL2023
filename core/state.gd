@@ -15,6 +15,7 @@ export var room_height: int = 9
 var dancers: Array = []
 var location_index: Dictionary = {}
 var current_dances: Array = []
+var player_abilities: Array = [preload("res://examples/example_ability.tres")]
 
 var cumulative_grace = 0
 var dance_countdown = rest_duration
@@ -60,9 +61,11 @@ func make_partners(id: int, target: int, dir: int):
 	dancers[leader].leading = true
 	dancers[follower].leading = false
 
-	for c in current_dances:
-		dancers[leader].start_dance(c)
-		dancers[follower].start_dance(c)
+	for x in [leader, follower]:
+		if x == player_id:
+			dancers[x].start_dance([0,1,2,3], Dance.TYPE.PILFER, Vector2(1,1))
+		for c in current_dances:
+			dancers[x].start_dance(c)
 
 func get_free_space():
 	var target: Vector2 = Vector2.ZERO
@@ -137,9 +140,12 @@ func move_dancer_1(id: int, dir: int, spin: bool = false, got_shoved: bool = fal
 	location_index[target_pos] = dancer.id
 	var matches = dancer.step(dir)
 	if dancer.id == player_id:
-		for _dance in matches:
-			#TODO: branch on dance.type
-			trigger_grace()
+		for dance in matches:
+			match dance.type:
+				Dance.TYPE.GRACE:
+					trigger_grace()
+				Dance.TYPE.PILFER:
+					trigger_pilfer(dance.action_dir)
 	var kick_dir = dir
 	if spin:
 		kick_dir = Dir.rot(kick_dir)
@@ -344,6 +350,9 @@ func npc_mill_around(id: int) -> bool:
 func trigger_grace():
 	grace_triggered = true
 	cumulative_grace += grace_gain
+
+func trigger_pilfer(_v: Vector2):
+	print("pilfer!")
 
 func from_linear(ix: int) -> Vector2:
 # warning-ignore:integer_division

@@ -204,7 +204,7 @@ func _on_dance_change(_dances):
 func _on_dance_tracking_start():
 	clear_player_dances()
 	load_player_dances()
-
+	sfx.play(sfx.SFX.START_DANCE)
 
 const particle_kick: float = 500.0
 func send_particle(from: Vector2, to: Vector2, what: Node):
