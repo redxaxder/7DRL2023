@@ -44,6 +44,7 @@ func _ready():
 	var n = letters.size()
 	for i in range(n):
 		var npc = gamestate.make_npc(i)
+		npc.connect("intel_level_up", self, "_on_intel_level_up")
 		var vertex = Vertex.instance()
 		vertex.npc = npc
 		connection_graph.add_child(vertex)

@@ -419,8 +419,6 @@ func make_npc(id: int) -> NPC:
 	npc.gender = npc_entry[NPC_Names.gender]
 	if npc_entry.has(NPC_Names.title):
 		npc.title = npc_entry[NPC_Names.title]
-	npc.connect("intel_level_up", self, "_on_intel_level_up")
-
 	npc.connections = []
 
 	npcs.append(npc)
