@@ -16,6 +16,8 @@ var dancers: Array = []
 var items: Array = []
 var location_index: Dictionary = {}
 var current_dances: Array = []
+var npcs: Array = []
+var available_npcs: Dictionary = NPC_Names.name_map.duplicate(true)
 
 var cumulative_grace = 0
 var dance_countdown = rest_duration
@@ -36,7 +38,7 @@ func add_dancer(d: Dancer):
 	d.id = id
 	location_index[d.pos] = d.id
 	emit_signal("character_moved", d, Dir.NO_DIR)
-	
+
 func gen_trinket(gender: int) -> String:
 	var pool = Trinkets.trinkets[gender]
 	return pool[randi() % pool.size()]
@@ -398,3 +400,20 @@ func make_dijkstra(targets: Array) -> PoolIntArray:
 		frontier = next_frontier
 	return PoolIntArray(results)
 
+func make_npc(id: int) -> NPC:
+	var npc = NPC.new()
+	var available: Array = available_npcs.keys()
+	npc.name = available[randi() % available.size()]
+	available_npcs.erase(npc.name)
+	var npc_entry = NPC_Names.name_map[npc.name]
+	npc.letter = npc_entry[NPC_Names.character]
+	npc.npc_id = id
+	npc.gender = npc_entry[NPC_Names.gender]
+	if npc_entry.has(NPC_Names.title):
+		npc.title = npc_entry[NPC_Names.title]
+	npc.connect("intel_level_up", self, "_on_intel_level_up")
+
+	npc.connections = []
+
+	npcs.append(npc)
+	return npc

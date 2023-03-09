@@ -27,8 +27,12 @@ export (int, "corrupt", "honest") var corruption: int = CORRUPT
 export (int, "support", "neutral", "opposed") var faction: = 1
 export var scandalous: bool = false
 export var resolve: int = 70
+export var name: String = ""
+export var title: String = ""
 
 export var npc_id: int = 0
+export var spouse_id: int = -1 #TODO: make spouses matter
+
 export (Array, int) var connections: Array = [] # array of npc ids
 
 signal intel_level_up(npc, intel_type)

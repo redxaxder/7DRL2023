@@ -167,6 +167,9 @@ stages = [ 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300
 visible = false
 anchor_left = 0.915039
 anchor_right = 0.999023
+margin_left = -157.0
+margin_right = 0.000427246
+size_flags_vertical = 3
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 visible = false
@@ -191,9 +194,9 @@ max_velocity = 30.0
 anchor_attraction = 0.1
 
 [node name="view_connections" type="Button" parent="."]
-anchor_left = 0.838867
+anchor_left = 0.685547
 anchor_top = 0.00333333
-anchor_right = 0.913086
+anchor_right = 0.759766
 anchor_bottom = 0.13
 focus_mode = 0
 toggle_mode = true

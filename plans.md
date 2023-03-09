@@ -668,7 +668,7 @@ List of people
     Johann Philipp Freiherr von Wessenberg-Ampringen (Minister-President of the Austrian Empire)
     S: ???
   Britain
-    Field Marshal His Grace The Duke of Wellington
+    Field Marshal His Grace The Duke of Wellington, Arthur Wellesley
     S: Catherine Pakenham
   Russia
     Tsar Alexander I (Emperor of Russia)

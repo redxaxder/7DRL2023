@@ -14,7 +14,6 @@ onready var view_connections = $view_connections
 onready var sfx = $sfx
 
 var glyphs: Array = []
-var npcs: Array = []
 
 const Vertex = preload("res://ui/vertex.tscn")
 
@@ -40,25 +39,18 @@ func _ready():
 	var letters = ["A","B","W","X","Y","Z","D","E","F","S","T"]
 	var n = letters.size()
 	for i in range(n):
-		var npc = NPC.new()
-		npc.letter = letters[i]
-		npc.npc_id = i
-		npc.gender = (i % 2) ^ 1
-		npc.connect("intel_level_up", self, "_on_intel_level_up")
-
+		var npc = gamestate.make_npc(i)
 		var vertex = Vertex.instance()
 		vertex.npc = npc
 		connection_graph.add_child(vertex)
 		vertex.visible = false
 
-		npc.connections = []
+		#TODO: connect npcs based on history rather than randomly
 		for j in range(i):
 			if randi() % 3 == 0:
 				npc.connections.append(j)
-				npcs[j].connections.append(i)
+				gamestate.npcs[j].connections.append(i)
 				connection_graph.add_spring(i,j)
-
-		npcs.append(npc) # TODO: gamestate should shepard the NPCs
 
 		var dancer = Dancer.new()
 		dancer.npc = npc

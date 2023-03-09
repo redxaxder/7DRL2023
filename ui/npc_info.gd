@@ -8,6 +8,8 @@ onready var glyph = $VBoxContainer/glyph
 onready var intel = $VBoxContainer/intel
 onready var suspicion = $VBoxContainer/suspicion
 onready var faction = $VBoxContainer/faction
+onready var character_name = $VBoxContainer/name
+onready var title = $VBoxContainer/title
 
 const DirString = preload("res://ui/dirstring.tscn")
 
@@ -31,6 +33,10 @@ func _refresh():
 		suspicion.visible = true
 		faction.visible = d.npc.intel_known(NPC.INTEL.FACTION)
 		faction.text = d.npc.describe_faction(d.npc.faction)
+		character_name.visible = true
+		character_name.text = d.npc.name
+		title.visible = d.npc.title != ""
+		title.text = d.npc.title
 	else:
 		intel.visible = false
 		suspicion.visible = false
