@@ -171,6 +171,7 @@ display_move_speed = 50.0
 stages = [ 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300 ]
 
 [node name="inventory" type="HBoxContainer" parent="."]
+visible = false
 margin_left = 210.0
 margin_top = 81.0
 margin_right = 346.0
@@ -186,10 +187,9 @@ custom_styles/panel = SubResource( 1 )
 [node name="Label" type="Label" parent="inventory"]
 margin_left = 44.0
 margin_top = 13.0
-margin_right = 136.0
+margin_right = 44.0
 margin_bottom = 27.0
 custom_styles/normal = SubResource( 2 )
-text = "Foo Bar's item"
 
 [node name="npc_info" parent="." instance=ExtResource( 10 )]
 visible = false

@@ -62,8 +62,8 @@ func _ready():
 		dancer.character = npc.letter
 		dancer.gender = npc.gender
 		gamestate.add_dancer(dancer)
-#		if randi() % 3 == 1:
-		dancer.item_id = dancer.id
+		if randi() % 5 <= 2:
+			dancer.item_id = dancer.id
 
 	for d in gamestate.dancers:
 		var g = Glyph.new()

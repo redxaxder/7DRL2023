@@ -100,12 +100,12 @@ third pass:
     - game options?
   - NPC names
     - list of fixed names
-  - player abilities
+  + player abilities
     - completing dance steps takes a deliberate action (and a turn) ????
       - for both player and NPCs ????
-    - action of dihedral group on player ability
-    - pilfer
-    - player dance tracker has icon representing action
+    + action of dihedral group on player ability
+    + pilfer
+    + player dance tracker has icon representing action
   - don't list dance steps on follower
   - after dance:
     - make/break connections from pilfer
