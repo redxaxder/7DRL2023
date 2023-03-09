@@ -73,7 +73,7 @@ func make_partners(id: int, target: int, dir: int):
 
 	for x in [leader, follower]:
 		if x == player_id:
-			dancers[x].start_dance([0,2,0,2], Dance.TYPE.PILFER, Vector2(1,1))
+			dancers[x].start_dance(Core.gen_steps_ability(), Dance.TYPE.PILFER, Vector2(1,1))
 		for c in current_dances:
 			dancers[x].start_dance(c)
 

@@ -37,6 +37,7 @@ func _ready():
 	view_connections.connect("mouse_exited", self , "_on_connection_unhover")
 
 	var player = Dancer.new()
+	randomize()
 	player.pos = gamestate.get_free_space()
 	gamestate.add_dancer(player)
 	player.connect("start_dance_tracker", self, "_on_dance_tracking_start", [], CONNECT_DEFERRED)

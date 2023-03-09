@@ -21,6 +21,8 @@ var partner_dir: int = 0
 var leading: bool = false
 var stun = false
 
+var sus_chance: float = 0
+
 signal start_dance_tracker()
 
 func has_partner() -> bool:
@@ -38,7 +40,9 @@ const suspicion_n: float = 7.0
 func roll_suspicion(grace: float, distance: float) -> bool:
 	var sneaky = (grace + distance) * distance
 	var f = suspicion_n / (suspicion_n + sneaky)
+	sus_chance = f
 	if f < 0.3:
+		sus_chance = 0
 		return false
 	elif randf() < f:
 		emit_signal("suspicion_gained")

@@ -31,6 +31,8 @@ func _refresh():
 		intel.visible = true
 		suspicion.current = d.npc.suspicion
 		suspicion.visible = true
+		var sus_percent = int(d.sus_chance * 100)
+		suspicion.hint_tooltip = "Suspicion.\nHow strongly this person suspects you are a spy. \nDon't let it reach a critical level. Based on your current \nposition and how well you are dancing, there is a {0}% \nchance for this to increase each turn.".format([sus_percent])
 		faction.visible = d.npc.intel_known(NPC.INTEL.FACTION)
 		faction.text = d.npc.describe_faction(d.npc.faction)
 		character_name.visible = true

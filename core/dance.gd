@@ -32,8 +32,8 @@ func base_steps():
 	return  D8.act_steps(inv, steps)
 
 func compare(dance: Resource) -> int:
-	var mine = [-progress(), -type, d8]
-	var theirs = [-dance.progress(), -dance.type, dance.d8]
+	var mine = [-progress(), type, d8]
+	var theirs = [-dance.progress(), dance.type, dance.d8]
 	for i in range(3):
 		if mine[i] < theirs[i]:
 			return -1
