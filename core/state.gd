@@ -412,6 +412,7 @@ func make_npc(id: int) -> NPC:
 	var npc = NPC.new()
 	var available: Array = available_npcs.keys()
 	npc.name = available[randi() % available.size()]
+# warning-ignore:return_value_discarded
 	available_npcs.erase(npc.name)
 	var npc_entry = NPC_Names.name_map[npc.name]
 	npc.letter = npc_entry[NPC_Names.character]
@@ -423,6 +424,23 @@ func make_npc(id: int) -> NPC:
 
 	npcs.append(npc)
 	return npc
+
+func throw_a_party(n: int) -> Array:  # Array of NPC
+# warning-ignore:integer_division
+	var needed_m = int(n) / int(2)
+	var needed_f = n - needed_m
+	var needed = [needed_m,needed_f]
+	var attending = []
+	var totals = [0,0]
+	for npc in npcs:
+		totals[npc.gender] += 1
+	for npc in npcs:
+		var attend_chance = float(needed[npc.gender]) / float(totals[npc.gender])
+		if randf() < attend_chance:
+			attending.append(npc)
+			needed[npc.gender] -= 1
+		totals[npc.gender] -= 1
+	return attending
 
 func get_item_name(item_id: int) -> String:
 	if item_id >= 0 && item_id < items.size():

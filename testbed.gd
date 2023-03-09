@@ -49,7 +49,6 @@ func _ready():
 		vertex.npc = npc
 		connection_graph.add_child(vertex)
 		vertex.visible = false
-
 		#TODO: connect npcs based on history rather than randomly
 		for j in range(i):
 			if randi() % 3 == 0:
@@ -57,11 +56,12 @@ func _ready():
 				gamestate.npcs[j].connections.append(i)
 				connection_graph.add_spring(i,j)
 
+	for attendee in gamestate.throw_a_party(7):
 		var dancer = Dancer.new()
-		dancer.npc = npc
+		dancer.npc = attendee
 		dancer.pos = gamestate.get_free_space()
-		dancer.character = npc.letter
-		dancer.gender = npc.gender
+		dancer.character = attendee.letter
+		dancer.gender = attendee.gender
 		gamestate.add_dancer(dancer)
 		if randi() % 5 <= 2:
 			dancer.item_id = dancer.id
