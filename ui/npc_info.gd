@@ -48,8 +48,9 @@ func _refresh():
 	for c in dance_tracker.get_children():
 		c.queue_free()
 	var dances = []
-	for dance in d.dance_tracker:
-		dances.append(dance)
+	if d.leading:
+		for dance in d.dance_tracker:
+			dances.append(dance)
 	dances.sort_custom(self,"compare_dances")
 	for dance in dances:
 		var dstring = DirString.instance()

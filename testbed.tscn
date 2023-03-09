@@ -217,7 +217,7 @@ margin_right = 1017.0
 margin_bottom = 514.0
 springs = PoolVector2Array(  )
 repulsion_constant = 800.0
-attraction_constant = 7.0
+attraction_constant = 20.0
 max_velocity = 30.0
 anchor_attraction = 0.1
 

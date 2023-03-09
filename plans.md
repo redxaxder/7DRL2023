@@ -106,7 +106,7 @@ third pass:
     + action of dihedral group on player ability
     + pilfer
     + player dance tracker has icon representing action
-  - don't list dance steps on follower
+  + don't list dance steps on follower
   - after dance:
     - make/break connections from pilfer
     - perform contagion modeling
