@@ -8,12 +8,13 @@ signal grace(amount, quick)
 signal dance_time(countdown)
 signal dance_change(dances)
 signal game_end()
+signal pilfer(occupant)
 
 export var room_width: int = 9
 export var room_height: int = 9
 
 var dancers: Array = []
-var items: Array = []
+var items: Array = [] # the names of the items belonging to each npc. each "item_id" is an index into here
 var location_index: Dictionary = {}
 var current_dances: Array = []
 var npcs: Array = []
@@ -38,6 +39,9 @@ func add_dancer(d: Dancer):
 	d.id = id
 	location_index[d.pos] = d.id
 	emit_signal("character_moved", d, Dir.NO_DIR)
+
+	var trinket = gen_trinket(d.gender)
+	items.append(trinket)
 
 func gen_trinket(gender: int) -> String:
 	var pool = Trinkets.trinkets[gender]
@@ -69,7 +73,7 @@ func make_partners(id: int, target: int, dir: int):
 
 	for x in [leader, follower]:
 		if x == player_id:
-			dancers[x].start_dance([0,1,2,3], Dance.TYPE.PILFER, Vector2(1,1))
+			dancers[x].start_dance([0,2,0,2], Dance.TYPE.PILFER, Vector2(1,1))
 		for c in current_dances:
 			dancers[x].start_dance(c)
 
@@ -358,13 +362,17 @@ func trigger_grace():
 	cumulative_grace += grace_gain
 
 func trigger_pilfer(v: Vector2):
-	var source_pos = dancers[player_id].pos
-	var target_pos = source_pos + v
+	var player: Dancer = dancers[player_id]
+	var target_pos = player.pos + v
 	var occupant_id = location_index.get(target_pos)
 	if !occupant_id:
 		return
-	var occupant = dancers[occupant_id]
-	print("pilfer!")
+	var occupant:Dancer = dancers[occupant_id]
+	if player.item_id != Trinkets.NO_ITEM || occupant.item_id != Trinkets.NO_ITEM:
+		var tmp = occupant.item_id
+		occupant.item_id = player.item_id
+		player.item_id = tmp
+		emit_signal("pilfer", occupant)
 
 func from_linear(ix: int) -> Vector2:
 # warning-ignore:integer_division
@@ -400,6 +408,7 @@ func make_dijkstra(targets: Array) -> PoolIntArray:
 		frontier = next_frontier
 	return PoolIntArray(results)
 
+<<<<<<< HEAD
 func make_npc(id: int) -> NPC:
 	var npc = NPC.new()
 	var available: Array = available_npcs.keys()
@@ -417,3 +426,10 @@ func make_npc(id: int) -> NPC:
 
 	npcs.append(npc)
 	return npc
+=======
+func get_item_name(item_id: int) -> String:
+	if item_id >= 0 && item_id < items.size():
+		return "{0}'s {1}".format([dancers[item_id].character, items[item_id]])
+	return ""
+	
+>>>>>>> bc92d71e05de20d450edb6f31811a7709452ecfb

@@ -1,7 +1,10 @@
 extends Node
 
-enum SFX{ SHOVE, GRACE, START_DANCE }
-var _sfx = [preload("res://resources/step.wav"), preload("res://resources/grace.wav"), preload("res://resources/start_dance.wav")] 
+enum SFX{ SHOVE, GRACE, START_DANCE, PILFER }
+var _sfx = [preload("res://resources/step.wav"), \
+	preload("res://resources/grace.wav"), \
+	preload("res://resources/start_dance.wav"),\
+	preload("res://resources/pilfer.wav")] 
 
 func play(sfx: int):
 	if sfx < 0 || sfx > _sfx.size(): return

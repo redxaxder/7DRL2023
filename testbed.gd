@@ -12,6 +12,8 @@ onready var connection_panel = $PanelContainer
 onready var connection_graph = $PanelContainer/springy_graph
 onready var view_connections = $view_connections
 onready var sfx = $sfx
+onready var inventory = $inventory
+onready var inventory_text = $inventory/Label
 
 var glyphs: Array = []
 
@@ -28,6 +30,8 @@ func _ready():
 	gamestate.connect("dance_change", self, "_on_dance_change")
 # warning-ignore:return_value_discarded
 	gamestate.connect("game_end", self, "_on_game_end")
+# warning-ignore:return_value_discarded
+	gamestate.connect("pilfer", self, "_on_pilfer")
 
 	view_connections.connect("mouse_entered", self , "_on_connection_hover")
 	view_connections.connect("mouse_exited", self , "_on_connection_unhover")
@@ -58,6 +62,8 @@ func _ready():
 		dancer.character = npc.letter
 		dancer.gender = npc.gender
 		gamestate.add_dancer(dancer)
+#		if randi() % 3 == 1:
+		dancer.item_id = dancer.id
 
 	for d in gamestate.dancers:
 		var g = Glyph.new()
@@ -199,18 +205,18 @@ func _on_dance_tracking_start():
 	sfx.play(sfx.SFX.START_DANCE)
 
 const particle_kick: float = 500.0
-func send_particle(from: Vector2, to: Vector2, what: Node):
+func send_particle(from: Vector2, to: Vector2, what: Node, kickmod = 1.0):
 	var anch: Anchor = Anchor.new()
 	anch.visible = false
 	add_child(anch)
 	anch.add_child(what)
 	anch.rect_global_position = from
 	anch.visible = true
-	anch.friction = 0.3
+	anch.friction = 0.7
 	anch.snap()
 	anch.rect_global_position = to
 	var kickdir = Vector2(randi(), randi()) - Vector2(0.5,0.5)
-	anch.kick(particle_kick * kickdir)
+	anch.kick(particle_kick * kickdir * kickmod)
 	anch.autoremove = true
 
 
@@ -245,3 +251,20 @@ func _on_intel_level_up(npc: NPC, discovery: int):
 		connection_graph.get_child(npc.npc_id).visible = true
 		connection_graph._refresh()
 
+const pilfer_icon = preload("res://ui/pilfer_icon.tscn")
+func _on_pilfer(pilfer_target: Dancer = null):
+	sfx.play(sfx.SFX.PILFER)
+	var item_id = gamestate.dancers[GameState.player_id].item_id
+	inventory_text.text = gamestate.get_item_name(item_id)
+	inventory.visible = item_id != Trinkets.NO_ITEM
+	# TODO: spawn particles
+	# spawn particles (as needed)
+	#  inventory -> target (if target has an item)
+	var targetloc = glyphs[pilfer_target.id].global_position
+	var invloc = inventory.rect_global_position + inventory.rect_size / 2.0
+	if pilfer_target.item_id >= 0:
+		send_particle(invloc, targetloc, pilfer_icon.instance(), 0.5)
+	if item_id >= 0:
+		send_particle(targetloc, invloc, pilfer_icon.instance(), 0.5)
+	#  target -> inventory (if pc has an item)
+	print("pilfered", pilfer_target, inventory_text.text)
