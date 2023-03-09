@@ -65,6 +65,11 @@ _global_script_classes=[ {
 "path": "res://ui/tick_mark.gd"
 }, {
 "base": "Reference",
+"class": "Trinkets",
+"language": "GDScript",
+"path": "res://core/trinkets.gd"
+}, {
+"base": "Reference",
 "class": "UIConstants",
 "language": "GDScript",
 "path": "res://ui/constants.gd"
@@ -81,6 +86,7 @@ _global_script_class_icons={
 "Glyph": "",
 "NPC": "",
 "TickMark": "",
+"Trinkets": "",
 "UIConstants": ""
 }
 
