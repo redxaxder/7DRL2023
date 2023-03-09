@@ -45,7 +45,7 @@ second pass:
     + display INTEL of NPC
   + LOS calculation{{{
     + check if bressenham line (and reverse line) is unoccupied}}}
-  - game ends if SUSPICION guage fills
+  + game ends if SUSPICION guage fills
   + NPC state:{{{
     + NPCs have an INTEL guage
     + NPCs have an SUSPICION guage (0-100)?
@@ -95,8 +95,8 @@ third pass:
   - multiple nights
     - new set of dancers chosen from subset of NPCs
     - level will wire up the dancers repeatedly
-  - title screen
-    - can start game
+  + title screen
+    + can start game
     - game options?
   - NPC names
     - list of fixed names
