@@ -14,6 +14,7 @@ export var npc: Resource
 
 var pos: Vector2 = Vector2(0,0)
 var id: int = -1
+var item_id = Trinkets.NO_ITEM
 
 var partner_id: int = -1
 var partner_dir: int = 0

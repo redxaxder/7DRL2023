@@ -13,6 +13,7 @@ export var room_width: int = 9
 export var room_height: int = 9
 
 var dancers: Array = []
+var items: Array = []
 var location_index: Dictionary = {}
 var current_dances: Array = []
 
@@ -35,6 +36,10 @@ func add_dancer(d: Dancer):
 	d.id = id
 	location_index[d.pos] = d.id
 	emit_signal("character_moved", d, Dir.NO_DIR)
+	
+func gen_trinket(gender: int) -> String:
+	var pool = Trinkets.trinkets[gender]
+	return pool[randi() % pool.size()]
 
 func make_partners(id: int, target: int, dir: int):
 	var m
@@ -350,7 +355,13 @@ func trigger_grace():
 	grace_triggered = true
 	cumulative_grace += grace_gain
 
-func trigger_pilfer(_v: Vector2):
+func trigger_pilfer(v: Vector2):
+	var source_pos = dancers[player_id].pos
+	var target_pos = source_pos + v
+	var occupant_id = location_index.get(target_pos)
+	if !occupant_id:
+		return
+	var occupant = dancers[occupant_id]
 	print("pilfer!")
 
 func from_linear(ix: int) -> Vector2:

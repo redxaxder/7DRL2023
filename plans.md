@@ -91,7 +91,7 @@ second pass:
 
 third pass:
   - can exit a dance
-  - click NPC to make info panel stick
+  + click NPC to make info panel stick
   - multiple nights
     - new set of dancers chosen from subset of NPCs
     - level will wire up the dancers repeatedly
@@ -113,6 +113,7 @@ third pass:
   - victory / defeat screen
     - show epilogue
   + animate movement
+  - NPC items
   - play/stop music
   - log
     - intel revealed
