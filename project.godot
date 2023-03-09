@@ -87,7 +87,7 @@ _global_script_class_icons={
 [application]
 
 config/name="7DRL2023"
-run/main_scene="res://testbed.tscn"
+run/main_scene="res://title_screen.tscn"
 config/icon="res://icon.png"
 
 [input]
