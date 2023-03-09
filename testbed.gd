@@ -230,6 +230,7 @@ func load_player_dances():
 	var player: Dancer = gamestate.dancers[0]
 	for dance in player.dance_tracker:
 		var dance_card = DanceCard.instance()
+		dance_card.gamestate = gamestate
 		dance_card.dance = dance.duplicate()
 		dance_match.add_child(dance_card)
 	dance_match.sort_children()

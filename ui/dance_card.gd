@@ -1,10 +1,12 @@
-tool
 extends Control
 
 var dance: Dance setget set_dance
-onready var _string = $Anchor/HBoxContainer/PanelContainer/dirstring
+var gamestate: GameState setget set_gamestate
+
+onready var _string = $Anchor/MarginContainer/HBoxContainer/PanelContainer/dirstring
 onready var anchor = $Anchor
-onready var icon = $Anchor/HBoxContainer/ability_icon
+onready var icon = $Anchor/MarginContainer/HBoxContainer/ability_icon
+onready var highlight = $Anchor/MarginContainer/highlight
 
 var ix: int setget set_ix
 
@@ -12,6 +14,7 @@ var ix: int setget set_ix
 func _ready():
 	anchor.snap()
 	_refresh()
+
 
 func set_ix(x):
 	if x > ix:
@@ -31,6 +34,10 @@ func set_dance(x: Dance):
 	dance = x
 	_refresh()
 
+func set_gamestate(x: GameState):
+	gamestate = x
+	_refresh()
+
 func _refresh():
 	if !_string: return
 	icon.type = dance.type
@@ -38,9 +45,9 @@ func _refresh():
 	if dance:
 		_string.steps = Array(dance.steps)
 		_string.progress = dance.progress()
+	highlight.visible = _string.progress >= 3 && gamestate.can_activate(dance)
 
 func step(dir: int):
 	if dance:
 		var _matched = dance.transition(dir)
-		if _string:
-			_string.progress = dance.progress()
+		_refresh()

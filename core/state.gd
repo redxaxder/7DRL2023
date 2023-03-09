@@ -26,7 +26,7 @@ var dance_active = false
 
 const grace_gain = 10
 const player_id: int = 0 # player is always added to the array first!
-const dance_duration = 30
+const dance_duration = 50
 const rest_duration = 5
 
 # special dancer ids
@@ -162,8 +162,11 @@ func move_dancer_1(id: int, dir: int, spin: bool = false, got_shoved: bool = fal
 	emit_signal("character_moved", dancer, kick_dir, got_shoved)
 	return true
 
+func can_shove(dir, target_id) -> bool:
+	return valid_dir_for_move(target_id, dir)
+
 func shove(_id, dir, target_id) -> bool:
-	if valid_dir_for_move(target_id, dir):
+	if can_shove(dir, target_id):
 		var dancer = dancers[target_id]
 		dancer.stun = true
 		if dancer.has_partner():
@@ -178,6 +181,8 @@ func shove(_id, dir, target_id) -> bool:
 
 func break_partners(id: int):
 	var dancer = dancers[id]
+	if !dancer.has_partner():
+		return
 	var partner = dancers[dancer.partner_id]
 	dancer.end_dance()
 	partner.end_dance()
@@ -196,7 +201,8 @@ func try_interact(id, dir, target_id) -> bool:
 		return true
 	elif id == player_id:
 		if shove(id, dir, target_id):
-			dancers[target_id].npc.suspicion += 20
+			cumulative_grace = 0
+			emit_signal("grace", cumulative_grace)
 			return true
 		return false
 	return false
@@ -204,6 +210,10 @@ func try_interact(id, dir, target_id) -> bool:
 var grace_triggered = false
 
 func tick_round():
+	for key in location_index:
+		var d = location_index[key]
+		if key != dancers[d].pos:
+			pass
 	if !grace_triggered:
 		var grace = Core.grace_info(cumulative_grace)
 		cumulative_grace -= grace.level
@@ -260,7 +270,6 @@ func tick_round():
 			current_dances = [dance1, dance2]
 		emit_signal("dance_change", current_dances)
 	emit_signal("dance_time", dance_countdown)
-
 
 func can_move_to(pos: Vector2, partner_id = NO_PARTNER) -> bool:
 	var occpant_id = location_index.get(pos, NO_OCCUPANT)
@@ -446,3 +455,29 @@ func get_item_name(item_id: int) -> String:
 	if item_id >= 0 && item_id < items.size():
 		return "{0}'s {1}".format([dancers[item_id].character, items[item_id]])
 	return ""
+
+
+func can_activate(d: Dance) -> bool:
+	var dir = d.next_step()
+	var player: Dancer = dancers[player_id]
+	var target_pos = player.pos + Dir.dir_to_vec(dir)
+	if !in_bounds(target_pos):
+		return false
+	var occupant_id = location_index.get(target_pos, NO_OCCUPANT)
+	if occupant_id > NO_OCCUPANT && occupant_id != player.partner_id:
+		if !can_shove(occupant_id, dir):
+			prints(target_pos, occupant_id, dancers[occupant_id].pos)
+			return false
+	match d.type:
+		Dance.TYPE.GRACE:
+			return true # no additional requirements
+		Dance.TYPE.PILFER:
+			# if i stepped here and pilfer activated, would it do anything?
+			var pilfer_location = target_pos + d.action_dir
+			var pilfer_target = location_index.get(pilfer_location)
+			if !pilfer_target: return false
+			if dancers[pilfer_target].item_id == Trinkets.NO_ITEM && \
+				player.item_id == Trinkets.NO_ITEM:
+				return false
+			return true
+	return false
