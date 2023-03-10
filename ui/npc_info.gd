@@ -43,6 +43,8 @@ func _refresh():
 		intel.visible = false
 		suspicion.visible = false
 		faction.visible = false
+		character_name.visible = false
+		title.visible = false
 
 	glyph.text = d.character
 	glyph.modulate = UIConstants.gender_color(d.gender)
