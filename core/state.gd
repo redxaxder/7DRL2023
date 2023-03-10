@@ -95,6 +95,17 @@ func in_bounds(pos: Vector2) -> bool:
 func try_move_player(dir: int) -> bool:
 	return try_move_dancer(player_id, dir)
 
+func try_player_action(dir: int) -> Dictionary:
+	var failed = {"moved": false, "acted": false}
+	var player: Dancer = dancers[player_id]
+	var target_pos = player.pos + Dir.dir_to_vec(dir)
+	if !in_bounds(target_pos):
+		return failed
+	var occupant_id = location_index.get(target_pos, NO_OCCUPANT)
+	if occupant_id == NO_OCCUPANT:
+		return failed
+	return try_interact(player_id, dir, occupant_id)
+
 func try_move_dancer(id: int, dir: int) -> bool:
 	if id < 0 || id >= dancers.size():
 		return false
@@ -112,7 +123,7 @@ func try_move_dancer(id: int, dir: int) -> bool:
 		if occupant_id == partner_id:
 			return move_with_partner(id, dir)
 		else:
-			return try_interact(id, dir, occupant_id)
+			return false
 	if dancer.has_partner():
 		return move_with_partner(id, dir)
 	else:
@@ -150,11 +161,7 @@ func move_dancer_1(id: int, dir: int, spin: bool = false, got_shoved: bool = fal
 	var matches = dancer.step(dir)
 	if dancer.id == player_id:
 		for dance in matches:
-			match dance.type:
-				Dance.TYPE.GRACE:
-					trigger_grace()
-				Dance.TYPE.PILFER:
-					trigger_pilfer(dance.action_dir)
+			trigger_grace()
 	var kick_dir = dir
 	if spin:
 		kick_dir = Dir.rot(kick_dir)
@@ -191,20 +198,28 @@ func break_partners(id: int):
 func is_dancer_solo(id):
 	return !dancers[id].has_partner()
 
-func try_interact(id, dir, target_id) -> bool:
+func try_interact(id, dir, target_id) -> Dictionary:
+	var result = {"moved": false, "acted": false}
 	var is_solo = is_dancer_solo(id)
 	var target_solo = is_dancer_solo(target_id)
 	var can_dance = dancers[id].gender != dancers[target_id].gender && dance_active
 	if is_solo && target_solo && can_dance:
 		make_partners(id, target_id, dir)
-		return true
+		result.acted = true
 	elif id == player_id:
-		if shove(id, dir, target_id):
-			cumulative_grace = 0
-			emit_signal("grace", cumulative_grace)
-			return true
-		return false
-	return false
+		var grace_level = Core.grace_info(cumulative_grace).level
+		if Ability.costs[selected_ability] > grace_level:
+			return result
+		match selected_ability:
+			Ability.TYPE.SHOVE:
+				if shove(id, dir, target_id):
+					cumulative_grace = 0
+					emit_signal("grace", cumulative_grace)
+					result.acted = true
+					result.moved = true
+			Ability.TYPE.PILFER:
+				result.acted = trigger_pilfer(target_id)
+	return result
 
 var grace_triggered = false
 
@@ -365,18 +380,19 @@ func trigger_grace():
 	grace_triggered = true
 	cumulative_grace += grace_gain
 
-func trigger_pilfer(v: Vector2):
+func trigger_pilfer(target_id: int):
+	var info = Core.grace_info(cumulative_grace)
+	var target:Dancer = dancers[target_id]
 	var player: Dancer = dancers[player_id]
-	var target_pos = player.pos + v
-	var occupant_id = location_index.get(target_pos)
-	if !occupant_id:
-		return
-	var occupant:Dancer = dancers[occupant_id]
-	if player.item_id != Trinkets.NO_ITEM || occupant.item_id != Trinkets.NO_ITEM:
-		var tmp = occupant.item_id
-		occupant.item_id = player.item_id
+	if player.item_id != Trinkets.NO_ITEM || target.item_id != Trinkets.NO_ITEM:
+		var tmp = target.item_id
+		target.item_id = player.item_id
 		player.item_id = tmp
-		emit_signal("pilfer", occupant)
+		cumulative_grace -= info.spend
+		emit_signal("pilfer", target)
+		return true
+	else:
+		return false
 
 func from_linear(ix: int) -> Vector2:
 # warning-ignore:integer_division
@@ -450,30 +466,3 @@ func get_item_name(item_id: int) -> String:
 	if item_id >= 0 && item_id < items.size():
 		return "{0}'s {1}".format([dancers[item_id].character, items[item_id]])
 	return ""
-
-
-func can_activate(d: Dance) -> bool:
-	var dir = d.next_step()
-	var player: Dancer = dancers[player_id]
-	var target_pos = player.pos + Dir.dir_to_vec(dir)
-	if !in_bounds(target_pos):
-		return false
-	var occupant_id = location_index.get(target_pos, NO_OCCUPANT)
-	if occupant_id > NO_OCCUPANT && occupant_id != player.partner_id:
-		if !can_shove(occupant_id, dir):
-			prints(target_pos, occupant_id, dancers[occupant_id].pos)
-			return false
-	match d.type:
-		Dance.TYPE.GRACE:
-			return true # no additional requirements
-		Dance.TYPE.PILFER:
-			# if i stepped here and pilfer activated, would it do anything?
-			var pilfer_location = target_pos + d.action_dir
-			var pilfer_target = location_index.get(pilfer_location)
-			if !pilfer_target: return false
-			if dancers[pilfer_target].item_id == Trinkets.NO_ITEM && \
-				player.item_id == Trinkets.NO_ITEM:
-				return false
-			return true
-	return false
-

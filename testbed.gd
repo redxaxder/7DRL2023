@@ -7,6 +7,7 @@ onready var dance_floor = $dance/MarginContainer/Control/dance_floor
 onready var dance_countdown = $dance_countdown
 onready var dance_match = $dance_match
 onready var grace = $grace
+onready var grace_guage = $grace/grace_guage
 onready var npc_info = $npc_info
 onready var connection_panel = $PanelContainer
 onready var connection_graph = $PanelContainer/springy_graph
@@ -118,6 +119,7 @@ func _on_game_end():
 
 func _unhandled_input(event):
 	var moved = false
+	var acted = false
 	var dir: int = -1
 	if event.is_action_pressed("left"):
 		dir = Dir.DIR.LEFT
@@ -135,9 +137,14 @@ func _unhandled_input(event):
 		toggle_ability(Ability.TYPE.PILFER)
 	if dir >= 0:
 		moved = gamestate.try_move_player(dir)
+		if !moved:
+			var action = gamestate.try_player_action(dir)
+			moved = action.moved
+			acted = action.acted
 	if moved:
-		gamestate.tick_round()
 		track_player_dances(dir)
+	if moved || acted:
+		gamestate.tick_round()
 		if npc_info.visible:
 			npc_info._refresh()
 
@@ -204,7 +211,7 @@ const grace_particle = preload("res://ui/grace_particle.tscn")
 func _on_grace_changed(amount: int):
 	if amount > grace.amount:
 		var particle = grace_particle.instance()
-		send_particle(glyphs[0],grace,particle)
+		send_particle(glyphs[0],grace_guage,particle)
 		sfx.play(sfx.SFX.GRACE)
 	grace.amount = amount
 	ability_selector.level = Core.grace_info(amount).level
@@ -282,13 +289,8 @@ func _on_pilfer(pilfer_target: Dancer = null):
 	var item_id = gamestate.dancers[GameState.player_id].item_id
 	inventory_text.text = gamestate.get_item_name(item_id)
 	inventory.visible = item_id != Trinkets.NO_ITEM
-	# TODO: spawn particles
-	# spawn particles (as needed)
-	#  inventory -> target (if target has an item)
 	var target = glyphs[pilfer_target.id]
 	if pilfer_target.item_id >= 0:
-		send_particle(inventory, target, pilfer_icon.instance(), 0.5)
+		send_particle(inventory_text, target, pilfer_icon.instance(), 0.5)
 	if item_id >= 0:
-		send_particle(target, inventory, pilfer_icon.instance(), 0.5)
-	#  target -> inventory (if pc has an item)
-	print("pilfered", pilfer_target, inventory_text.text)
+		send_particle(target, inventory_text, pilfer_icon.instance(), 0.5)
