@@ -64,6 +64,14 @@ static func grace_info(cumulative_grace: float) -> Dictionary:
 		info["level"] = i
 		if cum_grace_stage > cumulative_grace:
 			break
+	if info.level > 0:
+	# amount of grace to spend to bring the meter down by 1 level and keep proportion similar
+	#	|--------------n------|80     ->     |--------------x------|60
+	#	 x / 60 = n / 80
+	#    x = 60 * n / 80
+		var prev_stage = grace_stages[info.level - 1]
+		var target_level = (prev_stage * info.meter) / info.next
+		info["spend"] = prev_stage - target_level + info.meter
 	return info
 
 # generate a random sequence of steps

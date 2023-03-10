@@ -37,5 +37,4 @@ func _refresh():
 			get_child(i).modulate = Color(0.7,0.7,0.7)
 
 func _on_select(ix: int):
-	print(ix)
 	emit_signal("selector_click", ix)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://ui/floor_tile.tres" type="Theme" id=1]
 [ext_resource path="res://ui/dirstring.tscn" type="PackedScene" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://ui/stars.tscn" type="PackedScene" id=14]
 [ext_resource path="res://audioplayerpool.tscn" type="PackedScene" id=15]
 [ext_resource path="res://resources/robber-hand.png" type="Texture" id=16]
+[ext_resource path="res://ui/ability_selector.tscn" type="PackedScene" id=17]
 
 [sub_resource type="StyleBoxTexture" id=1]
 texture = ExtResource( 16 )
@@ -38,13 +39,15 @@ __meta__ = {
 }
 
 [node name="dance" type="CenterContainer" parent="."]
-anchor_top = 0.19
-anchor_right = 0.46875
-anchor_bottom = 0.99
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -240.0
+margin_top = -240.0
+margin_right = 240.0
+margin_bottom = 240.0
 mouse_filter = 2
-__meta__ = {
-"_edit_use_anchors_": true
-}
 
 [node name="MarginContainer" type="MarginContainer" parent="dance"]
 margin_left = 24.0
@@ -92,10 +95,10 @@ steps = [  ]
 color1 = Color( 0.5, 0.5, 0.5, 1 )
 
 [node name="dance_countdown" type="Label" parent="."]
-anchor_left = 0.436523
-anchor_top = 0.0416667
-anchor_right = 0.475586
-anchor_bottom = 0.075
+anchor_left = 0.598633
+anchor_top = 0.0383333
+anchor_right = 0.637696
+anchor_bottom = 0.0716667
 theme = ExtResource( 8 )
 text = "30"
 __meta__ = {
@@ -114,10 +117,9 @@ __meta__ = {
 }
 
 [node name="grace" type="HBoxContainer" parent="."]
-anchor_left = 0.0869141
-anchor_top = 0.025
-anchor_right = 0.400391
-anchor_bottom = 0.12
+anchor_top = 0.00333333
+anchor_right = 0.318359
+anchor_bottom = 0.126667
 margin_right = -5.0
 margin_bottom = -17.0
 theme = ExtResource( 8 )
@@ -219,7 +221,8 @@ springs = PoolVector2Array(  )
 repulsion_constant = 800.0
 attraction_constant = 20.0
 max_velocity = 30.0
-anchor_attraction = 0.1
+has_anchor = true
+anchor_attraction = 0.05
 
 [node name="view_connections" type="Button" parent="."]
 anchor_left = 0.685547
@@ -236,3 +239,9 @@ __meta__ = {
 }
 
 [node name="sfx" parent="." instance=ExtResource( 15 )]
+
+[node name="ability_selector" parent="." instance=ExtResource( 17 )]
+margin_left = 332.0
+margin_top = 7.0
+margin_right = -540.0
+margin_bottom = -545.0

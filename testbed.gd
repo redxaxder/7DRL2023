@@ -14,6 +14,7 @@ onready var view_connections = $view_connections
 onready var sfx = $sfx
 onready var inventory = $inventory
 onready var inventory_text = $inventory/Label
+onready var ability_selector = $ability_selector
 
 var glyphs: Array = []
 
@@ -126,7 +127,12 @@ func _unhandled_input(event):
 		dir = Dir.DIR.UP
 	elif event.is_action_pressed("down"):
 		dir = Dir.DIR.DOWN
-
+	elif event.is_action_pressed("ability_1"):
+		toggle_ability(Ability.TYPE.NONE)
+	elif event.is_action_pressed("ability_2"):
+		toggle_ability(Ability.TYPE.SHOVE)
+	elif event.is_action_pressed("ability_3"):
+		toggle_ability(Ability.TYPE.PILFER)
 	if dir >= 0:
 		moved = gamestate.try_move_player(dir)
 	if moved:
@@ -134,6 +140,13 @@ func _unhandled_input(event):
 		track_player_dances(dir)
 		if npc_info.visible:
 			npc_info._refresh()
+
+func toggle_ability(i):
+	if gamestate.selected_ability == i:
+		gamestate.selected_ability = 0
+	else:
+		gamestate.selected_ability = i
+	ability_selector.selected = gamestate.selected_ability
 
 const kick_intensity: float = 200.0
 const default_wait: float = 0.1
@@ -194,6 +207,7 @@ func _on_grace_changed(amount: int):
 		send_particle(glyphs[0],grace,particle)
 		sfx.play(sfx.SFX.GRACE)
 	grace.amount = amount
+	ability_selector.level = Core.grace_info(amount).level
 
 func _on_dance_change(_dances):
 	clear_player_dances()

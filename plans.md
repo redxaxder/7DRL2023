@@ -101,11 +101,11 @@ third pass:
   - NPC names
     - list of fixed names
   + player abilities
-    - completing dance steps takes a deliberate action (and a turn) ????
-      - for both player and NPCs ????
     + action of dihedral group on player ability
     + pilfer
     + player dance tracker has icon representing action
+    - there is a toggle for selecting abilities
+    - if the toggle for that ability is active, 'interact' uses it
   + don't list dance steps on follower
   - after dance:
     - make/break connections from pilfer
@@ -113,7 +113,7 @@ third pass:
   - victory / defeat screen
     - show epilogue
   + animate movement
-  - NPC items
+  + NPC items
   - play/stop music
   - log
     - intel revealed

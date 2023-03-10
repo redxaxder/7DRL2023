@@ -21,6 +21,7 @@ var npcs: Array = []
 var available_npcs: Dictionary = NPC_Names.name_map.duplicate(true)
 
 var cumulative_grace = 0
+var selected_ability = 0
 var dance_countdown = rest_duration
 var dance_active = false
 
