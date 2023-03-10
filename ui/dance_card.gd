@@ -5,7 +5,6 @@ var gamestate: GameState setget set_gamestate
 
 onready var _string = $Anchor/MarginContainer/HBoxContainer/PanelContainer/dirstring
 onready var anchor = $Anchor
-onready var icon = $Anchor/MarginContainer/HBoxContainer/ability_icon
 onready var highlight = $Anchor/MarginContainer/highlight
 
 var ix: int setget set_ix
@@ -40,8 +39,6 @@ func set_gamestate(x: GameState):
 
 func _refresh():
 	if !_string: return
-	icon.type = dance.type
-	icon.action_dir = dance.action_dir
 	if dance:
 		_string.steps = Array(dance.steps)
 		_string.progress = dance.progress()

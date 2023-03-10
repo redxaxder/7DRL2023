@@ -208,10 +208,6 @@ func try_interact(id, dir, target_id) -> bool:
 var grace_triggered = false
 
 func tick_round():
-	for key in location_index:
-		var d = location_index[key]
-		if key != dancers[d].pos:
-			pass
 	if !grace_triggered:
 		var grace = Core.grace_info(cumulative_grace)
 		cumulative_grace -= grace.level
@@ -479,3 +475,4 @@ func can_activate(d: Dance) -> bool:
 				return false
 			return true
 	return false
+
