@@ -83,7 +83,7 @@ func _process(delta):
 	if do_snap || is_nan(l):
 		snap()
 	c.rect_position = offset
-	if (velocity.abs() + offset.abs()).length_squared() < 0.1:
+	if (velocity.abs() + offset.abs()).length() < snap_dist:
 		_stop()
 	
 func _stop():
