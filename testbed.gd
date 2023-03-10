@@ -191,9 +191,7 @@ const grace_particle = preload("res://ui/grace_particle.tscn")
 func _on_grace_changed(amount: int):
 	if amount > grace.amount:
 		var particle = grace_particle.instance()
-		var from = glyphs[0].global_position
-		var to = grace.rect_global_position + grace.rect_size / 2
-		send_particle(from,to,particle)
+		send_particle(glyphs[0],grace,particle)
 		sfx.play(sfx.SFX.GRACE)
 	grace.amount = amount
 
@@ -207,16 +205,26 @@ func _on_dance_tracking_start():
 	sfx.play(sfx.SFX.START_DANCE)
 
 const particle_kick: float = 500.0
-func send_particle(from: Vector2, to: Vector2, what: Node, kickmod = 1.0):
+func send_particle(from: Node, to: Node, what: Node, kickmod = 1.0):
+	var from_pos
+	if from.is_class("Control"):
+		from_pos = from.rect_global_position + from.rect_size / 2.0
+	elif from.is_class("Node2D"):
+		from_pos = from.global_position
+	else:
+		return
 	var anch: Anchor = Anchor.new()
 	anch.visible = false
-	add_child(anch)
+	to.add_child(anch)
 	anch.add_child(what)
-	anch.rect_global_position = from
+	anch.rect_global_position = from_pos
 	anch.visible = true
 	anch.friction = 0.7
 	anch.snap()
-	anch.rect_global_position = to
+	if to.is_class("Control"):
+		anch.rect_position = to.rect_size / 2.0
+	else:
+		anch.rect_position = Vector2.ZERO
 	var kickdir = Vector2(randi(), randi()) - Vector2(0.5,0.5)
 	anch.kick(particle_kick * kickdir * kickmod)
 	anch.autoremove = true
@@ -263,11 +271,10 @@ func _on_pilfer(pilfer_target: Dancer = null):
 	# TODO: spawn particles
 	# spawn particles (as needed)
 	#  inventory -> target (if target has an item)
-	var targetloc = glyphs[pilfer_target.id].global_position
-	var invloc = inventory.rect_global_position + inventory.rect_size / 2.0
+	var target = glyphs[pilfer_target.id]
 	if pilfer_target.item_id >= 0:
-		send_particle(invloc, targetloc, pilfer_icon.instance(), 0.5)
+		send_particle(inventory, target, pilfer_icon.instance(), 0.5)
 	if item_id >= 0:
-		send_particle(targetloc, invloc, pilfer_icon.instance(), 0.5)
+		send_particle(target, inventory, pilfer_icon.instance(), 0.5)
 	#  target -> inventory (if pc has an item)
 	print("pilfered", pilfer_target, inventory_text.text)
