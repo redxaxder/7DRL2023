@@ -3,7 +3,7 @@ extends Control
 var dance: Dance setget set_dance
 var gamestate: GameState setget set_gamestate
 
-onready var _string = $Anchor/MarginContainer/HBoxContainer/PanelContainer/dirstring
+onready var _string = $Anchor/MarginContainer/PanelContainer/dirstring
 onready var anchor = $Anchor
 onready var highlight = $Anchor/MarginContainer/highlight
 
