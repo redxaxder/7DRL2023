@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/IMSLP421665-PMLP06107-AMB3.mp3-08aeaba52a3b1f3dad2dcbf7382bde8a.mp3str"
+
+[deps]
+
+source_file="res://resources/music/IMSLP421665-PMLP06107-AMB3.mp3"
+dest_files=[ "res://.import/IMSLP421665-PMLP06107-AMB3.mp3-08aeaba52a3b1f3dad2dcbf7382bde8a.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

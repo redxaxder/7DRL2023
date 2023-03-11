@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/IMSLP427125-PMLP30960-Minuet_in_E-flat_Maj._WoO_82.mp3-e274e05ccdb8f0d5ddf6dcb9d7d611c9.mp3str"
+
+[deps]
+
+source_file="res://resources/music/IMSLP427125-PMLP30960-Minuet_in_E-flat_Maj._WoO_82.mp3"
+dest_files=[ "res://.import/IMSLP427125-PMLP30960-Minuet_in_E-flat_Maj._WoO_82.mp3-e274e05ccdb8f0d5ddf6dcb9d7d611c9.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

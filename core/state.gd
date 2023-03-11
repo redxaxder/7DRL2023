@@ -14,6 +14,9 @@ signal write_log(log_text)
 signal dance_ended()
 signal dance_started()
 
+signal song_start()
+signal song_end()
+
 export var room_width: int = 9
 export var room_height: int = 9
 
@@ -376,6 +379,7 @@ func tick_round():
 	if dance_countdown <= 0:
 		if dance_active:
 			emit_signal("write_log", "The song comes to an elegant end. The dance has ended.")
+			emit_signal("song_end")
 			dance_active = false
 			dance_countdown = rest_duration
 			current_dances = []
@@ -383,6 +387,7 @@ func tick_round():
 				dancer.end_dance()
 		else:
 			emit_signal("write_log", "The music swells; the dance has begun!")
+			emit_signal("song_start")
 			dance_active = true
 			dance_countdown = dance_duration
 			var dance1 = Core.gen_steps_dance()
@@ -541,6 +546,7 @@ func exit_dance():
 						message = "{0} and {1} remain friends.".format([holder.name, owner.name])
 					emit_signal("write_log", message)
 	emit_signal("dance_ended")
+	emit_signal("song_end")
 	night += 1
 	if night > 7:
 		epilogue()

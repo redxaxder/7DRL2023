@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/IMSLP99595-PMLP15559-10-Valzer_II.mp3-9142b8c43a611725876c226df0fe2ee6.mp3str"
+
+[deps]
+
+source_file="res://resources/music/IMSLP99595-PMLP15559-10-Valzer_II.mp3"
+dest_files=[ "res://.import/IMSLP99595-PMLP15559-10-Valzer_II.mp3-9142b8c43a611725876c226df0fe2ee6.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

@@ -46,6 +46,8 @@ func _ready():
 	gamestate.connect("connection_made", self, "_on_connection_made")
 # warning-ignore:return_value_discarded
 	gamestate.connect("connection_broken", self, "_on_connection_broken")
+	gamestate.connect("song_start", self, "_on_song_start")
+	gamestate.connect("song_end", self, "_on_song_end")
 	view_connections.connect("mouse_entered", self , "_on_connection_hover")
 	view_connections.connect("mouse_exited", self , "_on_connection_unhover")
 
@@ -305,3 +307,9 @@ func _on_connection_made(i,j):
 
 func _on_connection_broken(i,j):
 	connection_graph.remove_spring(i,j)
+
+func _on_song_start():
+	sfx.start_song()
+
+func _on_song_end():
+	sfx.end_song()

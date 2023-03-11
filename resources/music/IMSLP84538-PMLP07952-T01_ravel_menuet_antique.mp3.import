@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/IMSLP84538-PMLP07952-T01_ravel_menuet_antique.mp3-9cdabd542f42d6037a511cbbf241f41c.mp3str"
+
+[deps]
+
+source_file="res://resources/music/IMSLP84538-PMLP07952-T01_ravel_menuet_antique.mp3"
+dest_files=[ "res://.import/IMSLP84538-PMLP07952-T01_ravel_menuet_antique.mp3-9cdabd542f42d6037a511cbbf241f41c.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

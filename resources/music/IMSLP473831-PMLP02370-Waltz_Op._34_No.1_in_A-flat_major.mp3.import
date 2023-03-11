@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/IMSLP473831-PMLP02370-Waltz_Op._34_No.1_in_A-flat_major.mp3-02a4f47640fd435000ae5679a13bd4ab.mp3str"
+
+[deps]
+
+source_file="res://resources/music/IMSLP473831-PMLP02370-Waltz_Op._34_No.1_in_A-flat_major.mp3"
+dest_files=[ "res://.import/IMSLP473831-PMLP02370-Waltz_Op._34_No.1_in_A-flat_major.mp3-02a4f47640fd435000ae5679a13bd4ab.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

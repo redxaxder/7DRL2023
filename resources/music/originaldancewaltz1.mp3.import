@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/originaldancewaltz1.mp3-9e671270b6e4c6574e2fa5c6f3040ad4.mp3str"
+
+[deps]
+
+source_file="res://resources/music/originaldancewaltz1.mp3"
+dest_files=[ "res://.import/originaldancewaltz1.mp3-9e671270b6e4c6574e2fa5c6f3040ad4.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

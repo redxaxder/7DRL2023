@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/IMSLP473833-PMLP02370-Waltz_Op._34_No.3_in_F_major.mp3-4a0caa3268dfcddb19c2a97bf3cd4e75.mp3str"
+
+[deps]
+
+source_file="res://resources/music/IMSLP473833-PMLP02370-Waltz_Op._34_No.3_in_F_major.mp3"
+dest_files=[ "res://.import/IMSLP473833-PMLP02370-Waltz_Op._34_No.3_in_F_major.mp3-4a0caa3268dfcddb19c2a97bf3cd4e75.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

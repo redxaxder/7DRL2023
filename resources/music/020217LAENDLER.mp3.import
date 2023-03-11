@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/020217LAENDLER.mp3-3cd5932bef985ea210c78b2ec8d43970.mp3str"
+
+[deps]
+
+source_file="res://resources/music/020217LAENDLER.mp3"
+dest_files=[ "res://.import/020217LAENDLER.mp3-3cd5932bef985ea210c78b2ec8d43970.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

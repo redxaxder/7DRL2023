@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/010136ORIGINALTAENZEWaltzesOp9D365.mp3-f062800ec8de23fbab7258fec7bd840d.mp3str"
+
+[deps]
+
+source_file="res://resources/music/010136ORIGINALTAENZEWaltzesOp9D365.mp3"
+dest_files=[ "res://.import/010136ORIGINALTAENZEWaltzesOp9D365.mp3-f062800ec8de23fbab7258fec7bd840d.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

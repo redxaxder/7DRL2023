@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/IMSLP256034-PMLP98016-kiel_op78walzes.mp3-5ebb313b0b847c2703f24ad0ce4b494b.mp3str"
+
+[deps]
+
+source_file="res://resources/music/IMSLP256034-PMLP98016-kiel_op78walzes.mp3"
+dest_files=[ "res://.import/IMSLP256034-PMLP98016-kiel_op78walzes.mp3-5ebb313b0b847c2703f24ad0ce4b494b.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/IMSLP473850-PMLP02373-Waltz_Op._64_no._1_in_D_flat_major.mp3-51c3efa325f341f745c0ebe7a15e787e.mp3str"
+
+[deps]
+
+source_file="res://resources/music/IMSLP473850-PMLP02373-Waltz_Op._64_no._1_in_D_flat_major.mp3"
+dest_files=[ "res://.import/IMSLP473850-PMLP02373-Waltz_Op._64_no._1_in_D_flat_major.mp3-51c3efa325f341f745c0ebe7a15e787e.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

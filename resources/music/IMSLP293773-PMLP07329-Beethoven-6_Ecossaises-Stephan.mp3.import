@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/IMSLP293773-PMLP07329-Beethoven-6_Ecossaises-Stephan.mp3-947f6a991a1974260100c2959b513f9c.mp3str"
+
+[deps]
+
+source_file="res://resources/music/IMSLP293773-PMLP07329-Beethoven-6_Ecossaises-Stephan.mp3"
+dest_files=[ "res://.import/IMSLP293773-PMLP07329-Beethoven-6_Ecossaises-Stephan.mp3-947f6a991a1974260100c2959b513f9c.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
