@@ -57,9 +57,24 @@ func init():
 		npcs.append(npc)
 		for j in range(i):
 			if randi() % 3 == 0:
-				npc.connections.append(j)
-				npcs[j].connections.append(i)
+				make_connection(i,j)
 	start_dance()
+
+signal connection_made(id_a, id_b)
+func make_connection(id_a: int, id_b: int):
+	var a = npcs[id_a]
+	var b = npcs[id_b]
+	if a.connections.find(id_b) < 0:
+		a.connections.append(id_b)
+	if b.connections.find(id_a) < 0:
+		b.connections.append(id_a)
+	emit_signal("connection_made", id_a, id_b)
+
+signal connection_broken(id_a, id_b)
+func break_connection(id_a: int, id_b: int):
+	npcs[id_a].connections.erase(id_b)
+	npcs[id_b].connections.erase(id_a)
+	emit_signal("connection_broken", id_a, id_b)
 
 func player() -> Dancer:
 	return dancers[player_id]

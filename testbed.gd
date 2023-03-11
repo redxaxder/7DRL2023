@@ -41,7 +41,8 @@ func _ready():
 	gamestate.connect("dance_started", self, "_on_dance_start")
 # warning-ignore:return_value_discarded
 	gamestate.connect("dance_ended", self, "_on_dance_end")
-
+	gamestate.connect("connection_made", self, "_on_connection_made")
+	gamestate.connect("connection_broken", self, "_on_connection_broken")
 	view_connections.connect("mouse_entered", self , "_on_connection_hover")
 	view_connections.connect("mouse_exited", self , "_on_connection_unhover")
 
@@ -59,9 +60,6 @@ func _ready():
 		vertex.npc = npc
 		connection_graph.add_child(vertex)
 		vertex.visible = false
-		for j in npc.connections:
-			if i < j:
-				connection_graph.add_spring(i,j)
 
 func _gui_input(event):
 	if event.is_class("InputEventMouseButton"):
@@ -297,3 +295,8 @@ func _on_dance_end():
 	glyphs = []
 	clear_player_dances()
 
+func _on_connection_made(i,j):
+	connection_graph.add_spring(i,j)
+
+func _on_connection_broken(i,j):
+	connection_graph.remove_spring(i,j)
