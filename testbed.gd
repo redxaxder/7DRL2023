@@ -6,6 +6,7 @@ var gamestate: GameState = GameState.new()
 onready var dance_floor = $dance/MarginContainer/Control/dance_floor
 onready var dance_countdown = $dance_countdown
 onready var dance_match = $dance_match
+onready var dance_floor_background = $dance/MarginContainer/dance_floor_background
 onready var grace = $grace
 onready var grace_guage = $grace/grace_guage
 onready var npc_info = $npc_info
@@ -275,6 +276,7 @@ func _on_pilfer(pilfer_target: Dancer = null):
 	if item_id >= 0:
 		send_particle(target, inventory_text, pilfer_icon.instance(), 0.5)
 
+const patterns: Array = ["A","E","J","L","O","Q","R","S","T","U","V","W","X","c","h","i","j","l","m","u","y"]
 func _on_dance_start():
 # warning-ignore:return_value_discarded
 	gamestate.player().connect("start_dance_tracker", self, "_on_dance_tracking_start", [], CONNECT_DEFERRED)
@@ -290,6 +292,7 @@ func _on_dance_start():
 		g.connect("mouse_entered", self, "_focus_npc", [d.npc])
 		g.connect("mouse_exited", self, "_unfocus_npc")
 		dance_floor.add_child(g)
+		dance_floor_background.pattern = patterns[randi() % patterns.size()]
 
 func _on_dance_end():
 	for g in glyphs:
