@@ -18,7 +18,7 @@ export var room_width: int = 9
 export var room_height: int = 9
 
 var dancers: Array = []
-var items: Array = [] # the names of the items belonging to each npc. each "item_id" is an index into here
+var items: Array = [] # the names of the items belonging to each dancer
 var location_index: Dictionary = {}
 var current_dances: Array = []
 var npcs: Array = []
@@ -55,12 +55,14 @@ func init():
 			npc.title = npc_entry[NPC_Names.title]
 		npc.connections = []
 		npcs.append(npc)
+		npc.corruption = randi() % 2
 		for j in range(i):
 			if randi() % 3 == 0:
 				make_connection(i,j)
 	start_dance()
 
 signal connection_made(id_a, id_b)
+signal connection_broken(id_a, id_b)
 func make_connection(id_a: int, id_b: int):
 	var a = npcs[id_a]
 	var b = npcs[id_b]
@@ -70,7 +72,6 @@ func make_connection(id_a: int, id_b: int):
 		b.connections.append(id_a)
 	emit_signal("connection_made", id_a, id_b)
 
-signal connection_broken(id_a, id_b)
 func break_connection(id_a: int, id_b: int):
 	npcs[id_a].connections.erase(id_b)
 	npcs[id_b].connections.erase(id_a)
@@ -495,6 +496,35 @@ func trigger_pilfer(target_id: int):
 		return false
 
 func exit_dance():
+	for d in dancers:
+		if d.id == player_id:
+			continue
+		if d.item_id != Trinkets.NO_ITEM && d.item_id != d.id:
+			var holder = d.npc
+			var owner = dancers[d.item_id].npc
+			var is_connected = holder.connections.find(owner.npc_id) >= 0
+			var item_name = get_item_name(d.item_id)
+			var message = "After the party, {0} somehow came into possession of {1}.".format([holder.name,item_name])
+			emit_signal("write_log", message)
+			match holder.corruption:
+				NPC.CORRUPT:
+					message = "{0} greedily held onto it.".format([holder.name])
+					emit_signal("write_log", message)
+					if is_connected:
+						message = "A rift has formed between {0} and {1}.".format([holder.name, owner.name])
+						break_connection(holder, owner)
+					else:
+						message = "The preexisting poor relationship between {0} and {1} is unchanged.".format([holder.name, owner.name])
+					emit_signal("write_log", message)
+				NPC.HONEST:
+					message = "{0} virtuously returned it.".format([holder.name])
+					emit_signal("write_log", message)
+					if !is_connected:
+						message = "The relationship between {0} and {1} has deepened.".format([holder.name, owner.name])
+						make_connection(holder,owner)
+					else:
+						message = "{0} and {1} remain friends.".format([holder.name, owner.name])
+					emit_signal("write_log", message)
 	emit_signal("dance_ended")
 	night += 1
 	if night > 7:

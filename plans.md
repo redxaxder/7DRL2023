@@ -108,7 +108,7 @@ third pass:
     + if the toggle for that ability is active, 'interact' uses it
   + don't list dance steps on follower
   - after dance:
-    - make/break connections from pilfer
+    + make/break connections from pilfer
     - perform contagion modeling
       - animate it!
   + select active npc from graph pane
@@ -117,6 +117,12 @@ third pass:
   + animate movement
   + NPC items
   - play/stop music
+  - npc info panel has intel
+    - if unknown, that fact is mentioned
+    - connections
+    - inventory
+    - corruption
+    - faction
   - log
     + intel revealed
     - pilfer action

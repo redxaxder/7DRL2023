@@ -3,7 +3,7 @@ extends PanelContainer
 
 class_name Log
 
-onready var bubbler = $ScrollContainer/BubblyLog
+onready var bubbler = $BubblyLog
 
 export var left_margin: int = 5
 

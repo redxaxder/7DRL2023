@@ -41,7 +41,9 @@ func _ready():
 	gamestate.connect("dance_started", self, "_on_dance_start")
 # warning-ignore:return_value_discarded
 	gamestate.connect("dance_ended", self, "_on_dance_end")
+# warning-ignore:return_value_discarded
 	gamestate.connect("connection_made", self, "_on_connection_made")
+# warning-ignore:return_value_discarded
 	gamestate.connect("connection_broken", self, "_on_connection_broken")
 	view_connections.connect("mouse_entered", self , "_on_connection_hover")
 	view_connections.connect("mouse_exited", self , "_on_connection_unhover")
