@@ -93,6 +93,7 @@ func player() -> Dancer:
 	return dancers[player_id]
 
 func start_dance(attendees = 7):
+	emit_signal("write_log", "The sounds of cheerful conversation are heard as a new ball begins.")
 	cumulative_grace = 0
 	dance_countdown = rest_duration
 	dance_active = false
@@ -207,6 +208,12 @@ func in_bounds(pos: Vector2) -> bool:
 		pos.y >= 0 && pos.y < room_height
 
 func try_move_player(dir: int) -> bool:
+	if player().has_partner():
+		var partner = dancers[player().partner_id]
+		if partner.npc.scandalous:
+			emit_signal("write_log", "{0} slaps you across the face!".format([partner.npc.name]))
+			cause_scandal(partner.id)
+			return true
 	var target_pos = player().pos + Dir.dir_to_vec(dir)
 	if !in_bounds(target_pos):
 		exit_dance()
@@ -378,7 +385,7 @@ func tick_round():
 		var suspicion_critical = dancers[i].roll_suspicion(grace.level, dist)
 		if suspicion_critical:
 			emit_signal("write_log", "You are about to be outed as a spy!")
-			epilogue()
+#			epilogue()
 
 	#move npcs
 	var turn_order = []
@@ -421,7 +428,9 @@ func do_npc_turn(id: int) -> bool:
 	if dancer.stun:
 		dancer.stun = false
 		return true
-	if !dance_active:
+	if dancer.npc.scandalous and !dancer.has_partner():
+		return npc_seek_player(id)
+	elif !dance_active:
 		return npc_mill_around(id)
 	elif dancer.has_partner():
 		return npc_dance(id)
@@ -495,6 +504,24 @@ func npc_seek_partner(id: int) -> bool:
 	candidates.shuffle()
 	return try_move_dancer(id, candidates[0])
 
+func npc_seek_player(id: int) -> bool:
+	var dancer: Dancer = dancers[id]
+	var player: Dancer = dancers[player_id]
+	var distance: int = int(Core.manhattan(dancer.pos, player.pos))
+
+	if distance == 1:
+		cause_scandal(id)
+
+	var candidates = []
+	for d in Dir.approach(dancer.pos, player.pos):
+		var target_pos = Dir.mv(dancer.pos, d)
+		if can_move_to(target_pos):
+			candidates.append(d)
+	if candidates.size() == 0:
+		return npc_mill_around(id)
+	candidates.shuffle()
+	return try_move_dancer(id, candidates[0])
+
 func npc_mill_around(id: int) -> bool:
 	var candidates = []
 	for d in range(4):
@@ -506,6 +533,10 @@ func npc_mill_around(id: int) -> bool:
 	candidates.shuffle()
 	var dir = candidates[0]
 	return try_move_dancer(id, dir)
+
+func cause_scandal(npc_id: int):
+	emit_signal("write_log", "{0} has caused a scandal!".format([dancers[npc_id].npc.name]))
+	exit_dance()
 
 func trigger_grace():
 	grace_triggered = true
@@ -530,6 +561,7 @@ func trigger_pilfer(target_id: int):
 		return false
 
 func exit_dance():
+	emit_signal("write_log", "Eventually, the party winds down.")
 	for d in dancers:
 		if d.id == player_id:
 			continue
