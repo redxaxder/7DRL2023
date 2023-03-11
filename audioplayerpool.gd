@@ -6,16 +6,35 @@ var _sfx = [preload("res://resources/step.wav"), \
 	preload("res://resources/start_dance.wav"),\
 	preload("res://resources/pilfer.wav")]
 
-var music = []
+var music = [\
+preload("res://resources/music/010136ORIGINALTAENZEWaltzesOp9D365.mp3"),\
+preload("res://resources/music/020217LAENDLER.mp3"),\
+preload("res://resources/music/IMSLP84538-PMLP07952-T01_ravel_menuet_antique.mp3"),\
+preload("res://resources/music/IMSLP99594-PMLP15559-09-Valzer_I.mp3"),\
+preload("res://resources/music/IMSLP99595-PMLP15559-10-Valzer_II.mp3"),\
+preload("res://resources/music/IMSLP256034-PMLP98016-kiel_op78walzes.mp3"),\
+preload("res://resources/music/IMSLP293773-PMLP07329-Beethoven-6_Ecossaises-Stephan.mp3"),\
+preload("res://resources/music/IMSLP421665-PMLP06107-AMB3.mp3"),\
+preload("res://resources/music/IMSLP427125-PMLP30960-Minuet_in_E-flat_Maj._WoO_82.mp3"),\
+preload("res://resources/music/IMSLP473831-PMLP02370-Waltz_Op._34_No.1_in_A-flat_major.mp3"),\
+preload("res://resources/music/IMSLP473833-PMLP02370-Waltz_Op._34_No.3_in_F_major.mp3"),\
+preload("res://resources/music/IMSLP473850-PMLP02373-Waltz_Op._64_no._1_in_D_flat_major.mp3"),\
+preload("res://resources/music/laendler1.mp3"),\
+preload("res://resources/music/laendler2.mp3"),\
+preload("res://resources/music/originaldancewaltz1.mp3"),\
+preload("res://resources/music/originaldancewaltz2.mp3"),\
+preload("res://resources/music/originaldancewaltz3.mp3"),\
+]
 
 var played_songs = []
 
 onready var music_player = $MusicPlayer
 
-const fade_time: float = 7.0
+const fade_time: float = 2.0
 var fading = false
 var time_accum = 0.0
 const fade_term: float = 80.0/fade_time
+const orig_volume: float = 0.0
 
 func play(sfx: int):
 	if sfx < 0 || sfx > _sfx.size(): return
@@ -48,17 +67,6 @@ func _process(delta: float) -> void:
 			time_accum = 0.0
 			fading = false
 			music_player.stop()
+			music_player.volume_db = orig_volume
 		else:
 			music_player.volume_db -= fade_term * delta
-
-func _ready():
-	var dir = Directory.new()
-	if dir.open("res://resources/music") == OK:
-		dir.list_dir_begin()
-		var filename = dir.get_next()
-		var song
-		while filename != "":
-			if filename.ends_with(".mp3"):
-				song = load("res://resources/music/{0}".format([filename]))
-				music.append(song)
-			filename = dir.get_next()

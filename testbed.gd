@@ -98,7 +98,7 @@ var connection_hover = false
 func _on_connection_hover():
 	connection_hover = true
 	update_see_connection_panel()
-	
+
 func _on_connection_unhover():
 	connection_hover = false
 	update_see_connection_panel()

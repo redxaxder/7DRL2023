@@ -557,7 +557,7 @@ func exit_dance():
 	do_contagion()
 	emit_signal("dance_ended")
 	emit_signal("song_end")
-	
+
 	night += 1
 	if night > 7:
 		while do_contagion():
