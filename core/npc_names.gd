@@ -5,6 +5,7 @@ const austria: String = "Austria"
 const britain: String = "Britain"
 const russia: String = "Russia"
 const prussia: String = "Prussia"
+const france: String = "France"
 
 #keys
 const faction: String = "faction"
@@ -41,7 +42,7 @@ const name_map: Dictionary = {
 		gender: M,
 		spouse: "Catherine Pakenham",
 		title: "Field Marshal His Grace The Duke of Wellington",
-		character: "A"
+		character: "U"
 	},
 	"Catherine Pakenham": {
 		faction: britain,
@@ -54,7 +55,7 @@ const name_map: Dictionary = {
 		gender: M,
 		spouse: "Elizabeth Alexeievna",
 		title: "Emperor of Russia",
-		character: "T"
+		character: "A"
 	},
 	"Elizabeth Alexeievna": {
 		faction: russia,
@@ -76,7 +77,7 @@ const name_map: Dictionary = {
 		spouse: "Karl Nesselrode",
 		character: "M"
 	},
-	"Karl August Fürst von Hardenberg": {
+	"Karl August Furst von Hardenberg": {
 		faction: prussia,
 		gender: M,
 		spouse: "Christiane von Reventlow",
@@ -86,8 +87,52 @@ const name_map: Dictionary = {
 	"Christiane von Reventlow": {
 		faction: prussia,
 		gender: F,
-		spouse: "Karl August Fürst von Hardenberg",
+		spouse: "Karl August Furst von Hardenberg",
 		character: "S"
+	},
+	"Wilhelm von Humboldt": {
+		faction: prussia,
+		gender: M,
+		spouse: "Caroline von Humboldt",
+		character: "W"
+	},
+	"Caroline von Humboldt": {
+		faction: prussia,
+		gender: F,
+		spouse: "Wilhelm von Humboldt",
+		character: "O"
+	},
+	"Friedrich Wilhelm III": {
+		faction: prussia,
+		gender: M,
+		title: "King of Prussia",
+		character: "F"
+	},
+	"Charles Maurice de Talleyrand-Perigord": {
+		faction: france,
+		gender: M,
+		spouse: "Catherine Noel Grand",
+		title: "Minister of Foreign Affairs",
+		character: "T"
+	},
+	"Catherine Noel Grand": {
+		faction: france,
+		gender: F,
+		spouse: "Charles Maurice de Talleyrand-Perigord",
+		title: "Princesse de Benevent",
+		character: "G"
+	},
+	"Wilhelmine Benigna": {
+		faction: austria,
+		gender: F,
+		title: "Duchess of Sagan",
+		character: "B"
+	},
+	"Catherine Bagration": {
+		faction: russia,
+		gender: F,
+		title: "Princess Bagration",
+		character: "I"
 	},
 #	"": {
 #		faction: "",

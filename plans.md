@@ -98,8 +98,8 @@ third pass:
   + title screen
     + can start game
     - game options?
-  - NPC names
-    - list of fixed names
+  + NPC names
+    + list of fixed names
   + player abilities
     + action of dihedral group on player ability
     + pilfer
@@ -125,7 +125,7 @@ third pass:
     - faction
   - log
     + intel revealed
-    - pilfer action
+    + pilfer action
     - suspicion critical
 	- shove
 	- failed actions
