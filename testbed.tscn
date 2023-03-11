@@ -255,4 +255,4 @@ __meta__ = {
 [node name="log" parent="." instance=ExtResource( 18 )]
 margin_left = 734.0
 margin_top = 3.0
-margin_right = -91.0
+margin_right = -84.0
