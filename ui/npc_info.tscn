@@ -53,7 +53,7 @@ color = Color( 0.52, 0.507, 0.4888, 1 )
 border_color = Color( 0.35, 0.34125, 0.329, 1 )
 width = 2.0
 current = 30.0
-stages = [ 1 ]
+stages = [ 20 ]
 
 [node name="suspicion" parent="VBoxContainer" instance=ExtResource( 4 )]
 margin_top = 146.0

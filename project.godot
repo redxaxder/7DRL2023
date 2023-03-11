@@ -20,6 +20,11 @@ _global_script_classes=[ {
 "path": "res://ui/anchor.gd"
 }, {
 "base": "Control",
+"class": "BubblyLog",
+"language": "GDScript",
+"path": "res://ui/bubbly.gd"
+}, {
+"base": "Control",
 "class": "Circle",
 "language": "GDScript",
 "path": "res://ui/circle.gd"
@@ -59,6 +64,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://ui/glyph.gd"
 }, {
+"base": "PanelContainer",
+"class": "Log",
+"language": "GDScript",
+"path": "res://ui/log.gd"
+}, {
 "base": "Resource",
 "class": "NPC",
 "language": "GDScript",
@@ -87,6 +97,7 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "Ability": "",
 "Anchor": "",
+"BubblyLog": "",
 "Circle": "",
 "Core": "",
 "D8": "",
@@ -95,6 +106,7 @@ _global_script_class_icons={
 "Dir": "",
 "GameState": "",
 "Glyph": "",
+"Log": "",
 "NPC": "",
 "NPC_Names": "",
 "TickMark": "",

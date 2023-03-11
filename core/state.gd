@@ -9,6 +9,7 @@ signal dance_time(countdown)
 signal dance_change(dances)
 signal game_end()
 signal pilfer(occupant)
+signal write_log(log_text)
 
 export var room_width: int = 9
 export var room_height: int = 9
@@ -93,6 +94,7 @@ func in_bounds(pos: Vector2) -> bool:
 
 
 func try_move_player(dir: int) -> bool:
+	emit_signal("write_log", "test test test")
 	return try_move_dancer(player_id, dir)
 
 func try_player_action(dir: int) -> Dictionary:

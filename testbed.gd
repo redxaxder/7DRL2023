@@ -16,6 +16,7 @@ onready var sfx = $sfx
 onready var inventory = $inventory
 onready var inventory_text = $inventory/Label
 onready var ability_selector = $ability_selector
+onready var logger = $log
 
 var glyphs: Array = []
 
@@ -34,6 +35,7 @@ func _ready():
 	gamestate.connect("game_end", self, "_on_game_end")
 # warning-ignore:return_value_discarded
 	gamestate.connect("pilfer", self, "_on_pilfer")
+	gamestate.connect("write_log", logger, "_on_write_log")
 
 	view_connections.connect("mouse_entered", self , "_on_connection_hover")
 	view_connections.connect("mouse_exited", self , "_on_connection_unhover")
