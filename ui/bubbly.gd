@@ -27,7 +27,6 @@ func spawn(node: Control):
 #var spd = 500.0
 func _process(delta):
 	var dy = spd * delta
-	var bottoms = [0]
 	var cs = get_children()
 	var height = 0
 	var prev_bottom = 0
