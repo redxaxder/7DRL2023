@@ -1,13 +1,55 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://resources/title.tres" type="Theme" id=1]
 [ext_resource path="res://resources/title_text.tres" type="Theme" id=2]
 [ext_resource path="res://title_screen.gd" type="Script" id=3]
+[ext_resource path="res://resources/dihjauti.regular.otf" type="DynamicFontData" id=4]
+[ext_resource path="res://prologue.gd" type="Script" id=5]
+
+[sub_resource type="DynamicFont" id=1]
+extra_spacing_bottom = -5
+font_data = ExtResource( 4 )
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 3 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="prologue" type="Control" parent="CanvasLayer"]
+margin_left = 327.0
+margin_top = 43.0
+margin_right = 711.0
+margin_bottom = 178.0
+rect_min_size = Vector2( 0, 60 )
+rect_clip_content = true
+size_flags_vertical = 3
+script = ExtResource( 5 )
+speed = 5.0
+
+[node name="Label" type="Label" parent="CanvasLayer/prologue"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -235.869
+margin_bottom = 849.131
+rect_min_size = Vector2( 300, 100 )
+custom_fonts/font = SubResource( 1 )
+text = "
+
+
+
+
+I once wondered what makes a man powerful. What drives him to attempt the seeming impossible. What gives him the convinction and the perseverance to see it through. I once thought my dear brother the answer to the question. So good, so pure, so...
+But no. Now I truly know the answer - that man which is no longer a man, but the embodiment of an ideal. To him, there is nothing sacred, there can be nothing sacred, for he is the sanctified, the anointed.
+So then, it is no wonder that he escaped. It was inevitable that he would attempt it. The nobles, humans all, could not comprehend the attempt. Wherefore does a man risk all for naught? But he is not a man any longer.
+Is he true France? Are we in the wrong? Can the entire world be wrong merely because one man is powerful?  If the entire world is indeed wrong, how do we know that we are right?
+Napoleon came back from exile, and the entire world defected to him, in an instant. He who brought millions dead, he who brought endless wars, he who sat on a throne of skulls. He came, and the world bent the knee.
+But not us. Not the sane. It is for this that privilege is Given to us by Him in Heaven.
+It is when the entire world has fallen to the charms of the Devil, and would dash itself to pieces upon his perverse pleasure, that it falls to us, the last Defenders of the Faith and King, to rise and guide it back to the Light.
+The last Louis must be protected. Long live the King.  For while my brother lives, I must entreat on his behalf. The vultures of Europe pick over France, and I am to send myself to them, as an apperitif and a warning - the war is not yet won...
+Though my battleground shall not be of horse, steel, or lead, or indeed upon the sacred soils of France; but of dances, intrigues, and slights-of-hand - the Congress of Vienna is the more treacherous.
+Now comes Charles Philippe, Count of Artois, to Vienna, and stories shall be told of my triumphs and victories during...
+"
+autowrap = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
 anchor_left = 0.5
