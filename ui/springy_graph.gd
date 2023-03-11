@@ -59,6 +59,7 @@ func add_spring(i: int, j: int):
 		if s == v:
 			return
 	springs.append(v)
+	update_visible_support()
 	_refresh()
 
 func remove_spring(i: int, j: int):
@@ -68,6 +69,7 @@ func remove_spring(i: int, j: int):
 		if v != s:
 			new_springs.append(s)
 	springs = new_springs
+	update_visible_support()
 	_refresh()
 
 func _refresh():

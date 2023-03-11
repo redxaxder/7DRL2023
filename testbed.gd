@@ -233,7 +233,11 @@ func send_particle(from: Node, to: Node, what: Node, kickmod = 1.0):
 		return
 	var anch: Anchor = Anchor.new()
 	anch.visible = false
-	to.add_child(anch)
+	var tgt = to.get_node_or_null("target")
+	if !tgt:
+		to.add_child(anch)
+	else:
+		tgt.add_child(anch)
 	anch.add_child(what)
 	anch.rect_global_position = from_pos
 	anch.visible = true
@@ -341,7 +345,7 @@ func queue_faction_change(id):
 	faction_queue.append(id)
 	set_physics_process(true)
 
-const faction_particle = preload("res://ui/grace_particle.tscn")
+const faction_particle = preload("res://ui/faction_particle.tscn")
 func advance_faction_queue():
 	if faction_queue.size() == 0:
 		return
