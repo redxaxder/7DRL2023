@@ -14,6 +14,9 @@ onready var faction = $VBoxContainer/CenterContainer/faction
 onready var label = $VBoxContainer/CenterContainer/MarginContainer/Label
 onready var ticks = [$VBoxContainer/MarginContainer/TickMark, $VBoxContainer/MarginContainer2/TickMark]
 
+# warning-ignore:unused_signal
+signal clicked
+
 func set_npc(x):
 	npc = x
 	_refresh()
@@ -27,6 +30,8 @@ func set_opposition(x):
 	_refresh()
 
 func _ready():
+# warning-ignore:return_value_discarded
+	$Button.connect("button_down", self, "emit_signal", ["clicked"])
 	_refresh()
 
 func _refresh():

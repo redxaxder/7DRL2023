@@ -39,6 +39,10 @@ func _ready():
 
 	view_connections.connect("mouse_entered", self , "_on_connection_hover")
 	view_connections.connect("mouse_exited", self , "_on_connection_unhover")
+	
+	connection_graph.connect("npc_focus", self, "_focus_npc")
+	connection_graph.connect("npc_unfocus", self, "_unfocus_npc")
+	connection_graph.connect("npc_click", self, "_focus_npc", [true])
 
 	var player = Dancer.new()
 	randomize()
@@ -64,6 +68,7 @@ func _ready():
 	for attendee in gamestate.throw_a_party(7):
 		var dancer = Dancer.new()
 		dancer.npc = attendee
+		attendee.dancer = weakref(dancer)
 		dancer.pos = gamestate.get_free_space()
 		dancer.character = attendee.letter
 		dancer.gender = attendee.gender
@@ -80,36 +85,37 @@ func _ready():
 		g.position = dancer_screen_pos(d.pos)
 		g.snap()
 		g.visible = true
-		g.connect("mouse_entered", self, "_on_dancer_hover", [d])
-		g.connect("mouse_exited", self, "_on_dancer_unhover")
+		g.connect("mouse_entered", self, "_focus_npc", [d.npc])
+		g.connect("mouse_exited", self, "_unfocus_npc")
 		dance_floor.add_child(g)
 
 	gamestate.tick_round()
 
-var sticky_dancer: Dancer = null
 func _gui_input(event):
 	if event.is_class("InputEventMouseButton"):
 		var m: InputEventMouseButton = event
 		if m.is_pressed():
 			if m.button_index == BUTTON_LEFT:
 				if npc_info.visible:
-					sticky_dancer = npc_info.dancer
+					_focus_npc(npc_info.npc, true)
 			if m.button_index == BUTTON_RIGHT:
 				if npc_info.visible:
-					npc_info.visible = false
-					sticky_dancer = null
-func _on_dancer_hover(d: Dancer):
-	npc_info.dancer = d
-	npc_info.visible = true
+					_unfocus_npc(true)
+
+var sticky_npc: NPC = null
+func _focus_npc(npc: NPC, sticky: bool = false):
+	if sticky:
+		sticky_npc = npc
+	npc_info.npc = npc
+	npc_info.visible = !!npc_info.npc 
 	npc_info.snap()
 
-
-func _on_dancer_unhover():
-	npc_info.visible = false
-	if sticky_dancer:
-		npc_info.dancer = sticky_dancer
-		npc_info.visible = true
-		npc_info.snap()
+func _unfocus_npc(sticky: bool = false):
+	if sticky:
+		sticky_npc = null
+	npc_info.npc = sticky_npc
+	npc_info.visible = !!npc_info.npc
+	npc_info.snap()
 
 func _on_connection_hover():
 	connection_panel.visible = true

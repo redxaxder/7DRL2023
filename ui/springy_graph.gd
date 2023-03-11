@@ -17,6 +17,9 @@ export var edge_width: float = 2.0
 export var edge_color: Color = Color(1,1,1)
 
 
+signal npc_focus(npc)
+signal npc_unfocus
+signal npc_click(npc)
 
 var _velocities: PoolVector2Array
 
@@ -28,6 +31,11 @@ func _ready():
 func add_child(node: Node, legible_unique_name: bool = false):
 # warning-ignore:return_value_discarded
 	node.connect("item_rect_changed", self, "_refresh")
+# warning-ignore:return_value_discarded
+	node.connect("mouse_entered", self, "_on_node_hover", [node])
+# warning-ignore:return_value_discarded
+	node.connect("mouse_exited", self, "_on_node_unhover")
+	node.connect("clicked", self, "_on_node_click", [node])
 	.add_child(node, legible_unique_name)
 	_refresh()
 
@@ -142,3 +150,11 @@ func _physics_process(delta):
 	if !moved:
 		set_physics_process(false)
 
+func _on_node_hover(vertex):
+	emit_signal("npc_focus", vertex.npc)
+
+func _on_node_unhover():
+	emit_signal("npc_unfocus")
+
+func _on_node_click(vertex):
+	emit_signal("npc_click", vertex.npc)

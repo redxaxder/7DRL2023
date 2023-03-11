@@ -16,12 +16,14 @@ const OPPOSED: int = 2
 enum INTEL{ FACTION=1, CONNECTIONS=2, RESOLVE=4, CORRUPTION=8, INVENTORY = 16}
 
 
-const intel_threshold: int = 20
+const intel_threshold: int = 1
 
 export var intel: int = 0
 export (int, FLAGS, "faction","connections","resolve","corruption", "inventory") var known_intel = 0
 export var suspicion: int = 0
 export var letter: String
+var dancer: WeakRef = null
+
 export (int, "m", "f") var gender = 0
 export (int, "corrupt", "honest") var corruption: int = CORRUPT
 export (int, "support", "neutral", "opposed") var faction: = 1

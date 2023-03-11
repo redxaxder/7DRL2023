@@ -216,6 +216,7 @@ visible = false
 anchor_left = 0.248047
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 1
 __meta__ = {
 "_edit_use_anchors_": true
 }
@@ -227,6 +228,7 @@ margin_left = 7.0
 margin_top = 7.0
 margin_right = 763.0
 margin_bottom = 593.0
+mouse_filter = 1
 springs = PoolVector2Array(  )
 repulsion_constant = 800.0
 attraction_constant = 20.0
