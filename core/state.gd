@@ -535,7 +535,7 @@ func exit_dance():
 					emit_signal("write_log", message)
 					if is_connected:
 						message = "A rift has formed between {0} and {1}.".format([holder.name, owner.name])
-						break_connection(holder, owner)
+						break_connection(holder.npc_id, owner.npc_id)
 					else:
 						message = "The preexisting poor relationship between {0} and {1} is unchanged.".format([holder.name, owner.name])
 					emit_signal("write_log", message)
@@ -544,7 +544,7 @@ func exit_dance():
 					emit_signal("write_log", message)
 					if !is_connected:
 						message = "The relationship between {0} and {1} has deepened.".format([holder.name, owner.name])
-						make_connection(holder,owner)
+						make_connection(holder.npc_id,owner.npc_id)
 					else:
 						message = "{0} and {1} remain friends.".format([holder.name, owner.name])
 					emit_signal("write_log", message)
