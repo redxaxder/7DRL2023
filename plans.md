@@ -126,9 +126,9 @@ third pass:
   - log
     + intel revealed
     + pilfer action
-    - suspicion critical
-	- shove
-	- failed actions
+    + suspicion critical
+	+ shove
+	+ failed actions
     - connection changed
     - faction changed
   - sound effects:

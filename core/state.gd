@@ -172,6 +172,12 @@ func make_partners(id: int, target: int, dir: int):
 		for c in current_dances:
 			dancers[x].start_dance(c)
 
+	var follower_name = dancers[follower].npc.name
+	if id == player_id:
+		emit_signal("write_log", "You begin dancing with {0}.".format([follower_name]))
+	else:
+		var leader_name = dancers[leader].npc.name
+		emit_signal("write_log", "{0} begins dancing with {1}.".format([leader_name, follower_name]))
 func get_free_space():
 	var target: Vector2 = Vector2.ZERO
 	var attempts = 100
@@ -188,7 +194,6 @@ func in_bounds(pos: Vector2) -> bool:
 		pos.y >= 0 && pos.y < room_height
 
 func try_move_player(dir: int) -> bool:
-	emit_signal("write_log", "test test test")
 	var target_pos = player().pos + Dir.dir_to_vec(dir)
 	if !in_bounds(target_pos):
 		exit_dance()
@@ -299,16 +304,25 @@ func try_interact(id, dir, target_id) -> Dictionary:
 	var is_solo = is_dancer_solo(id)
 	var target_solo = is_dancer_solo(target_id)
 	var can_dance = dancers[id].gender != dancers[target_id].gender && dance_active
+	var target_name = dancers[target_id].npc.name
 	if is_solo && target_solo && can_dance:
 		make_partners(id, target_id, dir)
 		result.acted = true
 	elif id == player_id:
 		var grace_level = Core.grace_info(cumulative_grace).level
 		if Ability.costs[selected_ability] > grace_level:
+			var ability_name = ""
+			match selected_ability:
+				Ability.TYPE.PILFER:
+					ability_name = "pilfer"
+				Ability.TYPE.SHOVE:
+					ability_name = "shove"
+			emit_signal("write_log", "You don't have enough grace to {0}.".format([ability_name]))
 			return result
 		match selected_ability:
 			Ability.TYPE.SHOVE:
 				if shove(id, dir, target_id):
+					emit_signal("write_log", "You rudely shove {0} out of the way.".format([target_name]))
 					cumulative_grace = 0
 					emit_signal("grace", cumulative_grace)
 					result.acted = true
@@ -346,7 +360,7 @@ func tick_round():
 		var dist = max(v.x,v.y)
 		var suspicion_critical = dancers[i].roll_suspicion(grace.level, dist)
 		if suspicion_critical:
-			print("very sus!")
+			emit_signal("write_log", "You are about to be outed as a spy!")
 			epilogue()
 
 	#move npcs
@@ -361,12 +375,14 @@ func tick_round():
 	dance_countdown -= 1
 	if dance_countdown <= 0:
 		if dance_active:
+			emit_signal("write_log", "The song comes to an elegant end. The dance has ended.")
 			dance_active = false
 			dance_countdown = rest_duration
 			current_dances = []
 			for dancer in dancers:
 				dancer.end_dance()
 		else:
+			emit_signal("write_log", "The music swells; the dance has begun!")
 			dance_active = true
 			dance_countdown = dance_duration
 			var dance1 = Core.gen_steps_dance()
