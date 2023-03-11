@@ -42,7 +42,7 @@ func _refresh():
 	if dance:
 		_string.steps = Array(dance.steps)
 		_string.progress = dance.progress()
-	highlight.visible = _string.progress >= 3
+	highlight.visible = _string.progress >= 3 && gamestate.can_activate(dance)
 
 func step(dir: int):
 	if dance:

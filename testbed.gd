@@ -35,8 +35,11 @@ func _ready():
 	gamestate.connect("game_end", self, "_on_game_end")
 # warning-ignore:return_value_discarded
 	gamestate.connect("pilfer", self, "_on_pilfer")
+# warning-ignore:return_value_discarded
 	gamestate.connect("write_log", logger, "_on_write_log")
+# warning-ignore:return_value_discarded
 	gamestate.connect("dance_started", self, "_on_dance_start")
+# warning-ignore:return_value_discarded
 	gamestate.connect("dance_ended", self, "_on_dance_end")
 
 	view_connections.connect("mouse_entered", self , "_on_connection_hover")
@@ -273,6 +276,7 @@ func _on_pilfer(pilfer_target: Dancer = null):
 		send_particle(target, inventory_text, pilfer_icon.instance(), 0.5)
 
 func _on_dance_start():
+# warning-ignore:return_value_discarded
 	gamestate.player().connect("start_dance_tracker", self, "_on_dance_tracking_start", [], CONNECT_DEFERRED)
 	for d in gamestate.dancers:
 		var g = Glyph.new()

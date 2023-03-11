@@ -65,6 +65,12 @@ func evaluate(dir: int) -> int:
 		result = max(result, dance.evaluate(dir))
 	return result
 
+func name() -> String:
+	if npc:
+		return npc.name
+	else:
+		return ""
+
 func start_dance(steps, dance_type = Dance.TYPE.GRACE, ability_dir: Vector2 = Vector2.ZERO):
 	if !has_partner():
 		dance_tracker= []

@@ -24,7 +24,7 @@ var current_dances: Array = []
 var npcs: Array = []
 var available_npcs: Dictionary = NPC_Names.name_map.duplicate(true)
 
-var night = 0
+var night = 1
 var cumulative_grace = 0
 var selected_ability = 0
 var dance_countdown = rest_duration
@@ -70,6 +70,9 @@ func start_dance(attendees = 7):
 	dance_active = false
 	var player = Dancer.new()
 	dancers = []
+	items = []
+	location_index = {}
+	current_dances = []
 	player.pos = get_free_space()
 	add_dancer(player)
 	for attendee in throw_a_party(attendees):
@@ -122,6 +125,9 @@ func gen_trinket(gender: int) -> String:
 	var pool = Trinkets.trinkets[gender]
 	return pool[randi() % pool.size()]
 
+func epilogue():
+	emit_signal("game_end")
+
 func make_partners(id: int, target: int, dir: int):
 	var m
 	var f
@@ -169,7 +175,7 @@ func try_move_player(dir: int) -> bool:
 	emit_signal("write_log", "test test test")
 	var target_pos = player().pos + Dir.dir_to_vec(dir)
 	if !in_bounds(target_pos):
-		exit_dance(target_pos)
+		exit_dance()
 		return true
 	return try_move_dancer(player_id, dir)
 
@@ -325,7 +331,7 @@ func tick_round():
 		var suspicion_critical = dancers[i].roll_suspicion(grace.level, dist)
 		if suspicion_critical:
 			print("very sus!")
-			emit_signal("game_end")
+			epilogue()
 
 	#move npcs
 	var turn_order = []
@@ -467,8 +473,13 @@ func trigger_pilfer(target_id: int):
 	else:
 		return false
 
-func exit_dance(exit_location):
-	emit_signal("dance_exited")
+func exit_dance():
+	emit_signal("dance_ended")
+	night += 1
+	if night > 7:
+		epilogue()
+	else:
+		start_dance()
 
 func from_linear(ix: int) -> Vector2:
 # warning-ignore:integer_division
@@ -479,5 +490,16 @@ func to_linear(v: Vector2) -> int:
 
 func get_item_name(item_id: int) -> String:
 	if item_id >= 0 && item_id < items.size():
-		return "{0}'s {1}".format([dancers[item_id].character, items[item_id]])
+		return "{0}'s {1}".format([dancers[item_id].name(), items[item_id]])
 	return ""
+
+func can_activate(d: Dance) -> bool:
+	var dir = d.next_step()
+	var player: Dancer = dancers[player_id]
+	var target_pos = player.pos + Dir.dir_to_vec(dir)
+	if !in_bounds(target_pos):
+		return false
+	var occupant_id = location_index.get(target_pos, NO_OCCUPANT)
+	if occupant_id > NO_OCCUPANT && occupant_id != player.partner_id:
+		return false
+	return true
