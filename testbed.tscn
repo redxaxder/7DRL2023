@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://ui/floor_tile.tres" type="Theme" id=1]
 [ext_resource path="res://ui/dirstring.tscn" type="PackedScene" id=2]
@@ -18,6 +18,7 @@
 [ext_resource path="res://resources/robber-hand.png" type="Texture" id=16]
 [ext_resource path="res://ui/ability_selector.tscn" type="PackedScene" id=17]
 [ext_resource path="res://ui/log.tscn" type="PackedScene" id=18]
+[ext_resource path="res://ui/music_toggle.tscn" type="PackedScene" id=19]
 
 [sub_resource type="StyleBoxTexture" id=1]
 texture = ExtResource( 16 )
@@ -262,5 +263,10 @@ expand_icon = true
 __meta__ = {
 "_edit_use_anchors_": true
 }
+
+[node name="music_toggle" parent="." instance=ExtResource( 19 )]
+margin_top = 552.0
+margin_right = -976.0
+margin_bottom = 0.0
 
 [node name="sfx" parent="." instance=ExtResource( 15 )]
