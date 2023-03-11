@@ -481,7 +481,6 @@ func trigger_pilfer(target_id: int):
 	var target:Dancer = dancers[target_id]
 	var player: Dancer = dancers[player_id]
 	if player.item_id != Trinkets.NO_ITEM || target.item_id != Trinkets.NO_ITEM:
-		var item_name = ""
 		if target.item_id != Trinkets.NO_ITEM:
 			emit_signal("write_log", "You stole {0} from {1}!".format([get_item_name(target.item_id), target.npc.name]))
 		if player.item_id != Trinkets.NO_ITEM:

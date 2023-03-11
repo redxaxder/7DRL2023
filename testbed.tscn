@@ -211,11 +211,17 @@ margin_right = 44.0
 margin_bottom = 27.0
 custom_styles/normal = SubResource( 2 )
 
+[node name="log" parent="." instance=ExtResource( 18 )]
+anchor_left = 0.716797
+anchor_top = 0.005
+anchor_right = 0.917969
+
 [node name="PanelContainer" type="PanelContainer" parent="."]
 visible = false
 anchor_left = 0.248047
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_top = -0.005
+anchor_right = 1.00195
+anchor_bottom = 1.005
 mouse_filter = 1
 __meta__ = {
 "_edit_use_anchors_": true
@@ -226,8 +232,8 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 763.0
-margin_bottom = 593.0
+margin_right = 765.0
+margin_bottom = 599.0
 mouse_filter = 1
 springs = PoolVector2Array(  )
 repulsion_constant = 800.0
@@ -251,8 +257,3 @@ __meta__ = {
 }
 
 [node name="sfx" parent="." instance=ExtResource( 15 )]
-
-[node name="log" parent="." instance=ExtResource( 18 )]
-margin_left = 734.0
-margin_top = 3.0
-margin_right = -84.0
