@@ -317,6 +317,8 @@ func _on_dance_start():
 		g.visible = false
 		g.character = d.character
 		g.modulate = UIConstants.gender_color(d.gender)
+		if d.id == 0:
+			g.modulate = UIConstants.player_color
 		glyphs.append(g)
 		g.position = dancer_screen_pos(d.pos)
 		g.snap()

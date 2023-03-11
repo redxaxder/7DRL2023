@@ -1,0 +1,21 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://core/npc.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+intel = 0
+known_intel = 31
+suspicion = 0
+letter = "C"
+gender = 0
+corruption = 1
+faction = 0
+scandalous = false
+resolve = 100
+name = "Charles Philippe"
+title = "Count of Artois"
+is_player = true
+npc_id = -1
+spouse_id = -1
+connections = [  ]

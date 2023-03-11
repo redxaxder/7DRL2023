@@ -187,6 +187,7 @@ __meta__ = {
 }
 
 [node name="npc_info" parent="." instance=ExtResource( 10 )]
+visible = false
 anchor_top = -3.3776e-09
 anchor_right = 0.248047
 size_flags_vertical = 3

@@ -48,7 +48,7 @@ const name_map: Dictionary = {
 		faction: britain,
 		gender: F,
 		spouse: "Arthur Wellesley",
-		character: "C"
+		character: "P"
 	},
 	"Tsar Alexander I": {
 		faction: russia,

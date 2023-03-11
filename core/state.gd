@@ -44,6 +44,7 @@ const NO_OCCUPANT = -1
 
 
 const num_initial_supporters = 3
+const player_profile: NPC = preload("res://core/player_profile.tres")
 
 func init():
 	var keys = available_npcs.keys()
@@ -102,6 +103,7 @@ func start_dance(attendees = 7):
 	current_dances = []
 	player.pos = get_free_space()
 	add_dancer(player)
+	player.npc = player_profile
 	for attendee in throw_a_party(attendees):
 		var dancer = Dancer.new()
 		assert(attendee)
@@ -315,7 +317,8 @@ func try_interact(id, dir, target_id) -> Dictionary:
 	var is_solo = is_dancer_solo(id)
 	var target_solo = is_dancer_solo(target_id)
 	var can_dance = dancers[id].gender != dancers[target_id].gender && dance_active
-	var target_name = dancers[target_id].npc.name
+	var target = dancers[target_id]
+	var target_name = target.npc.name
 	if is_solo && target_solo && can_dance:
 		make_partners(id, target_id, dir)
 		result.acted = true
@@ -328,7 +331,7 @@ func try_interact(id, dir, target_id) -> Dictionary:
 					ability_name = "pilfer"
 				Ability.TYPE.SHOVE:
 					ability_name = "shove"
-			emit_signal("write_log", "You don't have enough grace to {0}.".format([ability_name]))
+			emit_signal("write_log", "You need to dance more before you can {0}.".format([ability_name]))
 			return result
 		match selected_ability:
 			Ability.TYPE.SHOVE:
@@ -340,6 +343,10 @@ func try_interact(id, dir, target_id) -> Dictionary:
 					result.moved = true
 			Ability.TYPE.PILFER:
 				result.acted = trigger_pilfer(target_id)
+				if !result.acted:
+					emit_signal("write_log", "{0} isn't carrying anything you can steal.".format([target_name]))
+				var npc_id = target
+				target.npc.discover_intel(NPC.INTEL.INVENTORY)
 	return result
 
 var grace_triggered = false

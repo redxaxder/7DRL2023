@@ -1,3 +1,4 @@
+tool
 extends Resource
 
 class_name Dancer
@@ -7,7 +8,7 @@ const Dance = preload("res://core/dance.gd")
 signal suspicion_gained
 signal intel_gained
 
-export var character: String = "R"
+export var character: String = "C"
 export (Array, Resource) var dance_tracker: Array
 export (int, "M","F") var gender: int
 export var npc: Resource

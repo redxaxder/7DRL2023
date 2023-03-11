@@ -31,6 +31,7 @@ export var scandalous: bool = false
 export var resolve: int = 70
 export var name: String = ""
 export var title: String = ""
+export var is_player = false
 
 export var npc_id: int = 0
 export var spouse_id: int = -1 #TODO: make spouses matter
@@ -45,7 +46,6 @@ signal write_log(log_text)
 func advance_intel() -> bool:
 	intel += 1
 	if intel % intel_threshold == 0:
-		var discovered_intel = 0
 		var intel_options = []
 		for i in intel_priority:
 			if !intel_known(i):
@@ -65,7 +65,7 @@ func intel_known(intel_type: int) -> bool:
 	return known_intel & intel_type > 0
 
 func discover_intel(intel_type: int):
-	if intel_type > 0:
+	if intel_type > 0 && known_intel & intel_type ==  0:
 		known_intel = known_intel | intel_type
 		emit_signal("intel_level_up", self, intel_type)
 		emit_signal("write_log", "You've acquired some intel!")
@@ -92,12 +92,15 @@ func advance_suspicion() -> bool:
 	return false
 
 
-func describe_faction(faction_id: int) -> String:
-	if faction_id == SUPPORT:
-		return "Support"
-	elif faction_id == NEUTRAL:
-		return "Neutral"
-	elif faction_id == OPPOSED:
-		return "Opposed"
-	else:
-		return ""
+const faction_name =  ["Supporter", "Neutral", "Opposition"]
+const faction_tooltip = [\
+	"This person is helping assemble the seventh coalition to defeat Napoleon",\
+	"This person is not helping assemble the seventh coalition",\
+	"This person is interfering with the creation of the sevent coalition"
+	]
+
+const corruption_name = ["Corrupt", "Honest"]
+const corruption_tooltip = [\
+	"This person will steal anything given an opportunity",\
+	"This person is above petty theft"\
+	]

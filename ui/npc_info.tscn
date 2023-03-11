@@ -1,15 +1,19 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://ui/npc_info.gd" type="Script" id=1]
+[ext_resource path="res://examples/example_npc.tres" type="Resource" id=2]
 [ext_resource path="res://ui/glyph.tres" type="DynamicFont" id=3]
 [ext_resource path="res://ui/guage.tscn" type="PackedScene" id=4]
 [ext_resource path="res://ui/npc_name.tres" type="Theme" id=5]
 [ext_resource path="res://resources/title_text.tres" type="Theme" id=6]
+[ext_resource path="res://examples/example_dancer.tres" type="Resource" id=7]
 
 [node name="npc_info" type="PanelContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
+dancer = ExtResource( 7 )
+npc = ExtResource( 2 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 margin_left = 7.0
@@ -22,31 +26,32 @@ modulate = Color( 0.78125, 0.536413, 0.189944, 1 )
 margin_right = 1010.0
 margin_bottom = 33.0
 custom_fonts/font = ExtResource( 3 )
-text = "R"
+text = "A"
 align = 1
 
 [node name="name" type="Label" parent="VBoxContainer"]
+visible = false
 margin_top = 37.0
 margin_right = 1010.0
 margin_bottom = 72.0
 theme = ExtResource( 6 )
-text = "Default Defaultovich"
 align = 1
 autowrap = true
 
 [node name="title" type="Label" parent="VBoxContainer"]
+visible = false
 margin_top = 76.0
 margin_right = 1010.0
 margin_bottom = 113.0
 theme = ExtResource( 5 )
-text = "King of Defaultonia"
 align = 1
 autowrap = true
 
 [node name="intel" parent="VBoxContainer" instance=ExtResource( 4 )]
-margin_top = 117.0
+visible = false
+margin_top = 76.0
 margin_right = 1010.0
-margin_bottom = 142.0
+margin_bottom = 101.0
 rect_min_size = Vector2( 0, 25 )
 hint_tooltip = "Intel"
 color = Color( 0.52, 0.507, 0.4888, 1 )
@@ -56,31 +61,51 @@ current = 30.0
 stages = [ 20 ]
 
 [node name="suspicion" parent="VBoxContainer" instance=ExtResource( 4 )]
-margin_top = 146.0
+visible = false
+margin_top = 37.0
 margin_right = 1010.0
-margin_bottom = 171.0
+margin_bottom = 62.0
 rect_min_size = Vector2( 0, 25 )
-hint_tooltip = "Suspicion"
+hint_tooltip = "Suspicion.
+How strongly this person suspects you are a spy. 
+Don't let it reach a critical level. Based on your current 
+position and how well you are dancing, there is a 0% 
+chance for this to increase each turn."
 color = Color( 0.580392, 0.0784314, 0.160784, 1 )
 border_color = Color( 0.3, 0.042, 0.0850001, 1 )
 width = 2.0
 current = 100.0
 
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
+margin_top = 37.0
+margin_right = 1010.0
+margin_bottom = 41.0
+
 [node name="faction" type="Label" parent="VBoxContainer"]
 visible = false
-margin_top = 95.0
+margin_top = 37.0
 margin_right = 1010.0
-margin_bottom = 109.0
+margin_bottom = 51.0
 text = "Opposed"
 align = 1
+autowrap = true
+
+[node name="corruption" type="Label" parent="VBoxContainer"]
+visible = false
+margin_top = 37.0
+margin_right = 1010.0
+margin_bottom = 51.0
+text = "Opposed"
+align = 1
+autowrap = true
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
-margin_top = 175.0
+margin_top = 45.0
 margin_right = 1010.0
-margin_bottom = 179.0
+margin_bottom = 49.0
 
 [node name="dance_tracker" type="VBoxContainer" parent="VBoxContainer"]
-margin_top = 183.0
+margin_top = 53.0
 margin_right = 1010.0
-margin_bottom = 183.0
+margin_bottom = 53.0
 alignment = 1

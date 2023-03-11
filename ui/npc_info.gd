@@ -1,4 +1,3 @@
-tool
 extends PanelContainer
 
 export var dancer: Resource setget set_dancer
@@ -9,6 +8,7 @@ onready var glyph = $VBoxContainer/glyph
 onready var intel = $VBoxContainer/intel
 onready var suspicion = $VBoxContainer/suspicion
 onready var faction = $VBoxContainer/faction
+onready var corruption = $VBoxContainer/corruption
 onready var character_name = $VBoxContainer/name
 onready var title = $VBoxContainer/title
 
@@ -35,13 +35,18 @@ func _ready():
 	_refresh()
 
 func _refresh():
+	if !intel: return
 	if npc != null:
 		intel.current = npc.intel
-		intel.visible = true
+		intel.visible = !npc.is_player
 		suspicion.current = npc.suspicion
-		suspicion.visible = true
-		faction.visible = npc.intel_known(NPC.INTEL.FACTION)
-		faction.text = npc.describe_faction(npc.faction)
+		suspicion.visible = !npc.is_player
+		faction.visible = npc.intel_known(NPC.INTEL.FACTION) && !npc.is_player
+		faction.text = NPC.faction_name[npc.faction]
+		faction.hint_tooltip = NPC.faction_tooltip[npc.faction]
+		corruption.visible = npc.intel_known(NPC.INTEL.CORRUPTION) && !npc.is_player
+		corruption.text = NPC.corruption_name[npc.corruption]
+		corruption.hint_tooltip = NPC.corruption_tooltip[npc.corruption]
 		character_name.visible = true
 		character_name.text = npc.name
 		title.visible = npc.title != ""
@@ -56,7 +61,7 @@ func _refresh():
 		title.visible = false
 	if dancer:
 		var sus_percent = int(dancer.sus_chance * 100)
-		suspicion.hint_tooltip = "Suspicion.\nHow strongly this person suspects you are a spy. \nDon't let it reach a critical level. Based on your current \nposition and how well you are dancing, there is a {0}% \nchance for this to increase each turn.".format([sus_percent])
+		suspicion.hint_tooltip = "Suspicion\nHow strongly this person suspects you are a spy. \nDon't let it reach a critical level. Based on your current \nposition and how well you are dancing, there is a {0}% \nchance for this to increase each turn.".format([sus_percent])
 
 	if dance_tracker && dancer:
 		for c in dance_tracker.get_children():
