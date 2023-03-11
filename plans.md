@@ -116,13 +116,13 @@ third pass:
     - show epilogue
   + animate movement
   + NPC items
-  - play/stop music
-  - npc info panel has intel
-    - if unknown, that fact is mentioned
-    - connections
-    - inventory
-    - corruption
-    - faction
+  + play/stop music
+  + npc info panel has intel
+    + if unknown, that fact is mentioned
+    + connections [ nix this ]
+    + inventory
+    + corruption
+    + faction
   - log
     + intel revealed
     + pilfer action
@@ -137,6 +137,7 @@ third pass:
     + shove
     - intel revealed
     - faction changed (x3)
+
 fourth pass:
   - player abilities
     - pick an ability to start with
