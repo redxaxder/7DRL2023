@@ -56,6 +56,7 @@ func _ready():
 	connection_graph.connect("npc_focus", self, "_focus_npc")
 	connection_graph.connect("npc_unfocus", self, "_unfocus_npc")
 	connection_graph.connect("npc_click", self, "_focus_npc", [true])
+	ability_selector.connect("selector_click", self, "toggle_ability")
 
 	randomize()
 	patterns.shuffle()

@@ -55,6 +55,7 @@ mouse_filter = 2
 custom_styles/panel = SubResource( 2 )
 
 [node name="MarginContainer2" type="MarginContainer" parent="."]
+modulate = Color( 0.7, 0.7, 0.7, 1 )
 margin_left = 52.0
 margin_right = 100.0
 margin_bottom = 48.0
@@ -72,6 +73,7 @@ flat = true
 expand_icon = true
 
 [node name="highlight" type="Panel" parent="MarginContainer2"]
+visible = false
 margin_right = 48.0
 margin_bottom = 48.0
 custom_styles/panel = SubResource( 2 )
@@ -95,6 +97,7 @@ flat = true
 expand_icon = true
 
 [node name="highlight" type="Panel" parent="MarginContainer"]
+visible = false
 margin_right = 48.0
 margin_bottom = 48.0
 custom_styles/panel = SubResource( 2 )
