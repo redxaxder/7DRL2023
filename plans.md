@@ -107,10 +107,10 @@ third pass:
     + there is a toggle for selecting abilities
     + if the toggle for that ability is active, 'interact' uses it
   + don't list dance steps on follower
-  - after dance:
+  + after dance:
     + make/break connections from pilfer
-    - perform contagion modeling
-      - animate it!
+    + perform contagion modeling
+      + animate it!
   + select active npc from graph pane
   - victory / defeat screen
     - show epilogue
@@ -127,8 +127,8 @@ third pass:
     + intel revealed
     + pilfer action
     + suspicion critical
-	+ shove
-	+ failed actions
+    + shove
+    + failed actions
     - connection changed
     - faction changed
   - sound effects:
@@ -137,7 +137,6 @@ third pass:
     + shove
     - intel revealed
     - faction changed (x3)
-
 fourth pass:
   - player abilities
     - pick an ability to start with

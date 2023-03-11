@@ -1,9 +1,12 @@
+tool
 extends MarginContainer
 
 
 export var npc: Resource setget set_npc
+export var displayed_faction: int = -1 setget set_displayed_faction
 export var support: float setget set_support
-export var opposition: float setget set_opposition
+#export var support_dubious: bool setget set_support_dubious
+#export var opposition: float setget set_opposition
 export var faction_colors: PoolColorArray = PoolColorArray([Color(0.227451, 0.466667, 0.772549), Color(0.66, 0.6435, 0.6204), Color(0.823529, 0.098039, 0.098039)])
 
 onready var support_label = $VBoxContainer/support_percent
@@ -21,13 +24,21 @@ func set_npc(x):
 	npc = x
 	_refresh()
 
+func set_displayed_faction(x):
+	displayed_faction = x
+	_refresh()
+
 func set_support(x):
 	support = x
 	_refresh()
 
-func set_opposition(x):
-	opposition = x
-	_refresh()
+#func set_support_dubious(x):
+#	support_dubious = x
+#	_refresh()
+#
+#func set_opposition(x):
+#	opposition = x
+#	_refresh()
 
 func _ready():
 # warning-ignore:return_value_discarded
@@ -43,15 +54,25 @@ func _refresh():
 		label.modulate = UIConstants.gender_color(n.gender)
 	if support_guage:
 		support_guage.current = support
+#		if npc.intel_known(NPC.INTEL.SUPPORT):
+#			support_guage.modulate = Color(1,1,1,1)
+#		else:
+#			support_guage.modulate = Color(0,0,0,0)
 	if support_label:
-		support_label.text = "{0}%".format([int(support)])
-	if opposition_guage:
-		opposition_guage.current = opposition
-	if opposition_label:
-		opposition_label.text = "{0}%".format([int(opposition)])
+		support_label.text = "{0}% ?".format([int(support)])
+#		if npc.intel_known(NPC.INTEL.SUPPORT):
+#			support_label.modulate = Color(1,1,1,1)
+#		else:
+#			support_label.modulate = Color(0,0,0,0)
+#	if opposition_guage:
+#		opposition_guage.current = opposition
+#	if opposition_label:
+#		opposition_label.text = "{0}%".format([int(opposition)])
 	if faction:
-		faction.visible = npc.intel_known(NPC.INTEL.FACTION)
-		faction.color = faction_colors[npc.faction]
+		if displayed_faction < 0 || displayed_faction >= faction_colors.size():
+			faction.color = Color(0,0,0,0)
+		else:
+			faction.color = faction_colors[displayed_faction]
 	if ticks:
 		for tick in ticks:
 			if tick:
