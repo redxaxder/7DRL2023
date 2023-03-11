@@ -92,10 +92,17 @@ func _unfocus_npc(sticky: bool = false):
 	npc_info.visible = !!npc_info.npc
 	npc_info.snap()
 
+var connection_hover = false
 func _on_connection_hover():
-	connection_panel.visible = true
+	connection_hover = true
+	update_see_connection_panel()
+	
 func _on_connection_unhover():
-	connection_panel.visible = false || view_connections.pressed
+	connection_hover = false
+	update_see_connection_panel()
+
+func update_see_connection_panel():
+	connection_panel.visible = connection_hover || view_connections.pressed || faction_queue_wait > 0
 
 func _on_game_end():
 	get_tree().quit()
@@ -183,12 +190,19 @@ func advance_move_queue():
 	glyph.kick(kick)
 
 func _physics_process(delta):
-	if move_queue_wait.size() == 0:
-		set_physics_process(false)
-		return
-	move_queue_wait[0] -= delta
-	if move_queue_wait[0] <= 0:
-		advance_move_queue()
+	var more = false
+	if move_queue_wait.size() > 0:
+		more = true
+		move_queue_wait[0] -= delta
+		if move_queue_wait[0] <= 0:
+			advance_move_queue()
+	if faction_queue_wait > 0:
+		more = true
+		faction_queue_wait -= delta
+		if faction_queue_wait <= 0:
+			advance_faction_queue()
+		update_see_connection_panel()
+	set_physics_process(more)
 
 const grace_particle = preload("res://ui/grace_particle.tscn")
 func _on_grace_changed(amount: int):
@@ -226,7 +240,7 @@ func send_particle(from: Node, to: Node, what: Node, kickmod = 1.0):
 	anch.friction = 0.7
 	anch.snap()
 	if to.is_class("Control"):
-		anch.rect_position = to.rect_size / 2.0
+		anch.rect_global_position = to.rect_global_position + to.rect_size / 2.0
 	else:
 		anch.rect_position = Vector2.ZERO
 	var kickdir = Vector2(randi(), randi()) - Vector2(0.5,0.5)
@@ -265,6 +279,16 @@ func _on_intel_level_up(npc: NPC, discovery: int):
 	if (discovery == NPC.INTEL.CONNECTIONS):
 		connection_graph.get_child(npc.npc_id).visible = true
 		connection_graph._refresh()
+		connection_graph.update_visible_support()
+	if (discovery == NPC.INTEL.FACTION):
+		connection_graph.update_vertex(npc.npc_id)
+		connection_graph.update_visible_support()
+	if (discovery == NPC.INTEL.RESOLVE):
+		connection_graph.update_vertex(npc.npc_id)
+		connection_graph.update_visible_support()
+#	if (discovery == NPC.INTEL.SUPPORT):
+#		connection_graph.update_vertex(npc.npc_id)
+#		connection_graph.update_visible_support(gamestate)
 
 const pilfer_icon = preload("res://ui/pilfer_icon.tscn")
 func _on_pilfer(pilfer_target: Dancer = null):
@@ -302,6 +326,40 @@ func _on_dance_end():
 	glyphs = []
 	clear_player_dances()
 
+
+var faction_queue = []
+var faction_animated = false
+var faction_queue_wait = 0
+const faction_queue_wait_amt = 1
+const faction_queue_wait_anim_amt = 1
+
+func queue_faction_change(id):
+	if !connection_graph.get_child(id).visible:
+		return
+	if faction_queue.size() == 0:
+		faction_queue_wait = faction_queue_wait_amt
+	faction_queue.append(id)
+	set_physics_process(true)
+
+const faction_particle = preload("res://ui/grace_particle.tscn")
+func advance_faction_queue():
+	if faction_queue.size() == 0:
+		return
+	var target = faction_queue[0]
+	if faction_animated:
+		faction_queue.pop_front()
+		connection_graph.update_vertex(target)
+		connection_graph.update_visible_support()
+		faction_queue_wait = faction_queue_wait_amt
+		faction_animated = false
+	else:
+		var neighbors = connection_graph.visible_neighbors(target)
+		for n in neighbors:
+			if n.displayed_faction == NPC.SUPPORT:
+				send_particle(n, connection_graph.get_child(target), faction_particle.instance(), 0)
+		faction_queue_wait = faction_queue_wait_amt
+		faction_animated = true
+	
+
 func _on_npc_faction_change(npc):
-	print(npc.npc_id, "faction changed")
-	pass
+	queue_faction_change(npc.npc_id)

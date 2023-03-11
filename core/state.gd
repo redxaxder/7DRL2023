@@ -53,6 +53,7 @@ func init():
 		npc.npc_id = i
 		npc.gender = npc_entry[NPC_Names.gender]
 		npc.resolve = (randi() % 9) * 5 + 30
+#		npc.resolve = 10
 		if npc_entry.has(NPC_Names.title):
 			npc.title = npc_entry[NPC_Names.title]
 		npc.connections = []
@@ -566,7 +567,7 @@ func do_contagion() -> bool:
 	for npc_id in contagion_turns:
 		var support = get_npc_support(npc_id)
 		var npc = npcs[npc_id]
-		if support >= npc.resolve:
+		if support*100 >= npc.resolve && npc.faction != NPC.SUPPORT:
 			npc.faction = NPC.SUPPORT
 			changed = true
 	return changed

@@ -214,7 +214,8 @@ custom_styles/normal = SubResource( 2 )
 [node name="log" parent="." instance=ExtResource( 18 )]
 anchor_left = 0.716797
 anchor_top = 0.005
-anchor_right = 0.917969
+anchor_right = 0.912109
+margin_right = -5.0
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 visible = false
@@ -238,6 +239,7 @@ mouse_filter = 1
 springs = PoolVector2Array(  )
 repulsion_constant = 800.0
 attraction_constant = 20.0
+friction = 0.99
 max_velocity = 30.0
 has_anchor = true
 anchor_attraction = 0.05

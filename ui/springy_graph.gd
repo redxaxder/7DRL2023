@@ -75,9 +75,43 @@ func _refresh():
 		_velocities = PoolVector2Array()
 		for c in get_children():
 			_velocities.append(Vector2.ZERO)
-	for vertex in get_children():
-		vertex._refresh()
 	set_physics_process(true)
+
+func visible_neighbors(i) -> Array:
+	var result = []
+	var c = get_children()
+	for s in springs:
+		if !c[s.x].visible || !c[s.y].visible:
+			continue
+		if s.x == i:
+			result.append(c[s.y])
+		if s.y == i:
+			result.append(c[s.x])
+	return result
+
+func update_vertex(i):
+	var vertex = get_child(i)
+	vertex.displayed_faction = vertex.npc.faction
+
+func update_visible_support():
+	var numerators = []
+	var denominators = []
+	for i in get_child_count():
+		numerators.append(0)
+		denominators.append(0)
+	var cs = get_children()
+	for s in springs:
+		if !cs[s.x].visible || !cs[s.y].visible:
+			continue
+		denominators[s.x] += 1
+		denominators[s.y] += 1
+		if get_child(s.x).displayed_faction == NPC.SUPPORT:
+			numerators[s.y] += 1
+		if get_child(s.y).displayed_faction == NPC.SUPPORT:
+			numerators[s.x] += 1
+	for i in get_child_count():
+		if denominators[i] > 0:
+			get_child(i).support = float(100 * numerators[i]) / float(denominators[i])
 
 func _draw():
 	var n = get_child_count()
