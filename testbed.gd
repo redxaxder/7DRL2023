@@ -295,3 +295,5 @@ func _on_dance_end():
 	for g in glyphs:
 		g.queue_free()
 	glyphs = []
+	clear_player_dances()
+
