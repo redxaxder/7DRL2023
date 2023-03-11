@@ -90,11 +90,11 @@ second pass:
       + character's corrupt/honest state}}}
 
 third pass:
-  - can exit a dance
+  + can exit a dance
   + click NPC to make info panel stick
-  - multiple nights
-    - new set of dancers chosen from subset of NPCs
-    - level will wire up the dancers repeatedly
+  + multiple nights
+    + new set of dancers chosen from subset of NPCs
+    + level will wire up the dancers repeatedly
   + title screen
     + can start game
     - game options?
