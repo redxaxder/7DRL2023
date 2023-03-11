@@ -62,7 +62,20 @@ func discover_intel(intel_type: int):
 	if intel_type > 0:
 		known_intel = known_intel | intel_type
 		emit_signal("intel_level_up", self, intel_type)
-		emit_signal("write_log", "You acquired some intel on {0}.".format([name]))
+		emit_signal("write_log", "You've acquired some intel!")
+		if intel_type == INTEL.CONNECTIONS:
+			emit_signal("write_log", "You've learned about {0}'s connections.".format([name]))
+		elif intel_type == INTEL.CORRUPTION:
+			if corruption == CORRUPT:
+				emit_signal("write_log", "{0} seems a little unscrupulous.".format([name]))
+			else:
+				emit_signal("write_log", "{0} is the honest sort!".format([name]))
+		elif intel_type == INTEL.FACTION:
+			emit_signal("write_log", "{0}'s political leanings are clear to you now.".format([name]))
+		elif intel_type == INTEL.INVENTORY:
+			emit_signal("write_log", "You know what {0} came to the ball with.".format([name]))
+		elif intel_type == INTEL.RESOLVE:
+			emit_signal("write_log", "You have a good idea of the strength of {0}'s convictions.".format([name]))
 
 func advance_suspicion() -> bool:
 	suspicion += 1

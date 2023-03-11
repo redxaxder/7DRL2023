@@ -119,12 +119,12 @@ third pass:
   - play/stop music
   - log
     + intel revealed
-    - connection changed
-    - faction changed
     - pilfer action
     - suspicion critical
 	- shove
 	- failed actions
+    - connection changed
+    - faction changed
   - sound effects:
     - dancer moves (maybe not this one. it plays a lot!)
     + grace gained
