@@ -104,12 +104,14 @@ third pass:
     + action of dihedral group on player ability
     + pilfer
     + player dance tracker has icon representing action
-    - there is a toggle for selecting abilities
-    - if the toggle for that ability is active, 'interact' uses it
+    + there is a toggle for selecting abilities
+    + if the toggle for that ability is active, 'interact' uses it
   + don't list dance steps on follower
   - after dance:
     - make/break connections from pilfer
     - perform contagion modeling
+      - animate it!
+  + select active npc from graph pane
   - victory / defeat screen
     - show epilogue
   + animate movement
@@ -127,7 +129,6 @@ third pass:
     + shove
     - intel revealed
     - faction changed (x3)
-
 
 fourth pass:
   - player abilities

@@ -2,6 +2,7 @@ tool
 extends PanelContainer
 
 export var dancer: Resource setget set_dancer
+export var npc: Resource setget set_npc
 
 onready var dance_tracker = $VBoxContainer/dance_tracker
 onready var glyph = $VBoxContainer/glyph
@@ -15,6 +16,18 @@ const DirString = preload("res://ui/dirstring.tscn")
 
 func set_dancer(d: Dancer):
 	dancer = d
+	npc = null
+	if d:
+		npc = d.npc
+	_refresh()
+
+func set_npc(n: NPC):
+	npc = n
+	dancer = null
+	if npc && npc.dancer:
+		var r =  npc.dancer.get_ref()
+		if r:
+			dancer = r
 	_refresh()
 
 func _ready():
@@ -22,46 +35,43 @@ func _ready():
 	_refresh()
 
 func _refresh():
-	if !dancer: return
-	if !dance_tracker: return
-	var d: Dancer = dancer
-
-	if d.npc != null:
-		intel.current = d.npc.intel
+	if npc != null:
+		intel.current = npc.intel
 		intel.visible = true
-		suspicion.current = d.npc.suspicion
+		suspicion.current = npc.suspicion
 		suspicion.visible = true
-		var sus_percent = int(d.sus_chance * 100)
-		suspicion.hint_tooltip = "Suspicion.\nHow strongly this person suspects you are a spy. \nDon't let it reach a critical level. Based on your current \nposition and how well you are dancing, there is a {0}% \nchance for this to increase each turn.".format([sus_percent])
-		faction.visible = d.npc.intel_known(NPC.INTEL.FACTION)
-		faction.text = d.npc.describe_faction(d.npc.faction)
+		faction.visible = npc.intel_known(NPC.INTEL.FACTION)
+		faction.text = npc.describe_faction(npc.faction)
 		character_name.visible = true
-		character_name.text = d.npc.name
-		title.visible = d.npc.title != ""
-		title.text = d.npc.title
+		character_name.text = npc.name
+		title.visible = npc.title != ""
+		title.text = npc.title
+		glyph.text = npc.letter
+		glyph.modulate = UIConstants.gender_color(npc.gender)
 	else:
 		intel.visible = false
 		suspicion.visible = false
 		faction.visible = false
 		character_name.visible = false
 		title.visible = false
+	if dancer:
+		var sus_percent = int(dancer.sus_chance * 100)
+		suspicion.hint_tooltip = "Suspicion.\nHow strongly this person suspects you are a spy. \nDon't let it reach a critical level. Based on your current \nposition and how well you are dancing, there is a {0}% \nchance for this to increase each turn.".format([sus_percent])
 
-	glyph.text = d.character
-	glyph.modulate = UIConstants.gender_color(d.gender)
-
-	for c in dance_tracker.get_children():
-		c.queue_free()
-	var dances = []
-	if d.leading:
-		for dance in d.dance_tracker:
-			dances.append(dance)
-	dances.sort_custom(self,"compare_dances")
-	for dance in dances:
-		var dstring = DirString.instance()
-		dstring.steps = dance.steps
-		dstring.progress = dance.progress()
-		dstring.visible = dstring.progress > 0
-		dance_tracker.add_child(dstring)
+	if dance_tracker && dancer:
+		for c in dance_tracker.get_children():
+			c.queue_free()
+		var dances = []
+		if dancer.leading:
+			for dance in dancer.dance_tracker:
+				dances.append(dance)
+		dances.sort_custom(self,"compare_dances")
+		for dance in dances:
+			var dstring = DirString.instance()
+			dstring.steps = dance.steps
+			dstring.progress = dance.progress()
+			dstring.visible = dstring.progress > 0
+			dance_tracker.add_child(dstring)
 
 func compare_dances(l: Dance, r: Dance) -> bool:
 	return l.compare(r) < 0
