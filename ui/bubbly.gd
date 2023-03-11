@@ -27,15 +27,13 @@ func spawn(node: Control):
 #var spd = 500.0
 func _process(delta):
 	var dy = spd * delta
-	var bottoms = [0]
 	var cs = get_children()
 	var height = 0
+	var prev_bottom = 0
 	for c in cs:
-		bottoms.append(c.rect_position.y + c.rect_size.y + spacing)
+		c.rect_position.y = max(c.rect_position.y - dy, prev_bottom)
+		prev_bottom = c.rect_position.y + spacing + c.rect_size.y
 		if !c.get("fading"):
 			height += c.rect_size.y + spacing
-	for i in get_child_count():
-		var c = cs[i]
-		c.rect_position.y = max(c.rect_position.y - dy, bottoms[i])
 	if height > rect_size.y:
 		do_fade()
