@@ -29,6 +29,7 @@ preload("res://resources/music/originaldancewaltz3.mp3"),\
 var played_songs = []
 
 onready var music_player = $MusicPlayer
+onready var pool = [$AudioStreamPlayer,$AudioStreamPlayer2,$AudioStreamPlayer3]
 
 const fade_time: float = 2.0
 var fading = false
@@ -38,7 +39,7 @@ const orig_volume: float = 0.0
 
 func play(sfx: int):
 	if sfx < 0 || sfx > _sfx.size(): return
-	for c in get_children():
+	for c in pool:
 		var a: AudioStreamPlayer = c
 		if a.playing: continue
 		else:
@@ -54,7 +55,7 @@ func start_song():
 		played_songs.append(song)
 		music.erase(song)
 	else:
-		for i in range(played_songs.size()):
+		for _i in range(played_songs.size()):
 			music.append(played_songs.pop_back())
 
 func end_song():

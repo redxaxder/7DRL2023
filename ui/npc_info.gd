@@ -2,6 +2,7 @@ extends PanelContainer
 
 export var dancer: Resource setget set_dancer
 export var npc: Resource setget set_npc
+var gamestate = null
 
 onready var dance_tracker = $VBoxContainer/dance_tracker
 onready var glyph = $VBoxContainer/glyph
@@ -9,6 +10,8 @@ onready var intel = $VBoxContainer/intel
 onready var suspicion = $VBoxContainer/suspicion
 onready var faction = $VBoxContainer/faction
 onready var corruption = $VBoxContainer/corruption
+onready var resolve = $VBoxContainer/resolve
+onready var item_panel = $VBoxContainer/item
 onready var character_name = $VBoxContainer/name
 onready var title = $VBoxContainer/title
 
@@ -41,14 +44,44 @@ func _refresh():
 		intel.visible = !npc.is_player
 		suspicion.current = npc.suspicion
 		suspicion.visible = !npc.is_player
-		faction.visible = npc.intel_known(NPC.INTEL.FACTION) && !npc.is_player
+		faction.visible = !npc.is_player
 		faction.text = NPC.faction_name[npc.faction]
 		faction.hint_tooltip = NPC.faction_tooltip[npc.faction]
-		corruption.visible = npc.intel_known(NPC.INTEL.CORRUPTION) && !npc.is_player
+		if !npc.intel_known(NPC.INTEL.FACTION):
+			faction.text = "???"
+			faction.hint_tooltip = "I do not know their alleigence\nAre they going to help me? Or get in the way?"
+		corruption.visible = !npc.is_player
 		corruption.text = NPC.corruption_name[npc.corruption]
 		corruption.hint_tooltip = NPC.corruption_tooltip[npc.corruption]
+		if !npc.intel_known(NPC.INTEL.CORRUPTION):
+			corruption.text = "???"
+			corruption.hint_tooltip = "What kind of person are you, {0}?\nI need to learn more about their personality".format([npc.name])
 		character_name.visible = true
 		character_name.text = npc.name
+		
+		item_panel.visible = !npc.is_player && !!gamestate
+		if gamestate && dancer:
+			var item_id = dancer.item_id
+			if item_id == Trinkets.NO_ITEM:
+				item_panel.text = "No item"
+				item_panel.hint_tooltip = ""
+#				item_panel.hint_toolip = "They are not carrying anything worth stealing"
+			else:
+				item_panel.text = gamestate.get_item_name(item_id)
+				item_panel.hint_tooltip = ""
+				if item_id != dancer.id:
+					item_panel.hint_tooltip = "I wonder how that got there"
+			if !npc.intel_known(NPC.INTEL.INVENTORY):
+				item_panel.text = "Item: ???"
+				item_panel.hint_tooltip = "I do not know what they are carrying"
+		
+		resolve.visible = !npc.is_player
+		resolve.text = "Resolve: {0}%".format([npc.resolve])
+		resolve.hint_tooltip = "If enough of your friends join my cause\nwon't your mind be made up for you?"
+		if !npc.intel_known(NPC.INTEL.RESOLVE):
+			resolve.text = "Resolve: ???"
+			resolve.hint_tooltip = "I do not know stubborn they are"
+		
 		title.visible = npc.title != ""
 		title.text = npc.title
 		glyph.text = npc.letter

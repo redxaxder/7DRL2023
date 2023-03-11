@@ -46,7 +46,9 @@ func _ready():
 	gamestate.connect("connection_made", connection_graph, "add_spring")
 # warning-ignore:return_value_discarded
 	gamestate.connect("song_start", self, "_on_song_start")
+# warning-ignore:return_value_discarded
 	gamestate.connect("song_end", self, "_on_song_end")
+# warning-ignore:return_value_discarded
 	gamestate.connect("connection_broken", connection_graph, "remove_spring")
 	view_connections.connect("mouse_entered", self , "_on_connection_hover")
 	view_connections.connect("mouse_exited", self , "_on_connection_unhover")
@@ -85,6 +87,7 @@ func _focus_npc(npc: NPC, sticky: bool = false):
 		sticky_npc = npc
 	npc_info.npc = npc
 	npc_info.visible = !!npc_info.npc
+	npc_info.gamestate = gamestate
 	npc_info.snap()
 
 func _unfocus_npc(sticky: bool = false):

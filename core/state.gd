@@ -345,7 +345,6 @@ func try_interact(id, dir, target_id) -> Dictionary:
 				result.acted = trigger_pilfer(target_id)
 				if !result.acted:
 					emit_signal("write_log", "{0} isn't carrying anything you can steal.".format([target_name]))
-				var npc_id = target
 				target.npc.discover_intel(NPC.INTEL.INVENTORY)
 	return result
 
@@ -593,7 +592,10 @@ func get_npc_support(npc_id: int) -> float:
 		var n: NPC = npcs[neighbor_id]
 		if n.faction == NPC.SUPPORT:
 			supporters += 1
-	var support =float(supporters) / float(npc.connections.size())
+	
+	var support = 0
+	if npc.connections.size() > 0:
+		support = float(supporters) / float(npc.connections.size())
 	return support
 
 

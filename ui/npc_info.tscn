@@ -86,6 +86,7 @@ visible = false
 margin_top = 37.0
 margin_right = 1010.0
 margin_bottom = 51.0
+mouse_filter = 1
 text = "Opposed"
 align = 1
 autowrap = true
@@ -95,17 +96,37 @@ visible = false
 margin_top = 37.0
 margin_right = 1010.0
 margin_bottom = 51.0
+mouse_filter = 1
 text = "Opposed"
 align = 1
 autowrap = true
 
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+[node name="resolve" type="Label" parent="VBoxContainer"]
+visible = false
+margin_top = 37.0
+margin_right = 1010.0
+margin_bottom = 51.0
+mouse_filter = 1
+text = "Opposed"
+align = 1
+autowrap = true
+
+[node name="item" type="Label" parent="VBoxContainer"]
 margin_top = 45.0
 margin_right = 1010.0
-margin_bottom = 49.0
+margin_bottom = 59.0
+mouse_filter = 1
+text = "Opposedasdfasdfasfasdf"
+align = 1
+autowrap = true
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+margin_top = 63.0
+margin_right = 1010.0
+margin_bottom = 67.0
 
 [node name="dance_tracker" type="VBoxContainer" parent="VBoxContainer"]
-margin_top = 53.0
+margin_top = 71.0
 margin_right = 1010.0
-margin_bottom = 53.0
+margin_bottom = 71.0
 alignment = 1

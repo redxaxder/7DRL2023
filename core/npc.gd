@@ -94,13 +94,13 @@ func advance_suspicion() -> bool:
 
 const faction_name =  ["Supporter", "Neutral", "Opposition"]
 const faction_tooltip = [\
-	"This person is helping assemble the seventh coalition to defeat Napoleon",\
-	"This person is not helping assemble the seventh coalition",\
-	"This person is interfering with the creation of the sevent coalition"
+	"This person is helping assemble the seventh coalition\nTheir help will be essential in securing Napoleon's defeat",\
+	"This person is not helping assemble the seventh coalition\nA minor obstacle",\
+	"This person is interfering with the creation of the seventh coalition"
 	]
 
 const corruption_name = ["Corrupt", "Honest"]
 const corruption_tooltip = [\
-	"This person will steal anything given an opportunity",\
-	"This person is above petty theft"\
+	"This person will steal anything given an opportunity\nHow can I use this to my advantage?",\
+	"This person is above petty theft\nA useful character tait"\
 	]
