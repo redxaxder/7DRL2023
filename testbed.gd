@@ -39,7 +39,7 @@ func _ready():
 
 	view_connections.connect("mouse_entered", self , "_on_connection_hover")
 	view_connections.connect("mouse_exited", self , "_on_connection_unhover")
-	
+
 	connection_graph.connect("npc_focus", self, "_focus_npc")
 	connection_graph.connect("npc_unfocus", self, "_unfocus_npc")
 	connection_graph.connect("npc_click", self, "_focus_npc", [true])
@@ -54,6 +54,7 @@ func _ready():
 	for i in range(n):
 		var npc = gamestate.make_npc(i)
 		npc.connect("intel_level_up", self, "_on_intel_level_up")
+		npc.connect("write_log", logger, "_on_write_log")
 		var vertex = Vertex.instance()
 		vertex.npc = npc
 		connection_graph.add_child(vertex)
@@ -107,7 +108,7 @@ func _focus_npc(npc: NPC, sticky: bool = false):
 	if sticky:
 		sticky_npc = npc
 	npc_info.npc = npc
-	npc_info.visible = !!npc_info.npc 
+	npc_info.visible = !!npc_info.npc
 	npc_info.snap()
 
 func _unfocus_npc(sticky: bool = false):

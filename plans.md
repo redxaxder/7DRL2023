@@ -118,11 +118,13 @@ third pass:
   + NPC items
   - play/stop music
   - log
-    - intel revealed
+    + intel revealed
     - connection changed
     - faction changed
     - pilfer action
     - suspicion critical
+	- shove
+	- failed actions
   - sound effects:
     - dancer moves (maybe not this one. it plays a lot!)
     + grace gained

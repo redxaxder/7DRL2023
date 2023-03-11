@@ -94,7 +94,6 @@ func in_bounds(pos: Vector2) -> bool:
 
 
 func try_move_player(dir: int) -> bool:
-	emit_signal("write_log", "test test test")
 	return try_move_dancer(player_id, dir)
 
 func try_player_action(dir: int) -> Dictionary:

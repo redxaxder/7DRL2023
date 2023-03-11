@@ -38,6 +38,7 @@ export var spouse_id: int = -1 #TODO: make spouses matter
 export (Array, int) var connections: Array = [] # array of npc ids
 
 signal intel_level_up(npc, intel_type)
+signal write_log(log_text)
 
  # return true when unlocking something with intel
 func advance_intel() -> bool:
@@ -61,6 +62,7 @@ func discover_intel(intel_type: int):
 	if intel_type > 0:
 		known_intel = known_intel | intel_type
 		emit_signal("intel_level_up", self, intel_type)
+		emit_signal("write_log", "You acquired some intel on {0}.".format([name]))
 
 func advance_suspicion() -> bool:
 	suspicion += 1
