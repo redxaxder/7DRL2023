@@ -35,6 +35,7 @@ func add_child(node: Node, legible_unique_name: bool = false):
 	node.connect("mouse_entered", self, "_on_node_hover", [node])
 # warning-ignore:return_value_discarded
 	node.connect("mouse_exited", self, "_on_node_unhover")
+# warning-ignore:return_value_discarded
 	node.connect("clicked", self, "_on_node_click", [node])
 	.add_child(node, legible_unique_name)
 	_refresh()

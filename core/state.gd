@@ -11,6 +11,9 @@ signal game_end()
 signal pilfer(occupant)
 signal write_log(log_text)
 
+signal dance_ended()
+signal dance_started()
+
 export var room_width: int = 9
 export var room_height: int = 9
 
@@ -21,6 +24,7 @@ var current_dances: Array = []
 var npcs: Array = []
 var available_npcs: Dictionary = NPC_Names.name_map.duplicate(true)
 
+var night = 0
 var cumulative_grace = 0
 var selected_ability = 0
 var dance_countdown = rest_duration
@@ -34,6 +38,75 @@ const rest_duration = 5
 # special dancer ids
 const NO_PARTNER = -2
 const NO_OCCUPANT = -1
+
+
+
+func init():
+	var keys = available_npcs.keys()
+	for i in keys.size():
+		var key = keys[i]
+		var npc = NPC.new()
+		var npc_entry = available_npcs[key]
+		npc.name = key
+		npc.letter = npc_entry[NPC_Names.character]
+		npc.npc_id = i
+		npc.gender = npc_entry[NPC_Names.gender]
+		if npc_entry.has(NPC_Names.title):
+			npc.title = npc_entry[NPC_Names.title]
+		npc.connections = []
+		npcs.append(npc)
+		for j in range(i):
+			if randi() % 3 == 0:
+				npc.connections.append(j)
+				npcs[j].connections.append(i)
+	start_dance()
+
+func player() -> Dancer:
+	return dancers[player_id]
+
+func start_dance(attendees = 7):
+	cumulative_grace = 0
+	dance_countdown = rest_duration
+	dance_active = false
+	var player = Dancer.new()
+	dancers = []
+	player.pos = get_free_space()
+	add_dancer(player)
+	for attendee in throw_a_party(attendees):
+		var dancer = Dancer.new()
+		assert(attendee)
+		dancer.npc = attendee
+		assert(dancer.npc)
+		attendee.dancer = weakref(dancer)
+		dancer.pos = get_free_space()
+		dancer.character = attendee.letter
+		dancer.gender = attendee.gender
+		add_dancer(dancer)
+		assert(dancer.npc)
+		if randi() % 5 <= 2:
+			dancer.item_id = dancer.id
+	
+	for d in dancers:
+		if d.id > 0:
+			assert(d.npc)
+	emit_signal("dance_started")
+
+func throw_a_party(n: int) -> Array:  # Array of NPC
+# warning-ignore:integer_division
+	var needed_m = int(n) / int(2)
+	var needed_f = n - needed_m
+	var needed = [needed_m,needed_f]
+	var attending = []
+	var totals = [0,0]
+	for npc in npcs:
+		totals[npc.gender] += 1
+	for npc in npcs:
+		var attend_chance = float(needed[npc.gender]) / float(totals[npc.gender])
+		if randf() < attend_chance:
+			attending.append(npc)
+			needed[npc.gender] -= 1
+		totals[npc.gender] -= 1
+	return attending
 
 func add_dancer(d: Dancer):
 	var id = dancers.size()
@@ -92,14 +165,17 @@ func in_bounds(pos: Vector2) -> bool:
 		pos.x >= 0 && pos.x < room_width && \
 		pos.y >= 0 && pos.y < room_height
 
-
 func try_move_player(dir: int) -> bool:
+	emit_signal("write_log", "test test test")
+	var target_pos = player().pos + Dir.dir_to_vec(dir)
+	if !in_bounds(target_pos):
+		exit_dance(target_pos)
+		return true
 	return try_move_dancer(player_id, dir)
 
 func try_player_action(dir: int) -> Dictionary:
 	var failed = {"moved": false, "acted": false}
-	var player: Dancer = dancers[player_id]
-	var target_pos = player.pos + Dir.dir_to_vec(dir)
+	var target_pos = player().pos + Dir.dir_to_vec(dir)
 	if !in_bounds(target_pos):
 		return failed
 	var occupant_id = location_index.get(target_pos, NO_OCCUPANT)
@@ -169,11 +245,8 @@ func move_dancer_1(id: int, dir: int, spin: bool = false, got_shoved: bool = fal
 	emit_signal("character_moved", dancer, kick_dir, got_shoved)
 	return true
 
-func can_shove(dir, target_id) -> bool:
-	return valid_dir_for_move(target_id, dir)
-
 func shove(_id, dir, target_id) -> bool:
-	if can_shove(dir, target_id):
+	if valid_dir_for_move(target_id, dir):
 		var dancer = dancers[target_id]
 		dancer.stun = true
 		if dancer.has_partner():
@@ -232,7 +305,7 @@ func tick_round():
 	emit_signal("grace", cumulative_grace)
 
 	#gain intel
-	var ppos = dancers[player_id].pos
+	var ppos = player().pos
 	for i in range(1, dancers.size()):
 		var los = Core.los(ppos, dancers[i].pos)
 		var occluded = false
@@ -384,16 +457,18 @@ func trigger_grace():
 func trigger_pilfer(target_id: int):
 	var info = Core.grace_info(cumulative_grace)
 	var target:Dancer = dancers[target_id]
-	var player: Dancer = dancers[player_id]
-	if player.item_id != Trinkets.NO_ITEM || target.item_id != Trinkets.NO_ITEM:
+	if player().item_id != Trinkets.NO_ITEM || target.item_id != Trinkets.NO_ITEM:
 		var tmp = target.item_id
-		target.item_id = player.item_id
-		player.item_id = tmp
+		target.item_id = player().item_id
+		player().item_id = tmp
 		cumulative_grace -= info.spend
 		emit_signal("pilfer", target)
 		return true
 	else:
 		return false
+
+func exit_dance(exit_location):
+	emit_signal("dance_exited")
 
 func from_linear(ix: int) -> Vector2:
 # warning-ignore:integer_division
@@ -401,67 +476,6 @@ func from_linear(ix: int) -> Vector2:
 
 func to_linear(v: Vector2) -> int:
 	return room_width * int(v.y) + int(v.x)
-
-func make_dijkstra(targets: Array) -> PoolIntArray:
-	var results: Array = []
-	results.resize(room_width * room_height)
-	for i in results.size():
-		results[i] = 9999
-	var frontier = []
-	for t in targets:
-		var ix = to_linear(t)
-		results[ix] = 0
-		frontier.append(ix)
-	while frontier.size() > 0:
-		var next_frontier = []
-		for f in frontier:
-			var value = results[f]
-			var neighbors = []
-			var p = from_linear(f)
-			for d in range(4):
-				var t = p + Dir.dir_to_vec(d)
-				if in_bounds(t):
-					neighbors.append(to_linear(t))
-			for n in neighbors:
-				if value + 1 < results[n]:
-					results[n] = value + 1
-					next_frontier.append(n)
-		frontier = next_frontier
-	return PoolIntArray(results)
-
-func make_npc(id: int) -> NPC:
-	var npc = NPC.new()
-	var available: Array = available_npcs.keys()
-	npc.name = available[randi() % available.size()]
-# warning-ignore:return_value_discarded
-	available_npcs.erase(npc.name)
-	var npc_entry = NPC_Names.name_map[npc.name]
-	npc.letter = npc_entry[NPC_Names.character]
-	npc.npc_id = id
-	npc.gender = npc_entry[NPC_Names.gender]
-	if npc_entry.has(NPC_Names.title):
-		npc.title = npc_entry[NPC_Names.title]
-	npc.connections = []
-
-	npcs.append(npc)
-	return npc
-
-func throw_a_party(n: int) -> Array:  # Array of NPC
-# warning-ignore:integer_division
-	var needed_m = int(n) / int(2)
-	var needed_f = n - needed_m
-	var needed = [needed_m,needed_f]
-	var attending = []
-	var totals = [0,0]
-	for npc in npcs:
-		totals[npc.gender] += 1
-	for npc in npcs:
-		var attend_chance = float(needed[npc.gender]) / float(totals[npc.gender])
-		if randf() < attend_chance:
-			attending.append(npc)
-			needed[npc.gender] -= 1
-		totals[npc.gender] -= 1
-	return attending
 
 func get_item_name(item_id: int) -> String:
 	if item_id >= 0 && item_id < items.size():

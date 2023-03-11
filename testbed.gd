@@ -36,6 +36,8 @@ func _ready():
 # warning-ignore:return_value_discarded
 	gamestate.connect("pilfer", self, "_on_pilfer")
 	gamestate.connect("write_log", logger, "_on_write_log")
+	gamestate.connect("dance_started", self, "_on_dance_start")
+	gamestate.connect("dance_ended", self, "_on_dance_end")
 
 	view_connections.connect("mouse_entered", self , "_on_connection_hover")
 	view_connections.connect("mouse_exited", self , "_on_connection_unhover")
@@ -44,53 +46,19 @@ func _ready():
 	connection_graph.connect("npc_unfocus", self, "_unfocus_npc")
 	connection_graph.connect("npc_click", self, "_focus_npc", [true])
 
-	var player = Dancer.new()
 	randomize()
-	player.pos = gamestate.get_free_space()
-	gamestate.add_dancer(player)
-	player.connect("start_dance_tracker", self, "_on_dance_tracking_start", [], CONNECT_DEFERRED)
-	var letters = ["A","B","W","X","Y","Z","D","E","F","S","T"]
-	var n = letters.size()
-	for i in range(n):
-		var npc = gamestate.make_npc(i)
+	gamestate.init()
+	for i in gamestate.npcs.size():
+		var npc = gamestate.npcs[i]
 		npc.connect("intel_level_up", self, "_on_intel_level_up")
 		npc.connect("write_log", logger, "_on_write_log")
 		var vertex = Vertex.instance()
 		vertex.npc = npc
 		connection_graph.add_child(vertex)
 		vertex.visible = false
-		#TODO: connect npcs based on history rather than randomly
-		for j in range(i):
-			if randi() % 3 == 0:
-				npc.connections.append(j)
-				gamestate.npcs[j].connections.append(i)
+		for j in npc.connections:
+			if i < j:
 				connection_graph.add_spring(i,j)
-
-	for attendee in gamestate.throw_a_party(7):
-		var dancer = Dancer.new()
-		dancer.npc = attendee
-		attendee.dancer = weakref(dancer)
-		dancer.pos = gamestate.get_free_space()
-		dancer.character = attendee.letter
-		dancer.gender = attendee.gender
-		gamestate.add_dancer(dancer)
-		if randi() % 5 <= 2:
-			dancer.item_id = dancer.id
-
-	for d in gamestate.dancers:
-		var g = Glyph.new()
-		g.visible = false
-		g.character = d.character
-		g.modulate = UIConstants.gender_color(d.gender)
-		glyphs.append(g)
-		g.position = dancer_screen_pos(d.pos)
-		g.snap()
-		g.visible = true
-		g.connect("mouse_entered", self, "_focus_npc", [d.npc])
-		g.connect("mouse_exited", self, "_unfocus_npc")
-		dance_floor.add_child(g)
-
-	gamestate.tick_round()
 
 func _gui_input(event):
 	if event.is_class("InputEventMouseButton"):
@@ -266,7 +234,7 @@ func clear_player_dances():
 
 const DanceCard = preload("res://ui/dance_card.tscn")
 func load_player_dances():
-	var player: Dancer = gamestate.dancers[0]
+	var player: Dancer = gamestate.player()
 	for dance in player.dance_tracker:
 		var dance_card = DanceCard.instance()
 		dance_card.gamestate = gamestate
@@ -295,7 +263,7 @@ func _on_intel_level_up(npc: NPC, discovery: int):
 const pilfer_icon = preload("res://ui/pilfer_icon.tscn")
 func _on_pilfer(pilfer_target: Dancer = null):
 	sfx.play(sfx.SFX.PILFER)
-	var item_id = gamestate.dancers[GameState.player_id].item_id
+	var item_id = gamestate.player().item_id
 	inventory_text.text = gamestate.get_item_name(item_id)
 	inventory.visible = item_id != Trinkets.NO_ITEM
 	var target = glyphs[pilfer_target.id]
@@ -303,3 +271,23 @@ func _on_pilfer(pilfer_target: Dancer = null):
 		send_particle(inventory_text, target, pilfer_icon.instance(), 0.5)
 	if item_id >= 0:
 		send_particle(target, inventory_text, pilfer_icon.instance(), 0.5)
+
+func _on_dance_start():
+	gamestate.player().connect("start_dance_tracker", self, "_on_dance_tracking_start", [], CONNECT_DEFERRED)
+	for d in gamestate.dancers:
+		var g = Glyph.new()
+		g.visible = false
+		g.character = d.character
+		g.modulate = UIConstants.gender_color(d.gender)
+		glyphs.append(g)
+		g.position = dancer_screen_pos(d.pos)
+		g.snap()
+		g.visible = true
+		g.connect("mouse_entered", self, "_focus_npc", [d.npc])
+		g.connect("mouse_exited", self, "_unfocus_npc")
+		dance_floor.add_child(g)
+
+func _on_dance_end():
+	for g in glyphs:
+		g.queue_free()
+	glyphs = []
