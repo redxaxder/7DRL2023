@@ -48,6 +48,7 @@ func play(sfx: int):
 			return
 
 func start_song():
+	music_player.stop()
 	if !music.empty():
 		var song = music[randi() % music.size()]
 		music_player.stream = song
@@ -57,6 +58,7 @@ func start_song():
 	else:
 		for _i in range(played_songs.size()):
 			music.append(played_songs.pop_back())
+		start_song()
 
 func end_song():
 	fading = true

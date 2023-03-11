@@ -592,7 +592,7 @@ func get_npc_support(npc_id: int) -> float:
 		var n: NPC = npcs[neighbor_id]
 		if n.faction == NPC.SUPPORT:
 			supporters += 1
-	
+
 	var support = 0
 	if npc.connections.size() > 0:
 		support = float(supporters) / float(npc.connections.size())

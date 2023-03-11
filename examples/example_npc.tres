@@ -15,6 +15,7 @@ scandalous = false
 resolve = 70
 name = "Thanos"
 title = ""
+is_player = false
 npc_id = 0
 spouse_id = -1
 connections = [  ]

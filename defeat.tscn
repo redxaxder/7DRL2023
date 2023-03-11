@@ -1,0 +1,99 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://resources/title.tres" type="Theme" id=1]
+[ext_resource path="res://resources/title_text.tres" type="Theme" id=2]
+[ext_resource path="res://title_screen.gd" type="Script" id=3]
+[ext_resource path="res://resources/dihjauti.regular.otf" type="DynamicFontData" id=4]
+[ext_resource path="res://prologue.gd" type="Script" id=5]
+
+[sub_resource type="DynamicFont" id=1]
+extra_spacing_bottom = -5
+font_data = ExtResource( 4 )
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="prologue" type="Control" parent="CanvasLayer"]
+margin_left = 327.0
+margin_top = 43.0
+margin_right = 711.0
+margin_bottom = 178.0
+rect_min_size = Vector2( 0, 60 )
+rect_clip_content = true
+size_flags_vertical = 3
+script = ExtResource( 5 )
+speed = 5.0
+
+[node name="Label" type="Label" parent="CanvasLayer/prologue"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -235.869
+margin_bottom = 849.131
+rect_min_size = Vector2( 300, 100 )
+custom_fonts/font = SubResource( 1 )
+text = "
+
+
+
+
+
+
+
+
+
+
+
+
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Pulvinar proin gravida hendrerit lectus a. Eget arcu dictum varius duis at. Eu consequat ac felis donec et odio pellentesque diam volutpat. Eu augue ut lectus arcu. Diam quam nulla porttitor massa. Lorem sed risus ultricies tristique nulla aliquet enim. Non enim praesent elementum facilisis leo vel fringilla est ullamcorper. Elementum curabitur vitae nunc sed velit. Urna neque viverra justo nec ultrices dui sapien. Blandit libero volutpat sed cras ornare arcu dui vivamus. Felis donec et odio pellentesque. Eu turpis egestas pretium aenean pharetra magna. Donec enim diam vulputate ut pharetra sit amet aliquam id.
+
+Tellus integer feugiat scelerisque varius morbi enim nunc faucibus. Malesuada proin libero nunc consequat interdum varius sit amet. Vitae tempus quam pellentesque nec nam aliquam. Ac tincidunt vitae semper quis lectus nulla at. Lacus vestibulum sed arcu non. Nec sagittis aliquam malesuada bibendum. At consectetur lorem donec massa sapien faucibus et. Dignissim suspendisse in est ante in nibh mauris cursus. Ut tristique et egestas quis ipsum suspendisse ultrices. Quis blandit turpis cursus in hac habitasse platea. Non blandit massa enim nec dui.
+
+Dui accumsan sit amet nulla facilisi morbi tempus iaculis urna. Quisque non tellus orci ac auctor augue mauris augue. Hac habitasse platea dictumst quisque sagittis purus sit amet. Quis hendrerit dolor magna eget est lorem ipsum dolor. Etiam erat velit scelerisque in. Mauris pharetra et ultrices neque ornare aenean euismod. Dolor sit amet consectetur adipiscing elit pellentesque. Leo vel orci porta non pulvinar neque laoreet suspendisse interdum. Praesent tristique magna sit amet purus gravida quis blandit turpis. Mi sit amet mauris commodo quis. Rhoncus dolor purus non enim praesent. Tellus id interdum velit laoreet id. Varius vel pharetra vel turpis nunc. Volutpat sed cras ornare arcu dui vivamus arcu felis. Nisl condimentum id venenatis a condimentum vitae sapien. Amet consectetur adipiscing elit pellentesque habitant. Nisi est sit amet facilisis magna etiam tempor orci eu. Nunc sed id semper risus. Ornare lectus sit amet est placerat in egestas erat imperdiet. Eu turpis egestas pretium aenean pharetra magna ac.
+
+Nunc pulvinar sapien et ligula ullamcorper malesuada proin libero. Eget dolor morbi non arcu risus quis varius. Tellus integer feugiat scelerisque varius morbi enim nunc. Eget sit amet tellus cras adipiscing. Nisl purus in mollis nunc sed. Faucibus purus in massa tempor nec feugiat. Ultricies tristique nulla aliquet enim tortor at auctor. Elit duis tristique sollicitudin nibh. Sit amet facilisis magna etiam tempor orci eu lobortis elementum. Accumsan in nisl nisi scelerisque eu. Pretium aenean pharetra magna ac. Etiam sit amet nisl purus in mollis. Libero nunc consequat interdum varius sit amet mattis vulputate.
+
+Risus viverra adipiscing at in tellus integer feugiat. Sagittis vitae et leo duis ut diam quam nulla. Aliquet eget sit amet tellus cras adipiscing enim eu turpis. Cursus vitae congue mauris rhoncus aenean vel elit scelerisque. Cursus vitae congue mauris rhoncus aenean vel elit scelerisque mauris. Fermentum posuere urna nec tincidunt praesent semper feugiat nibh sed. Porttitor massa id neque aliquam vestibulum morbi blandit cursus. Libero nunc consequat interdum varius sit amet mattis vulputate. In metus vulputate eu scelerisque. Euismod in pellentesque massa placerat duis. Consectetur libero id faucibus nisl. Ut sem nulla pharetra diam sit amet nisl suscipit. Elit duis tristique sollicitudin nibh sit amet commodo. Pellentesque adipiscing commodo elit at imperdiet dui accumsan. Vivamus at augue eget arcu dictum varius duis at. Facilisis volutpat est velit egestas dui id ornare."
+autowrap = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -185.0
+margin_top = -48.0
+margin_right = 185.0
+margin_bottom = 48.0
+
+[node name="Title" type="Label" parent="CanvasLayer/VBoxContainer"]
+margin_right = 370.0
+margin_bottom = 49.0
+theme = ExtResource( 1 )
+custom_colors/font_color = Color( 0.568627, 0.0745098, 0.0745098, 1 )
+text = "Caught"
+align = 1
+valign = 1
+
+[node name="Subtitle" type="Label" parent="CanvasLayer/VBoxContainer"]
+margin_top = 53.0
+margin_right = 370.0
+margin_bottom = 88.0
+theme = ExtResource( 2 )
+text = "Your espionage career is over."
+align = 1
+
+[node name="Any key" type="Label" parent="CanvasLayer"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -35.0
+theme = ExtResource( 2 )
+text = "Press Space to Restart"
+align = 1
+
+[node name="Backdrop" type="Polygon2D" parent="."]
+color = Color( 0, 0, 0, 1 )
+polygon = PoolVector2Array( -18, -21, 1042, -24, 1049, 613, -23, 622 )

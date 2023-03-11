@@ -58,7 +58,7 @@ func _refresh():
 			corruption.hint_tooltip = "What kind of person are you, {0}?\nI need to learn more about their personality".format([npc.name])
 		character_name.visible = true
 		character_name.text = npc.name
-		
+
 		item_panel.visible = !npc.is_player && !!gamestate
 		if gamestate && dancer:
 			var item_id = dancer.item_id
@@ -74,14 +74,14 @@ func _refresh():
 			if !npc.intel_known(NPC.INTEL.INVENTORY):
 				item_panel.text = "Item: ???"
 				item_panel.hint_tooltip = "I do not know what they are carrying"
-		
+
 		resolve.visible = !npc.is_player
 		resolve.text = "Resolve: {0}%".format([npc.resolve])
 		resolve.hint_tooltip = "If enough of your friends join my cause\nwon't your mind be made up for you?"
 		if !npc.intel_known(NPC.INTEL.RESOLVE):
 			resolve.text = "Resolve: ???"
 			resolve.hint_tooltip = "I do not know stubborn they are"
-		
+
 		title.visible = npc.title != ""
 		title.text = npc.title
 		glyph.text = npc.letter
