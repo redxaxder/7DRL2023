@@ -323,6 +323,8 @@ func _on_dance_start():
 		g.connect("mouse_exited", self, "_unfocus_npc")
 		dance_floor.add_child(g)
 		dance_floor_background.pattern = patterns[gamestate.night]
+		inventory.visible = false
+
 
 func _on_dance_end():
 	for g in glyphs:
