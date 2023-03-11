@@ -103,6 +103,8 @@ func update_visible_support():
 		denominators.append(0)
 	var cs = get_children()
 	for s in springs:
+		if s.x >= cs.size(): continue
+		if s.y >= cs.size(): continue
 		if !cs[s.x].visible || !cs[s.y].visible:
 			continue
 		denominators[s.x] += 1
