@@ -75,6 +75,8 @@ func _refresh():
 		_velocities = PoolVector2Array()
 		for c in get_children():
 			_velocities.append(Vector2.ZERO)
+	for vertex in get_children():
+		vertex._refresh()
 	set_physics_process(true)
 
 func _draw():

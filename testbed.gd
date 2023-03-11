@@ -43,9 +43,9 @@ func _ready():
 # warning-ignore:return_value_discarded
 	gamestate.connect("dance_ended", self, "_on_dance_end")
 # warning-ignore:return_value_discarded
-	gamestate.connect("connection_made", self, "_on_connection_made")
+	gamestate.connect("connection_made", connection_graph, "add_spring")
 # warning-ignore:return_value_discarded
-	gamestate.connect("connection_broken", self, "_on_connection_broken")
+	gamestate.connect("connection_broken", connection_graph, "remove_spring")
 	view_connections.connect("mouse_entered", self , "_on_connection_hover")
 	view_connections.connect("mouse_exited", self , "_on_connection_unhover")
 
@@ -54,11 +54,13 @@ func _ready():
 	connection_graph.connect("npc_click", self, "_focus_npc", [true])
 
 	randomize()
+	patterns.shuffle()
 	gamestate.init()
 	for i in gamestate.npcs.size():
 		var npc = gamestate.npcs[i]
 		npc.connect("intel_level_up", self, "_on_intel_level_up")
 		npc.connect("write_log", logger, "_on_write_log")
+		npc.connect("faction_changed", self, "_on_npc_faction_change", [npc])
 		var vertex = Vertex.instance()
 		vertex.npc = npc
 		connection_graph.add_child(vertex)
@@ -276,7 +278,7 @@ func _on_pilfer(pilfer_target: Dancer = null):
 	if item_id >= 0:
 		send_particle(target, inventory_text, pilfer_icon.instance(), 0.5)
 
-const patterns: Array = ["A","E","J","L","O","Q","R","S","T","U","V","W","X","c","h","i","j","l","m","u","y"]
+var patterns: Array = ["A","E","J","L","O","Q","R","S","T","U","V","W","X","h","i","l","m","u","y"]
 func _on_dance_start():
 # warning-ignore:return_value_discarded
 	gamestate.player().connect("start_dance_tracker", self, "_on_dance_tracking_start", [], CONNECT_DEFERRED)
@@ -292,7 +294,7 @@ func _on_dance_start():
 		g.connect("mouse_entered", self, "_focus_npc", [d.npc])
 		g.connect("mouse_exited", self, "_unfocus_npc")
 		dance_floor.add_child(g)
-		dance_floor_background.pattern = patterns[randi() % patterns.size()]
+		dance_floor_background.pattern = patterns[gamestate.night]
 
 func _on_dance_end():
 	for g in glyphs:
@@ -300,8 +302,6 @@ func _on_dance_end():
 	glyphs = []
 	clear_player_dances()
 
-func _on_connection_made(i,j):
-	connection_graph.add_spring(i,j)
-
-func _on_connection_broken(i,j):
-	connection_graph.remove_spring(i,j)
+func _on_npc_faction_change(npc):
+	print(npc.npc_id, "faction changed")
+	pass

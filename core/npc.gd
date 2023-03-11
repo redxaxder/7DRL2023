@@ -26,7 +26,7 @@ var dancer: WeakRef = null
 
 export (int, "m", "f") var gender = 0
 export (int, "corrupt", "honest") var corruption: int = CORRUPT
-export (int, "support", "neutral", "opposed") var faction: = 1
+export (int, "support", "neutral", "opposed") var faction: = NEUTRAL setget set_faction
 export var scandalous: bool = false
 export var resolve: int = 70
 export var name: String = ""
@@ -38,6 +38,7 @@ export var spouse_id: int = -1 #TODO: make spouses matter
 export (Array, int) var connections: Array = [] # array of npc ids
 
 signal intel_level_up(npc, intel_type)
+signal faction_changed()
 signal write_log(log_text)
 
  # return true when unlocking something with intel
@@ -54,6 +55,10 @@ func advance_intel() -> bool:
 	return false
 
 const intel_priority: Array = [INTEL.FACTION, INTEL.CONNECTIONS, INTEL.RESOLVE, INTEL.CORRUPTION, INTEL.INVENTORY]
+
+func set_faction(new_faction: int):
+	faction = new_faction
+	emit_signal("faction_changed")
 
 func intel_known(intel_type: int) -> bool:
 	return known_intel & intel_type > 0
@@ -84,6 +89,7 @@ func advance_suspicion() -> bool:
 		scandalous = true
 		return true
 	return false
+
 
 func describe_faction(faction_id: int) -> String:
 	if faction_id == SUPPORT:

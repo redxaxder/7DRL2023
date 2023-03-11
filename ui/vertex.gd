@@ -1,3 +1,4 @@
+tool
 extends MarginContainer
 
 
@@ -50,8 +51,10 @@ func _refresh():
 	if opposition_label:
 		opposition_label.text = "{0}%".format([int(opposition)])
 	if faction:
-		faction.visible = npc.intel_known(NPC.INTEL.FACTION)
-		faction.color = faction_colors[npc.faction]
+		if !npc.intel_known(NPC.INTEL.FACTION):
+			faction.color = Color(0,0,0,0)
+		else:
+			faction.color = faction_colors[npc.faction]
 	if ticks:
 		for tick in ticks:
 			if tick:

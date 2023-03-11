@@ -40,6 +40,7 @@ const NO_PARTNER = -2
 const NO_OCCUPANT = -1
 
 
+const num_initial_supporters = 3
 
 func init():
 	var keys = available_npcs.keys()
@@ -51,6 +52,7 @@ func init():
 		npc.letter = npc_entry[NPC_Names.character]
 		npc.npc_id = i
 		npc.gender = npc_entry[NPC_Names.gender]
+		npc.resolve = (randi() % 9) * 5 + 30
 		if npc_entry.has(NPC_Names.title):
 			npc.title = npc_entry[NPC_Names.title]
 		npc.connections = []
@@ -59,6 +61,11 @@ func init():
 		for j in range(i):
 			if randi() % 3 == 0:
 				make_connection(i,j)
+	var ids = range(npcs.size())
+	ids.shuffle()
+	for i in range(num_initial_supporters):
+		var npc_id = ids[i]
+		npcs[npc_id].faction = NPC.SUPPORT
 	start_dance()
 
 signal connection_made(id_a, id_b)
@@ -540,12 +547,41 @@ func exit_dance():
 					else:
 						message = "{0} and {1} remain friends.".format([holder.name, owner.name])
 					emit_signal("write_log", message)
+# warning-ignore:return_value_discarded
+	do_contagion()
 	emit_signal("dance_ended")
+	
 	night += 1
 	if night > 7:
+		while do_contagion():
+			pass
 		epilogue()
 	else:
 		start_dance()
+
+func do_contagion() -> bool:
+	var changed = false
+	var contagion_turns = range(npcs.size())
+	contagion_turns.shuffle()
+	for npc_id in contagion_turns:
+		var support = get_npc_support(npc_id)
+		var npc = npcs[npc_id]
+		if support >= npc.resolve:
+			npc.faction = NPC.SUPPORT
+			changed = true
+	return changed
+
+
+func get_npc_support(npc_id: int) -> float:
+	var npc: NPC = npcs[npc_id]
+	var supporters = 0
+	for neighbor_id in npc.connections:
+		var n: NPC = npcs[neighbor_id]
+		if n.faction == NPC.SUPPORT:
+			supporters += 1
+	var support =float(supporters) / float(npc.connections.size())
+	return support
+
 
 func from_linear(ix: int) -> Vector2:
 # warning-ignore:integer_division
