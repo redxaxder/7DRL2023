@@ -120,6 +120,10 @@ config/name="7DRL2023"
 run/main_scene="res://title_screen.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Globals="*res://ui/globals.tscn"
+
 [input]
 
 up={

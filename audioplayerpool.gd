@@ -36,6 +36,15 @@ var fading = false
 var time_accum = 0.0
 const fade_term: float = 80.0/fade_time
 const orig_volume: float = 0.0
+var target_volume = orig_volume
+
+
+var toggle_music_delta = 0
+
+func _ready():
+# warning-ignore:return_value_discarded
+	Globals.connect("music_toggled", self, "_music_toggled")
+	_music_toggled()
 
 func play(sfx: int):
 	if sfx < 0 || sfx > _sfx.size(): return
@@ -55,6 +64,7 @@ func start_song():
 		music_player.play()
 		played_songs.append(song)
 		music.erase(song)
+		target_volume = orig_volume
 	else:
 		for _i in range(played_songs.size()):
 			music.append(played_songs.pop_back())
@@ -70,6 +80,13 @@ func _process(delta: float) -> void:
 			time_accum = 0.0
 			fading = false
 			music_player.stop()
-			music_player.volume_db = orig_volume
+			target_volume = orig_volume
 		else:
-			music_player.volume_db -= fade_term * delta
+			target_volume -= fade_term * delta
+	music_player.volume_db = target_volume + toggle_music_delta
+
+func _music_toggled():
+	toggle_music_delta = 0
+	if !Globals.music_on:
+		toggle_music_delta -= 10000.0
+
