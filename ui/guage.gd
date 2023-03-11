@@ -77,6 +77,8 @@ func _draw():
 	var proportion: float = 0
 	if _next > 0:
 		proportion = _amount / _next
+	else:
+		proportion = 1
 	if proportion > 1:
 		proportion = 1
 	var d = Vector2(1,1)

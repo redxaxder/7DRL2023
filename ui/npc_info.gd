@@ -40,8 +40,14 @@ func _ready():
 func _refresh():
 	if !intel: return
 	if npc != null:
-		intel.current = npc.intel
 		intel.visible = !npc.is_player
+		if npc.is_full_intel():
+			intel.show_numbers = false
+			intel.stages = [0]
+		else:
+			intel.current = npc.intel
+			intel.stages = [NPC.intel_threshold]
+			intel.show_numbers = true
 		suspicion.current = npc.suspicion
 		suspicion.visible = !npc.is_player
 		faction.visible = !npc.is_player

@@ -112,6 +112,7 @@ func update_see_connection_panel():
 		connection_panel.visible = false
 
 func _on_game_end():
+# warning-ignore:return_value_discarded
 	get_tree().change_scene("res://defeat.tscn")
 
 func _unhandled_input(event):
