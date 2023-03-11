@@ -46,12 +46,13 @@ func advance_intel() -> bool:
 	intel += 1
 	if intel % intel_threshold == 0:
 		var discovered_intel = 0
+		var intel_options = []
 		for i in intel_priority:
 			if !intel_known(i):
-				discovered_intel = i
-				break
-		discover_intel(discovered_intel)
-		return true
+				intel_options.append(i)
+		if intel_options.size() == 0:
+			return false
+		discover_intel(intel_options[0])
 	return false
 
 const intel_priority: Array = [INTEL.FACTION, INTEL.CONNECTIONS, INTEL.RESOLVE, INTEL.CORRUPTION, INTEL.INVENTORY]

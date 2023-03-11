@@ -52,7 +52,7 @@ func init():
 		npc.letter = npc_entry[NPC_Names.character]
 		npc.npc_id = i
 		npc.gender = npc_entry[NPC_Names.gender]
-		npc.resolve = (randi() % 9) * 5 + 30
+		npc.resolve = (randi() % 9) * 5 + 50
 #		npc.resolve = 10
 		if npc_entry.has(NPC_Names.title):
 			npc.title = npc_entry[NPC_Names.title]
