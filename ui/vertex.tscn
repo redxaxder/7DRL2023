@@ -22,7 +22,7 @@ alignment = 1
 [node name="support_percent" type="Label" parent="VBoxContainer"]
 margin_right = 50.0
 margin_bottom = 14.0
-text = "30%"
+text = "0% ?"
 align = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
@@ -37,7 +37,6 @@ rect_min_size = Vector2( 0, 10 )
 color = Color( 0.227451, 0.466667, 0.772549, 1 )
 border_color = Color( 0.8, 0.78, 0.752, 0.439216 )
 width = 1.0
-current = 30.0
 show_numbers = false
 
 [node name="TickMark" type="Control" parent="VBoxContainer/MarginContainer"]
@@ -59,7 +58,7 @@ margin_bottom = 50.0
 rect_min_size = Vector2( 50, 50 )
 script = ExtResource( 1 )
 detail = 30
-color = Color( 0.66, 0.6435, 0.6204, 1 )
+color = Color( 0, 0, 0, 0 )
 
 [node name="ring" type="Control" parent="VBoxContainer/CenterContainer"]
 margin_left = 5.0
@@ -125,3 +124,7 @@ modulate = Color( 1, 1, 1, 0 )
 margin_right = 50.0
 margin_bottom = 114.0
 mouse_filter = 1
+
+[node name="target" type="Control" parent="."]
+margin_right = 50.0
+margin_bottom = 114.0
