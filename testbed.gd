@@ -303,7 +303,7 @@ func _on_intel_level_up(npc: NPC, discovery: int):
 		connection_graph.get_child(npc.npc_id).visible = true
 		connection_graph._refresh()
 		connection_graph.update_visible_support()
-		view_connections.visible = gamestate.count_revealed_vertices() >= 1
+		view_connections.visible = gamestate.count_revealed_vertices() >= 2
 		particle_target = view_connections
 	if (discovery == NPC.INTEL.FACTION):
 		connection_graph.update_vertex(npc.npc_id)
@@ -316,7 +316,7 @@ func _on_intel_level_up(npc: NPC, discovery: int):
 #	if (discovery == NPC.INTEL.SUPPORT):
 #		connection_graph.update_vertex(npc.npc_id)
 #		connection_graph.update_visible_support(gamestate)
-	view_connections.visible = gamestate.count_revealed_vertices() >= 1
+	view_connections.visible = gamestate.count_revealed_vertices() >= 2
 
 const pilfer_icon = preload("res://ui/pilfer_icon.tscn")
 func _on_pilfer(pilfer_target: Dancer = null):
