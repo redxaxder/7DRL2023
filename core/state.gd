@@ -47,7 +47,7 @@ const NO_OCCUPANT = -1
 
 
 const num_initial_supporters = 3
-const player_profile: NPC = preload("res://core/player_profile.tres")
+const player_profile = preload("res://core/player_profile.tres")
 
 func init():
 	var keys = available_npcs.keys()
