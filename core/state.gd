@@ -659,3 +659,11 @@ func can_activate(d: Dance) -> bool:
 	if occupant_id > NO_OCCUPANT && occupant_id != player.partner_id:
 		return false
 	return true
+
+func count_revealed_vertices() -> int:
+	var result: int = 0
+	for n in npcs:
+		var npc: NPC = n
+		if npc.intel_known(NPC.INTEL.CONNECTIONS):
+			result += 1
+	return result

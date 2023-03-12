@@ -5,6 +5,7 @@
 [node name="guage" type="MarginContainer"]
 margin_right = 70.0
 margin_bottom = 27.0
+mouse_filter = 1
 script = ExtResource( 1 )
 color = Color( 0.772549, 0.54902, 0.227451, 1 )
 border_color = Color( 0.28, 0.197167, 0.0812, 1 )
@@ -14,6 +15,6 @@ width = 3.0
 margin_top = 6.0
 margin_right = 70.0
 margin_bottom = 20.0
-text = "0 / 20"
+text = "0 / 100"
 align = 1
 valign = 1

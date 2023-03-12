@@ -56,6 +56,7 @@ func _ready():
 	connection_graph.connect("npc_focus", self, "_focus_npc")
 	connection_graph.connect("npc_unfocus", self, "_unfocus_npc")
 	connection_graph.connect("npc_click", self, "_focus_npc", [true])
+	ability_selector.connect("selector_click", self, "toggle_ability")
 
 	randomize()
 	patterns.shuffle()
@@ -108,10 +109,12 @@ func _on_connection_unhover():
 
 func update_see_connection_panel():
 	connection_panel.visible = connection_hover || view_connections.pressed || faction_queue_wait > 0
+	if gamestate.count_revealed_vertices() == 0:
+		connection_panel.visible = false
 
 func _on_game_end(did_win):
 	if did_win:
-		pass
+		get_tree().change_scene("res://victory.tscn")
 	else:
 		get_tree().change_scene("res://defeat.tscn")
 
@@ -287,20 +290,35 @@ const tile_size = Vector2(48,48)
 func dancer_screen_pos(game_coord: Vector2) -> Vector2:
 	return game_coord * tile_size
 
+
+const intel_particle = preload("res://ui/intel_particle.tscn")
 func _on_intel_level_up(npc: NPC, discovery: int):
+	var dancer: Dancer = null
+	var ref: WeakRef = npc.dancer
+	if ref:
+		dancer = ref.get_ref()
+	var particle_source = null
+	if dancer:
+		particle_source = glyphs[dancer.id]
+	var particle_target = glyphs[0]
 	if (discovery == NPC.INTEL.CONNECTIONS):
 		connection_graph.get_child(npc.npc_id).visible = true
 		connection_graph._refresh()
 		connection_graph.update_visible_support()
+		view_connections.visible = gamestate.count_revealed_vertices() >= 2
+		particle_target = view_connections
 	if (discovery == NPC.INTEL.FACTION):
 		connection_graph.update_vertex(npc.npc_id)
 		connection_graph.update_visible_support()
 	if (discovery == NPC.INTEL.RESOLVE):
 		connection_graph.update_vertex(npc.npc_id)
 		connection_graph.update_visible_support()
+	if !!particle_source && !!particle_target:
+		send_particle(particle_source,particle_target,intel_particle.instance(), 0)
 #	if (discovery == NPC.INTEL.SUPPORT):
 #		connection_graph.update_vertex(npc.npc_id)
 #		connection_graph.update_visible_support(gamestate)
+	view_connections.visible = gamestate.count_revealed_vertices() >= 2
 
 const pilfer_icon = preload("res://ui/pilfer_icon.tscn")
 func _on_pilfer(pilfer_target: Dancer = null):
@@ -322,9 +340,9 @@ func _on_dance_start():
 		var g = Glyph.new()
 		g.visible = false
 		g.character = d.character
-		g.modulate = UIConstants.gender_color(d.gender)
+		g.color = UIConstants.gender_color(d.gender)
 		if d.id == 0:
-			g.modulate = UIConstants.player_color
+			g.color = UIConstants.player_color
 		glyphs.append(g)
 		g.position = dancer_screen_pos(d.pos)
 		g.snap()

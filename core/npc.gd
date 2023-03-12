@@ -14,6 +14,7 @@ const NEUTRAL: int = 1
 const OPPOSED: int = 2
 
 enum INTEL{ FACTION=1, CONNECTIONS=2, RESOLVE=4, CORRUPTION=8, INVENTORY = 16}
+const FULL_INTEL = INTEL.FACTION | INTEL.CONNECTIONS | INTEL.RESOLVE | INTEL.CORRUPTION | INTEL.INVENTORY
 
 
 const intel_threshold: int = 20
@@ -63,6 +64,9 @@ func set_faction(new_faction: int):
 
 func intel_known(intel_type: int) -> bool:
 	return known_intel & intel_type > 0
+
+func is_full_intel() -> bool:
+	return known_intel == FULL_INTEL
 
 func discover_intel(intel_type: int):
 	if intel_type > 0 && known_intel & intel_type ==  0:

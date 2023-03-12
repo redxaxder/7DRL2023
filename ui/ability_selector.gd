@@ -34,7 +34,7 @@ func _refresh():
 		if i == selected && costs[i] <= level:
 			get_child(i).modulate = Color(1,1,1)
 		else:
-			get_child(i).modulate = Color(0.7,0.7,0.7)
+			get_child(i).modulate = Color(0.6,0.6,0.6)
 
 func _on_select(ix: int):
 	emit_signal("selector_click", ix)

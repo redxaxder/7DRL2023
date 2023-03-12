@@ -11,6 +11,7 @@ const cell_size: Vector2 = Vector2(cell_width,cell_height)
 const shift: Vector2 = Vector2(0,-3)
 
 export var character: String = "A" setget set_character
+export var color: Color = Color(1,1,1) setget set_color
 
 const font: DynamicFont = preload("res://ui/glyph.tres")
 
@@ -29,6 +30,10 @@ func _ready():
 
 func set_character(x):
 	character = x
+	_refresh()
+
+func set_color(x):
+	color = x
 	_refresh()
 
 func kick(v: Vector2):
@@ -62,6 +67,7 @@ func _refresh():
 		_label.rect_position = shift
 		_anchor.add_child(_label)
 	_label.text = character
+	_label.self_modulate = color
 	
 	if Engine.editor_hint: # the script is running in the editor!
 		property_list_changed_notify()

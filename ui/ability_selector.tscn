@@ -41,6 +41,7 @@ mouse_filter = 2
 [node name="cancel" type="Button" parent="MarginContainer3"]
 margin_right = 48.0
 margin_bottom = 48.0
+hint_tooltip = "Disable ability use"
 focus_mode = 0
 shortcut_in_tooltip = false
 enabled_focus_mode = 0
@@ -55,6 +56,7 @@ mouse_filter = 2
 custom_styles/panel = SubResource( 2 )
 
 [node name="MarginContainer2" type="MarginContainer" parent="."]
+modulate = Color( 0.7, 0.7, 0.7, 1 )
 margin_left = 52.0
 margin_right = 100.0
 margin_bottom = 48.0
@@ -64,6 +66,8 @@ rect_pivot_offset = Vector2( -987, -505 )
 [node name="shove" type="Button" parent="MarginContainer2"]
 margin_right = 48.0
 margin_bottom = 48.0
+hint_tooltip = "Shove someone out of the way
+This depletes all your grace"
 focus_mode = 0
 shortcut_in_tooltip = false
 enabled_focus_mode = 0
@@ -72,8 +76,10 @@ flat = true
 expand_icon = true
 
 [node name="highlight" type="Panel" parent="MarginContainer2"]
+visible = false
 margin_right = 48.0
 margin_bottom = 48.0
+mouse_filter = 2
 custom_styles/panel = SubResource( 2 )
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -87,6 +93,9 @@ rect_pivot_offset = Vector2( -987, -505 )
 [node name="pilfer" type="Button" parent="MarginContainer"]
 margin_right = 48.0
 margin_bottom = 48.0
+hint_tooltip = "Pilfer
+Steal or plant an object
+This uses one level of grace"
 focus_mode = 0
 shortcut_in_tooltip = false
 enabled_focus_mode = 0
@@ -95,6 +104,7 @@ flat = true
 expand_icon = true
 
 [node name="highlight" type="Panel" parent="MarginContainer"]
+visible = false
 margin_right = 48.0
 margin_bottom = 48.0
 custom_styles/panel = SubResource( 2 )
