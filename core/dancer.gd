@@ -37,7 +37,7 @@ func advance_intel():
 		emit_signal("intel_gained")
 		npc.advance_intel()
 
-const suspicion_n: float = 7.0
+const suspicion_n: float = 10.0
 func roll_suspicion(grace: float, distance: float) -> bool:
 	var sneaky = (grace + distance) * distance
 	var f = suspicion_n / (suspicion_n + sneaky)

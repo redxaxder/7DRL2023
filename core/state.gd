@@ -600,7 +600,8 @@ func exit_dance():
 # warning-ignore:return_value_discarded
 	do_contagion()
 	emit_signal("song_end")
-
+	for n in npcs:
+		n.decay_suspicion()
 	night += 1
 	if night > 7:
 		while do_contagion():

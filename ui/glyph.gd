@@ -12,6 +12,7 @@ const shift: Vector2 = Vector2(0,-3)
 
 export var character: String = "A" setget set_character
 export var color: Color = Color(1,1,1) setget set_color
+export var angry: bool = false setget set_angry
 
 const font: DynamicFont = preload("res://ui/glyph.tres")
 
@@ -34,6 +35,10 @@ func set_character(x):
 
 func set_color(x):
 	color = x
+	_refresh()
+
+func set_angry(x):
+	angry = x
 	_refresh()
 
 func kick(v: Vector2):
@@ -68,6 +73,8 @@ func _refresh():
 		_anchor.add_child(_label)
 	_label.text = character
 	_label.self_modulate = color
+	if angry:
+		_label.self_modulate = UIConstants.angry_color
 
 	if Engine.editor_hint: # the script is running in the editor!
 		property_list_changed_notify()

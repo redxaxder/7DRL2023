@@ -20,7 +20,7 @@ enum INTEL{ FACTION=1, CONNECTIONS=2, RESOLVE=4, CORRUPTION=8, INVENTORY = 16}
 const FULL_INTEL = INTEL.FACTION | INTEL.CONNECTIONS | INTEL.RESOLVE | INTEL.CORRUPTION | INTEL.INVENTORY
 
 
-const intel_threshold: int = 20
+const intel_threshold: int = 40
 
 export var intel: int = 0
 export (int, FLAGS, "faction","connections","resolve","corruption", "inventory") var known_intel = 0
@@ -97,11 +97,15 @@ func advance_suspicion() -> bool:
 	if suspicion >= 100:
 		suspicion = 100
 		scandalous = true
-		emit_signal("write_log", "{0} has become suspicious of you!".format([name]))
+		emit_signal("write_log", "{0} is suspicious of you!".format([name]))
 		emit_signal("scandal")
 		return true
 	return false
 
+func decay_suspicion():
+	if suspicion > 0:
+		suspicion -= int(suspicion / 2)
+	scandalous = false
 
 const faction_name =  ["Supporter", "Neutral", "Opposition"]
 const _faction_tooltip = [\

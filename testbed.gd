@@ -475,5 +475,6 @@ func _on_scandal(npc):
 	var particle_source = null
 	if dancer:
 		particle_source = glyphs[dancer.id]
+	glyphs[dancer.id].angry = true
 	var particle_target = glyphs[0]
 	send_particle(particle_source,particle_target,scandal_particle.instance(), 0)
