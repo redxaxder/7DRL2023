@@ -73,7 +73,7 @@ __meta__ = {
 }
 
 [node name="Title" type="Label" parent="CanvasLayer/VBoxContainer"]
-margin_right = 370.0
+margin_right = 369.0
 margin_bottom = 49.0
 theme = ExtResource( 1 )
 custom_colors/font_color = Color( 0.780392, 0.537255, 0.188235, 1 )
@@ -83,7 +83,7 @@ valign = 1
 
 [node name="Subtitle" type="Label" parent="CanvasLayer/VBoxContainer"]
 margin_top = 53.0
-margin_right = 370.0
+margin_right = 369.0
 margin_bottom = 88.0
 theme = ExtResource( 2 )
 text = "Party Like It's 1815"

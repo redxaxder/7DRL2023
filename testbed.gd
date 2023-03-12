@@ -12,7 +12,6 @@ onready var npc_info = $npc_info
 onready var connection_panel = $PanelContainer
 onready var connection_graph = $PanelContainer/springy_graph
 onready var view_connections = $view_connections
-onready var sfx = $sfx
 onready var inventory = $inventory
 onready var inventory_text = $inventory/Label
 onready var ability_selector = $ability_selector

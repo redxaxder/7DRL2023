@@ -58,10 +58,12 @@ func play(sfx: int):
 			a.play()
 			return
 
-func start_song():
+func start_song(ix: int = -1):
 	music_player.stop()
+	if ix < 0 || ix > music.size():
+		ix = randi() % music.size()
 	if !music.empty():
-		var song = music[randi() % music.size()]
+		var song = music[ix]
 		music_player.stream = song
 		music_player.play()
 		played_songs.append(song)
