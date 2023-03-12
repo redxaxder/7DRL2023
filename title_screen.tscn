@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://resources/title.tres" type="Theme" id=1]
 [ext_resource path="res://resources/title_text.tres" type="Theme" id=2]
@@ -10,27 +10,35 @@
 extra_spacing_bottom = -5
 font_data = ExtResource( 4 )
 
-[node name="Node2D" type="Node2D"]
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0, 0, 0, 1 )
+
+[node name="Node2D" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 script = ExtResource( 3 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="prologue" type="Control" parent="CanvasLayer"]
-margin_left = 327.0
-margin_top = 43.0
-margin_right = 711.0
-margin_bottom = 178.0
+anchor_left = 0.319336
+anchor_top = 0.0716667
+anchor_right = 0.694336
+anchor_bottom = 0.296667
+margin_bottom = 1.52588e-05
 rect_min_size = Vector2( 0, 60 )
 rect_clip_content = true
 size_flags_vertical = 3
 script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
 speed = 5.0
 
 [node name="Label" type="Label" parent="CanvasLayer/prologue"]
+anchor_top = -1.74718
 anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = -235.869
-margin_bottom = 849.131
+anchor_bottom = 7.28986
 rect_min_size = Vector2( 300, 100 )
 custom_fonts/font = SubResource( 1 )
 text = "
@@ -50,16 +58,19 @@ Though my battleground shall not be of horse, steel, or lead, or indeed upon the
 Now comes Charles Philippe, Count of Artois, to Vienna, and stories shall be told of my triumphs and victories during...
 "
 autowrap = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -185.0
-margin_top = -48.0
-margin_right = 185.0
-margin_bottom = 48.0
+anchor_left = 0.319336
+anchor_top = 0.42
+anchor_right = 0.680664
+anchor_bottom = 0.58
+margin_top = 1.52588e-05
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="Title" type="Label" parent="CanvasLayer/VBoxContainer"]
 margin_right = 370.0
@@ -79,14 +90,17 @@ text = "Party Like It's 1815"
 align = 1
 
 [node name="Any key" type="Label" parent="CanvasLayer"]
-anchor_top = 1.0
+anchor_top = 0.941667
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = -35.0
 theme = ExtResource( 2 )
 text = "Press Space to Start"
 align = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
-[node name="Backdrop" type="Polygon2D" parent="."]
-color = Color( 0, 0, 0, 1 )
-polygon = PoolVector2Array( -18, -21, 1042, -24, 1049, 613, -23, 622 )
+[node name="Backdrop" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = SubResource( 2 )
