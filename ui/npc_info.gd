@@ -84,6 +84,8 @@ func _refresh():
 			if !npc.intel_known(NPC.INTEL.INVENTORY):
 				item_panel.text = "Item: ???"
 				item_panel.hint_tooltip = "I do not know what {0} is carrying".format([he])
+		else:
+			item_panel.visible = false
 
 		resolve.visible = !npc.is_player
 		resolve.text = "Resolve: {0}%".format([npc.resolve])
