@@ -454,12 +454,13 @@ func _on_end_rest():
 	dance_gauge.current = gamestate.rest_duration
 
 func _show_game_over_screen():
-	if gamestate.did_win():
-# warning-ignore:return_value_discarded
-		get_tree().change_scene("res://victory.tscn")
-	else:
-# warning-ignore:return_value_discarded
-		get_tree().change_scene("res://defeat.tscn")
+	var epilogue = preload("res://epilogue.tscn").instance()
+	epilogue.is_victory = gamestate.did_win()
+	epilogue.is_scandal = gamestate.is_scandal
+	var parent = get_parent()
+	parent.remove_child(self)
+	call_deferred("free")
+	parent.add_child(epilogue)
 
 var scandal_particle = preload("res://ui/scandal_particle.tscn")
 func _on_scandal(npc):

@@ -24,6 +24,7 @@ export var room_width: int = 9
 export var room_height: int = 9
 
 var game_over: bool = false
+var is_scandal: bool = false
 
 var dancers: Array = []
 var items: Array = [] # the names of the items belonging to each dancer
@@ -547,6 +548,7 @@ func cause_scandal(npc_id: int):
 	if night <= 6:
 		emit_signal("write_report", "{0} has exposed your treachery. You will not be invited to further dances.".format([name]))
 	game_over = true
+	is_scandal = true
 	emit_signal("game_end")
 	exit_dance()
 
