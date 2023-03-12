@@ -136,7 +136,18 @@ third pass:
     + grace gained
     + shove
     - intel revealed
-    - faction changed (x3)
+    + faction changed (x3)
+
+final spurt:
+  - portraits?
+  - tooltips for graph view
+    - highlight edges in graph view
+  - put in epologue text
+  - play music in epilogue
+  - skin the panels
+  - space/return can close report
+  - defeat screen lists required supporters
+
 
 fourth pass:
   - player abilities

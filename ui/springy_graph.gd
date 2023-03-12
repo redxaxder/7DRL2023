@@ -14,7 +14,11 @@ export var anchor_attraction: float = 0.2
 
 export var edge_gap: float = 50
 export var edge_width: float = 2.0
-export var edge_color: Color = Color(1,1,1)
+export var edge_color: Color = Color(0.7,0.7,0.7)
+
+export var focus_index: int = -1 setget set_focus_index
+export var focus_edge_width: float = 3.0
+export var focus_edge_color: Color = Color(1,1,1)
 
 
 signal npc_focus(npc)
@@ -47,6 +51,10 @@ func set_springs(x):
 func set_has_anchor(x):
 	has_anchor = x
 	_refresh()
+
+func set_focus_index(x):
+	focus_index = x
+	update()
 
 func clear_springs():
 	springs = PoolVector2Array()
@@ -130,7 +138,12 @@ func _draw():
 		var v1: Vector2 = c[s.y].rect_position + c[s.y].rect_size / 2.0
 		var edge_start = v0.move_toward(v1,edge_gap)
 		var edge_end = v1.move_toward(v0, edge_gap)
-		draw_line(edge_start,edge_end,edge_color, edge_width, true)
+
+		var is_focus_spring = s.x == focus_index || s.y == focus_index
+		if is_focus_spring:
+			draw_line(edge_start,edge_end,focus_edge_color, focus_edge_width, true)
+		else:
+			draw_line(edge_start,edge_end,edge_color, edge_width, true)
 
 func _physics_process(delta):
 	var n = get_child_count()
@@ -191,11 +204,17 @@ func _physics_process(delta):
 	if !moved:
 		set_physics_process(false)
 
-func _on_node_hover(vertex):
+func _on_node_hover(vertex: Node):
+	self.focus_index = vertex.get_index()
 	emit_signal("npc_focus", vertex.npc)
 
 func _on_node_unhover():
+	self.focus_index = -1
 	emit_signal("npc_unfocus")
 
 func _on_node_click(vertex):
 	emit_signal("npc_click", vertex.npc)
+
+func _notification(what):
+	if what == NOTIFICATION_VISIBILITY_CHANGED:
+		if !visible: self.focus_index = -1
