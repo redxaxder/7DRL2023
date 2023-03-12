@@ -311,7 +311,7 @@ margin_left = -42.5
 margin_top = -10.0
 margin_right = 42.5
 margin_bottom = 10.0
-text = "Game Over"
+text = "Epilogue"
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 visible = false
