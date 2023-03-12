@@ -616,7 +616,7 @@ func do_contagion() -> bool:
 		var npc = npcs[npc_id]
 		if support*100 >= npc.resolve && npc.faction != NPC.SUPPORT:
 			npc.faction = NPC.SUPPORT
-			emit_signal("write_log", "{0} has decided to support the coalition!");
+			emit_signal("write_log", "{0} has decided to support the coalition!".format);
 			changed = true
 	if did_win():
 		epilogue(true)
