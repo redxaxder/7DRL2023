@@ -74,7 +74,7 @@ func _ready():
 	rest_gauge.stages = [gamestate.rest_duration]
 
 	report.connect("hide", self, "_report_done")
-	
+
 	randomize()
 	patterns.shuffle()
 	gamestate.init()
