@@ -104,7 +104,7 @@ func _refresh():
 		title.visible = false
 	if dancer:
 		var sus_percent = int(dancer.sus_chance * 100)
-		suspicion.hint_tooltip = "Suspicion\nHow strongly they suspect you are a spy. \nDon't let it reach a critical level. Based on your current \nposition and how well you are dancing, there is a {0}% \nchance for this to increase each turn.".format([sus_percent])
+		suspicion.hint_tooltip = "Suspicion\nThe longer you spend here, the stronger their misgivings get.\nDon't let it reach a critical level. Based on your current \nposition and how well you are dancing, there is a {0}% \nchance for this to increase each turn.".format([sus_percent])
 	
 	if dance_tracker && dancer:
 		for c in dance_tracker.get_children():
