@@ -1,10 +1,12 @@
 extends Node
 
-enum SFX{ SHOVE, GRACE, START_DANCE, PILFER }
+enum SFX{ SHOVE, GRACE, START_DANCE, PILFER, CHANGE_FACTION }
 var _sfx = [preload("res://resources/step.wav"), \
 	preload("res://resources/grace.wav"), \
 	preload("res://resources/start_dance.wav"),\
-	preload("res://resources/pilfer.wav")]
+	preload("res://resources/pilfer.wav"),\
+	preload("res://resources/flip.wav")\
+	]
 
 var music = [\
 preload("res://resources/music/010136ORIGINALTAENZEWaltzesOp9D365.mp3"),\

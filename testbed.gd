@@ -425,6 +425,7 @@ func advance_faction_queue():
 		faction_queue.pop_front()
 		connection_graph.update_vertex(target)
 		connection_graph.update_visible_support()
+		sfx.play(sfx.SFX.CHANGE_FACTION)
 		faction_queue_wait = faction_queue_wait_amt
 		faction_animated = false
 	else:
