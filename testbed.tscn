@@ -216,7 +216,11 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="Panel" type="Panel" parent="inventory"]
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="inventory"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="Panel" type="Panel" parent="inventory/AspectRatioContainer"]
 modulate = Color( 1, 1, 1, 0.470588 )
 margin_right = 40.0
 margin_bottom = 40.0

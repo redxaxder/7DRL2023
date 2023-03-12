@@ -32,6 +32,7 @@ func _process(delta):
 	var prev_bottom = 0
 	for c in cs:
 		c.rect_position.y = max(c.rect_position.y - dy, prev_bottom)
+		c.rect_size.x = rect_size.x - 5
 		prev_bottom = c.rect_position.y + spacing + c.rect_size.y
 		if !c.get("fading"):
 			height += c.rect_size.y + spacing
