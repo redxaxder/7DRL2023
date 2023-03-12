@@ -20,7 +20,7 @@ script = ExtResource( 3 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="prologue" type="Control" parent="CanvasLayer"]
+[node name="epilogue" type="Control" parent="CanvasLayer"]
 anchor_left = 0.319336
 anchor_top = 0.0716667
 anchor_right = 0.694336
@@ -33,9 +33,9 @@ script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": true
 }
-speed = 5.0
+speed = 7.0
 
-[node name="Label" type="Label" parent="CanvasLayer/prologue"]
+[node name="Label" type="Label" parent="CanvasLayer/epilogue"]
 anchor_top = -1.74718
 anchor_right = 1.0
 anchor_bottom = 14.5862
@@ -47,24 +47,14 @@ text = "
 
 
 
+The greatest endeavors in political machinations are those that look from the outside like the inexorable tide of history constraining the choices of men. If there be an architect, then he remains hidden – able to reap the benefits of his actions and his schemes, but washed of responsibility should his ventures fail.
 
+Thus is Napoleon defeated. For he is but one man against the entirety of Europe. Thus is my brother restored to his throne, there to remain.
 
+Long live the King.
 
-
-
-
-
-
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Pulvinar proin gravida hendrerit lectus a. Eget arcu dictum varius duis at. Eu consequat ac felis donec et odio pellentesque diam volutpat. Eu augue ut lectus arcu. Diam quam nulla porttitor massa. Lorem sed risus ultricies tristique nulla aliquet enim. Non enim praesent elementum facilisis leo vel fringilla est ullamcorper. Elementum curabitur vitae nunc sed velit. Urna neque viverra justo nec ultrices dui sapien. Blandit libero volutpat sed cras ornare arcu dui vivamus. Felis donec et odio pellentesque. Eu turpis egestas pretium aenean pharetra magna. Donec enim diam vulputate ut pharetra sit amet aliquam id.
-
-Tellus integer feugiat scelerisque varius morbi enim nunc faucibus. Malesuada proin libero nunc consequat interdum varius sit amet. Vitae tempus quam pellentesque nec nam aliquam. Ac tincidunt vitae semper quis lectus nulla at. Lacus vestibulum sed arcu non. Nec sagittis aliquam malesuada bibendum. At consectetur lorem donec massa sapien faucibus et. Dignissim suspendisse in est ante in nibh mauris cursus. Ut tristique et egestas quis ipsum suspendisse ultrices. Quis blandit turpis cursus in hac habitasse platea. Non blandit massa enim nec dui.
-
-Dui accumsan sit amet nulla facilisi morbi tempus iaculis urna. Quisque non tellus orci ac auctor augue mauris augue. Hac habitasse platea dictumst quisque sagittis purus sit amet. Quis hendrerit dolor magna eget est lorem ipsum dolor. Etiam erat velit scelerisque in. Mauris pharetra et ultrices neque ornare aenean euismod. Dolor sit amet consectetur adipiscing elit pellentesque. Leo vel orci porta non pulvinar neque laoreet suspendisse interdum. Praesent tristique magna sit amet purus gravida quis blandit turpis. Mi sit amet mauris commodo quis. Rhoncus dolor purus non enim praesent. Tellus id interdum velit laoreet id. Varius vel pharetra vel turpis nunc. Volutpat sed cras ornare arcu dui vivamus arcu felis. Nisl condimentum id venenatis a condimentum vitae sapien. Amet consectetur adipiscing elit pellentesque habitant. Nisi est sit amet facilisis magna etiam tempor orci eu. Nunc sed id semper risus. Ornare lectus sit amet est placerat in egestas erat imperdiet. Eu turpis egestas pretium aenean pharetra magna ac.
-
-Nunc pulvinar sapien et ligula ullamcorper malesuada proin libero. Eget dolor morbi non arcu risus quis varius. Tellus integer feugiat scelerisque varius morbi enim nunc. Eget sit amet tellus cras adipiscing. Nisl purus in mollis nunc sed. Faucibus purus in massa tempor nec feugiat. Ultricies tristique nulla aliquet enim tortor at auctor. Elit duis tristique sollicitudin nibh. Sit amet facilisis magna etiam tempor orci eu lobortis elementum. Accumsan in nisl nisi scelerisque eu. Pretium aenean pharetra magna ac. Etiam sit amet nisl purus in mollis. Libero nunc consequat interdum varius sit amet mattis vulputate.
-
-Risus viverra adipiscing at in tellus integer feugiat. Sagittis vitae et leo duis ut diam quam nulla. Aliquet eget sit amet tellus cras adipiscing enim eu turpis. Cursus vitae congue mauris rhoncus aenean vel elit scelerisque. Cursus vitae congue mauris rhoncus aenean vel elit scelerisque mauris. Fermentum posuere urna nec tincidunt praesent semper feugiat nibh sed. Porttitor massa id neque aliquam vestibulum morbi blandit cursus. Libero nunc consequat interdum varius sit amet mattis vulputate. In metus vulputate eu scelerisque. Euismod in pellentesque massa placerat duis. Consectetur libero id faucibus nisl. Ut sem nulla pharetra diam sit amet nisl suscipit. Elit duis tristique sollicitudin nibh sit amet commodo. Pellentesque adipiscing commodo elit at imperdiet dui accumsan. Vivamus at augue eget arcu dictum varius duis at. Facilisis volutpat est velit egestas dui id ornare."
+For I shall one day be the King.
+"
 autowrap = true
 __meta__ = {
 "_edit_use_anchors_": true
@@ -81,18 +71,18 @@ __meta__ = {
 }
 
 [node name="Title" type="Label" parent="CanvasLayer/VBoxContainer"]
-margin_right = 548.0
+margin_right = 583.0
 margin_bottom = 49.0
 theme = ExtResource( 1 )
-custom_colors/font_color = Color( 0.0823529, 0.364706, 0.113725, 1 )
+custom_colors/font_color = Color( 0.772549, 0.54902, 0.227451, 1 )
 text = "Victory"
 align = 1
 valign = 1
 
 [node name="Subtitle" type="Label" parent="CanvasLayer/VBoxContainer"]
 margin_top = 53.0
-margin_right = 548.0
-margin_bottom = 88.0
+margin_right = 583.0
+margin_bottom = 89.0
 theme = ExtResource( 2 )
 text = "The Seventh Coalition has formed in time to meet Napoleon."
 align = 1
