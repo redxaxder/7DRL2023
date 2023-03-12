@@ -84,4 +84,5 @@ func _refresh():
 	if n.intel_known(NPC.INTEL.RESOLVE):
 		enough = "{0}%".format([n.resolve])
 	var she = NPC.she[n.gender]
-	hint_tooltip = "If {0} of her contacts join my cause\n{1} will as well".format([enough, she])
+	var her = NPC.her[n.gender]
+	hint_tooltip = "If {0} of {2} contacts join my cause\n{1} will as well".format([enough, she, her])
