@@ -109,8 +109,11 @@ func _on_connection_unhover():
 func update_see_connection_panel():
 	connection_panel.visible = connection_hover || view_connections.pressed || faction_queue_wait > 0
 
-func _on_game_end():
-	get_tree().change_scene("res://defeat.tscn")
+func _on_game_end(did_win):
+	if did_win:
+		pass
+	else:
+		get_tree().change_scene("res://defeat.tscn")
 
 func _unhandled_input(event):
 	var moved = false

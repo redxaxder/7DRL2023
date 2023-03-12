@@ -88,6 +88,7 @@ func advance_suspicion() -> bool:
 	if suspicion >= 100:
 		suspicion = 100
 		scandalous = true
+		emit_signal("write_log", "{0} has become suspicious of you!".format([name]))
 		return true
 	return false
 

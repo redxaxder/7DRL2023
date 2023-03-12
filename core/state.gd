@@ -7,7 +7,7 @@ signal got_intel(dancer)
 signal grace(amount, quick)
 signal dance_time(countdown)
 signal dance_change(dances)
-signal game_end()
+signal game_end(did_win)
 signal pilfer(occupant)
 signal write_log(log_text)
 
@@ -155,8 +155,8 @@ func gen_trinket(gender: int) -> String:
 	var pool = Trinkets.trinkets[gender]
 	return pool[randi() % pool.size()]
 
-func epilogue():
-	emit_signal("game_end")
+func epilogue(did_win: bool):
+	emit_signal("game_end", did_win)
 
 func make_partners(id: int, target: int, dir: int):
 	var m
@@ -382,10 +382,7 @@ func tick_round():
 	for i in range(1, dancers.size()):
 		var v = (ppos - dancers[i].pos).abs()
 		var dist = max(v.x,v.y)
-		var suspicion_critical = dancers[i].roll_suspicion(grace.level, dist)
-		if suspicion_critical:
-			emit_signal("write_log", "You are about to be outed as a spy!")
-#			epilogue()
+		dancers[i].roll_suspicion(grace.level, dist)
 
 	#move npcs
 	var turn_order = []
@@ -600,7 +597,7 @@ func exit_dance():
 	if night > 7:
 		while do_contagion():
 			pass
-		epilogue()
+		epilogue(did_win())
 	else:
 		start_dance()
 
@@ -613,9 +610,18 @@ func do_contagion() -> bool:
 		var npc = npcs[npc_id]
 		if support*100 >= npc.resolve && npc.faction != NPC.SUPPORT:
 			npc.faction = NPC.SUPPORT
+			emit_signal("write_log", "{0} has decided to support the coalition!");
 			changed = true
+	if did_win():
+		epilogue(true)
 	return changed
 
+func did_win() -> bool:
+	var result: bool = true
+	for npc_id in range(npcs.size()):
+		var npc = npcs[npc_id]
+		result = result && npc.faction == NPC.SUPPORT
+	return result
 
 func get_npc_support(npc_id: int) -> float:
 	var npc: NPC = npcs[npc_id]
