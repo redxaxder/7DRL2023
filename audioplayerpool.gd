@@ -60,6 +60,8 @@ func play(sfx: int):
 
 func start_song(ix: int = -1):
 	music_player.stop()
+	time_accum = 0.0
+	fading = false
 	if ix < 0 || ix > music.size():
 		ix = randi() % music.size()
 	if !music.empty():

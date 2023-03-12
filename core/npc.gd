@@ -61,6 +61,10 @@ func advance_intel() -> bool:
 		discover_intel(intel_options[0])
 	return false
 
+func reveal_all_intel():
+	for i in intel_priority:
+		discover_intel(i)
+
 const intel_priority: Array = [INTEL.FACTION, INTEL.CONNECTIONS, INTEL.RESOLVE, INTEL.CORRUPTION, INTEL.INVENTORY]
 
 func set_faction(new_faction: int):
@@ -104,6 +108,7 @@ func advance_suspicion() -> bool:
 
 func decay_suspicion():
 	if suspicion > 0:
+# warning-ignore:integer_division
 		suspicion -= int(suspicion / 2)
 	scandalous = false
 

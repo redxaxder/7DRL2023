@@ -133,12 +133,6 @@ func update_see_connection_panel():
 var game_is_over: bool = false
 func _on_game_end():
 	game_is_over = true
-	$dance.visible = false
-	$grace.visible = false
-	dance_icon.visible = false
-	rest_icon.visible = false
-	dance_gauge.visible = false
-	rest_gauge.visible = false
 	$done.visible = true
 
 func _unhandled_input(event):
@@ -368,6 +362,10 @@ func _on_dance_start():
 	rest_gauge.visible = false
 	dance_gauge.visible = true
 	dance_gauge.current = gamestate.dance_duration
+
+	for g in glyphs:
+		g.queue_free()
+	glyphs = []
 	for d in gamestate.dancers:
 		var g = Glyph.new()
 		g.visible = false
@@ -388,9 +386,6 @@ func _on_dance_start():
 
 func _on_dance_end():
 	trigger_report()
-	for g in glyphs:
-		g.queue_free()
-	glyphs = []
 	clear_player_dances()
 
 func trigger_report():

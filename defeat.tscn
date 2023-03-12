@@ -97,8 +97,16 @@ margin_top = 53.0
 margin_right = 499.0
 margin_bottom = 88.0
 theme = ExtResource( 2 )
-text = "No agreement is met. Napoleon's army reaches Vienna."
+text = "No agreement is reached. Napoleon conquers Europe."
 align = 1
+
+[node name="Subtitle2" type="Label" parent="CanvasLayer/VBoxContainer"]
+margin_top = 92.0
+margin_right = 499.0
+margin_bottom = 106.0
+text = "every attendee must support the formation of a coalition army"
+align = 1
+autowrap = true
 
 [node name="Any key" type="Label" parent="CanvasLayer"]
 anchor_top = 0.941667

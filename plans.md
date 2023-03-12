@@ -142,15 +142,15 @@ final spurt:
   + portraits?
   + tooltips for graph view
     + highlight edges in graph view
-  - suspicion decays between nights (-50%?)
-    - bump suspicion chance (n =10?)
-    - bump intel threshold (30?)
+  + suspicion decays between nights (-50%?)
+    + bump suspicion chance (n =10?)
+    + bump intel threshold (30?)
   - put in epologue text
-  - visual indication for hunting npc
-  - play music in epilogue
+  + visual indication for hunting npc
+  + play music in epilogue
   - skin the panels
   - space/return can close report
-  - defeat screen lists required supporters
+  + report on final state
   - hide ? on graph if support is known for sure
     - for each of their connections:
       - intel is known (connctions)

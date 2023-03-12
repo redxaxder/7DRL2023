@@ -23,6 +23,8 @@ signal song_end()
 export var room_width: int = 9
 export var room_height: int = 9
 
+var game_over: bool = false
+
 var dancers: Array = []
 var items: Array = [] # the names of the items belonging to each dancer
 var location_index: Dictionary = {}
@@ -539,7 +541,11 @@ func npc_mill_around(id: int) -> bool:
 	return try_move_dancer(id, dir)
 
 func cause_scandal(npc_id: int):
-	emit_signal("write_log", "{0} has caught on to your malfeasance!".format([dancers[npc_id].npc.name]))
+	var name = dancers[npc_id].npc.name
+	emit_signal("write_log", "{0} has caught on to your malfeasance!".format([name]))
+	if night <= 6:
+		emit_signal("write_report", "{0} has exposed your treachery. You will not be invited to further dances.".format([name]))
+	game_over = true
 	emit_signal("game_end")
 	exit_dance()
 
@@ -568,6 +574,9 @@ func trigger_pilfer(target_id: int):
 func exit_dance():
 	emit_signal("write_log", "Eventually, the party winds down.")
 	emit_signal("dance_ended")
+	night += 1
+	if night > 7:
+		game_over = true
 	var ordering = []
 	for d in dancers:
 		ordering.append(d)
@@ -600,14 +609,19 @@ func exit_dance():
 # warning-ignore:return_value_discarded
 	do_contagion()
 	emit_signal("song_end")
-	for n in npcs:
-		n.decay_suspicion()
 	night += 1
 	if night > 7:
+		game_over = true
+	if game_over:
+		for n in npcs:
+			n.reveal_all_intel()
 		while do_contagion():
 			pass
 		epilogue()
-	start_dance()
+	else:
+		for n in npcs:
+			n.decay_suspicion()
+		start_dance()
 
 func do_contagion() -> bool:
 	var changed = false
@@ -625,10 +639,14 @@ func do_contagion() -> bool:
 	return changed
 
 func did_win() -> bool:
-	var result: bool = true
+	return get_required_support().size() == 0
+
+func get_required_support() -> Array:
+	var result = []
 	for npc_id in range(npcs.size()):
 		var npc = npcs[npc_id]
-		result = result && npc.faction == NPC.SUPPORT
+		if npc.faction != NPC.SUPPORT:
+			result.append(npc)
 	return result
 
 func get_npc_support(npc_id: int) -> float:
