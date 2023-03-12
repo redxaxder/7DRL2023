@@ -1,13 +1,20 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://ui/npc_info.gd" type="Script" id=1]
 [ext_resource path="res://examples/example_npc.tres" type="Resource" id=2]
 [ext_resource path="res://ui/glyph.tres" type="DynamicFont" id=3]
 [ext_resource path="res://ui/guage.tscn" type="PackedScene" id=4]
 [ext_resource path="res://ui/npc_name.tres" type="Theme" id=5]
-[ext_resource path="res://resources/title_text.tres" type="Theme" id=6]
+[ext_resource path="res://resources/dihjauti.regular.otf" type="DynamicFontData" id=6]
 [ext_resource path="res://examples/example_dancer.tres" type="Resource" id=7]
 [ext_resource path="res://ui/portrait.tscn" type="PackedScene" id=8]
+
+[sub_resource type="DynamicFont" id=1]
+size = 22
+font_data = ExtResource( 6 )
+
+[sub_resource type="Theme" id=2]
+default_font = SubResource( 1 )
 
 [node name="npc_info" type="PanelContainer"]
 anchor_right = 1.0
@@ -43,7 +50,7 @@ visible = false
 margin_top = 37.0
 margin_right = 1010.0
 margin_bottom = 72.0
-theme = ExtResource( 6 )
+theme = SubResource( 2 )
 align = 1
 autowrap = true
 
