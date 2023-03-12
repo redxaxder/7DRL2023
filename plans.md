@@ -140,9 +140,10 @@ third pass:
 
 final spurt:
   - portraits?
-  - tooltips for graph view
-    - highlight edges in graph view
+  + tooltips for graph view
+    + highlight edges in graph view
   - put in epologue text
+  - visual indication for hunting npc
   - play music in epilogue
   - skin the panels
   - space/return can close report
