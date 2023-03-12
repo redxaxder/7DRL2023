@@ -7,7 +7,7 @@ export var width: float = 1 setget set_width
 export var current: float = 0 setget set_current
 export var display_move_speed: float = 100
 export var show_numbers: bool = true setget set_show_numbers
-export  (Array, int) var stages = [100]
+export  (Array, int) var stages = [100] setget set_stages
 
 var _displayed: float = 0
 var _amount: float = 0
@@ -20,7 +20,7 @@ func _ready():
 
 func snap():
 	_displayed = current
-	
+
 func set_width(w):
 	width = w
 	update()
@@ -40,6 +40,10 @@ func set_current(x):
 
 func set_show_numbers(x):
 	show_numbers = x
+	_refresh()
+
+func set_stages(x):
+	stages = x
 	_refresh()
 
 func _refresh():
@@ -87,7 +91,7 @@ func _draw():
 	var inner: Rect2 = Rect2(width*d * 2, rect.size - (width * d * 4))
 	inner.size.x *= proportion
 	draw_rect(inner, color)
-	
-	
-	
-	
+
+
+
+

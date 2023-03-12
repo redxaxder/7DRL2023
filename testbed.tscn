@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://ui/floor_tile.tres" type="Theme" id=1]
 [ext_resource path="res://ui/dirstring.tscn" type="PackedScene" id=2]
@@ -19,12 +19,22 @@
 [ext_resource path="res://ui/ability_selector.tscn" type="PackedScene" id=17]
 [ext_resource path="res://ui/log.tscn" type="PackedScene" id=18]
 [ext_resource path="res://ui/music_toggle.tscn" type="PackedScene" id=19]
+[ext_resource path="res://resources/musical-notes.png" type="Texture" id=20]
+[ext_resource path="res://resources/sofa.png" type="Texture" id=21]
 
 [sub_resource type="StyleBoxTexture" id=1]
 texture = ExtResource( 16 )
 region_rect = Rect2( 0, 0, 64, 64 )
 
 [sub_resource type="StyleBoxTexture" id=2]
+
+[sub_resource type="StyleBoxTexture" id=4]
+texture = ExtResource( 20 )
+region_rect = Rect2( 0, 0, 512, 512 )
+
+[sub_resource type="StyleBoxTexture" id=3]
+texture = ExtResource( 21 )
+region_rect = Rect2( 0, 0, 512, 512 )
 
 [node name="Node2D" type="Control"]
 anchor_right = 1.0
@@ -182,6 +192,7 @@ __meta__ = {
 }
 
 [node name="dance_countdown" type="Label" parent="."]
+visible = false
 anchor_left = 0.629883
 anchor_top = 0.905
 anchor_right = 0.668946
@@ -276,3 +287,42 @@ margin_right = -976.0
 margin_bottom = 0.0
 
 [node name="sfx" parent="." instance=ExtResource( 15 )]
+
+[node name="DanceIcon" type="Panel" parent="."]
+margin_left = 591.0
+margin_top = 535.0
+margin_right = 631.0
+margin_bottom = 575.0
+custom_styles/panel = SubResource( 4 )
+
+[node name="RestIcon" type="Panel" parent="."]
+margin_left = 591.0
+margin_top = 535.0
+margin_right = 631.0
+margin_bottom = 575.0
+custom_styles/panel = SubResource( 3 )
+
+[node name="DanceTimer" parent="." instance=ExtResource( 5 )]
+margin_left = 635.0
+margin_top = 535.0
+margin_right = 718.0
+margin_bottom = 575.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0.227451, 0.407843, 0.952941, 1 )
+border_color = Color( 0.1128, 0.2021, 0.47, 1 )
+display_move_speed = 50.0
+stages = [ 50 ]
+
+[node name="RestTimer" parent="." instance=ExtResource( 5 )]
+visible = false
+margin_left = 635.0
+margin_top = 535.0
+margin_right = 718.0
+margin_bottom = 575.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0.286275, 0.227451, 0.94902, 1 )
+border_color = Color( 0.142567, 0.1128, 0.47, 1 )
+display_move_speed = 50.0
+stages = [ 50 ]

@@ -10,6 +10,8 @@ signal dance_change(dances)
 signal game_end(did_win)
 signal pilfer(occupant)
 signal write_log(log_text)
+signal begin_rest()
+signal end_rest()
 
 signal dance_ended()
 signal dance_started()
@@ -397,6 +399,7 @@ func tick_round():
 	if dance_countdown <= 0:
 		if dance_active:
 			emit_signal("write_log", "The song comes to an elegant end. The dance has ended.")
+			emit_signal("begin_rest")
 			emit_signal("song_end")
 			dance_active = false
 			dance_countdown = rest_duration
@@ -406,6 +409,7 @@ func tick_round():
 		else:
 			emit_signal("write_log", "The music swells; the dance has begun!")
 			emit_signal("song_start")
+			emit_signal("end_rest")
 			dance_active = true
 			dance_countdown = dance_duration
 			var dance1 = Core.gen_steps_dance()

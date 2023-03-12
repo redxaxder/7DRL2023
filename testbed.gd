@@ -2,7 +2,6 @@ extends Control
 
 var gamestate: GameState = GameState.new()
 
-
 onready var dance_floor = $dance/MarginContainer/Control/dance_floor
 onready var dance_countdown = $dance_countdown
 onready var dance_match = $dance_match
@@ -18,6 +17,10 @@ onready var inventory = $inventory
 onready var inventory_text = $inventory/Label
 onready var ability_selector = $ability_selector
 onready var logger = $log
+onready var dance_gauge = $DanceTimer
+onready var rest_gauge = $RestTimer
+onready var dance_icon = $DanceIcon
+onready var rest_icon = $RestIcon
 
 var glyphs: Array = []
 
@@ -50,6 +53,8 @@ func _ready():
 	gamestate.connect("song_end", self, "_on_song_end")
 # warning-ignore:return_value_discarded
 	gamestate.connect("connection_broken", connection_graph, "remove_spring")
+	gamestate.connect("begin_rest", self, "_on_begin_rest")
+	gamestate.connect("end_rest", self, "_on_end_rest")
 	view_connections.connect("mouse_entered", self , "_on_connection_hover")
 	view_connections.connect("mouse_exited", self , "_on_connection_unhover")
 
@@ -57,6 +62,9 @@ func _ready():
 	connection_graph.connect("npc_unfocus", self, "_unfocus_npc")
 	connection_graph.connect("npc_click", self, "_focus_npc", [true])
 	ability_selector.connect("selector_click", self, "toggle_ability")
+
+	dance_gauge.stages = [gamestate.dance_duration]
+	rest_gauge.stages = [gamestate.rest_duration]
 
 	randomize()
 	patterns.shuffle()
@@ -284,6 +292,8 @@ func track_player_dances(dir: int):
 	dance_match.sort_children()
 
 func _on_dance_timer(t: int):
+	dance_gauge.current = t
+	rest_gauge.current = t
 	dance_countdown.text = "{0}".format([t])
 
 const tile_size = Vector2(48,48)
@@ -336,6 +346,9 @@ var patterns: Array = ["A","E","J","L","O","Q","R","S","T","U","V","W","X","h","
 func _on_dance_start():
 # warning-ignore:return_value_discarded
 	gamestate.player().connect("start_dance_tracker", self, "_on_dance_tracking_start", [], CONNECT_DEFERRED)
+	rest_gauge.visible = false
+	dance_gauge.visible = true
+	dance_gauge.current = gamestate.dance_duration
 	for d in gamestate.dancers:
 		var g = Glyph.new()
 		g.visible = false
@@ -402,3 +415,17 @@ func advance_faction_queue():
 
 func _on_npc_faction_change(npc):
 	queue_faction_change(npc.npc_id)
+
+func _on_begin_rest():
+	dance_gauge.visible = false
+	dance_icon.visible = false
+	rest_gauge.visible = true
+	rest_icon.visible = true
+	rest_gauge.current = gamestate.rest_duration
+
+func _on_end_rest():
+	dance_gauge.visible = true
+	dance_icon.visible = true
+	rest_gauge.visible = false
+	rest_icon.visible = false
+	dance_gauge.current = gamestate.rest_duration

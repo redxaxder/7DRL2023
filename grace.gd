@@ -16,5 +16,5 @@ func _ready():
 func _refresh():
 	guage.stages = Core.grace_stages
 	var info = Core.grace_info(amount)
-	stars.count = info.level	
+	stars.count = info.level
 	guage.current = amount
