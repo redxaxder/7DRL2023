@@ -19,4 +19,4 @@ func _ready():
 const nights = ["One", "Two", "Three", "Four", "Five", "Six", "Seven"]
 func _refresh():
 	if title:
-		title.text = "Night {0}".format([nights[night-1]])
+		title.text = "Night {0} Complete".format([nights[night-1]])

@@ -13,7 +13,7 @@ font_data = ExtResource( 4 )
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0, 0, 0, 1 )
 
-[node name="Node2D" type="Control"]
+[node name="control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 3 )
