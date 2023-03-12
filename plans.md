@@ -147,6 +147,10 @@ final spurt:
   - skin the panels
   - space/return can close report
   - defeat screen lists required supporters
+  - hide ? on graph if support is known for sure
+    - for each of their connections:
+      - intel is known (connctions)
+      - intel is known (faction)
 
 
 fourth pass:

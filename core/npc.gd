@@ -5,6 +5,9 @@ class_name NPC
 
 const M: int = 0
 const F: int = 1
+const she = ["he", "she"]
+const She = ["He", "She"]
+const her = ["his", "her"]
 
 const CORRUPT: int = 0
 const HONEST: int = 1
@@ -98,14 +101,18 @@ func advance_suspicion() -> bool:
 
 
 const faction_name =  ["Supporter", "Neutral", "Opposition"]
-const faction_tooltip = [\
-	"This person is helping assemble the seventh coalition\nTheir help will be essential in securing Napoleon's defeat",\
-	"This person is not helping assemble the seventh coalition\nA minor obstacle",\
-	"This person is interfering with the creation of the seventh coalition"
+const _faction_tooltip = [\
+	"{0} is helping assemble the seventh coalition\nTheir help will be essential in securing Napoleon's defeat",\
+	"{0} is not helping assemble the seventh coalition\nA minor obstacle",\
+	"{0} is interfering with the creation of the seventh coalition"
 	]
+func faction_tooltip():
+	return _faction_tooltip[faction].format([She[gender]])
 
 const corruption_name = ["Corrupt", "Honest"]
-const corruption_tooltip = [\
-	"This person will steal anything given an opportunity\nHow can I use this to my advantage?",\
-	"This person is above petty theft\nA useful character tait"\
+const _corruption_tooltip = [\
+	"{0} will steal anything given an opportunity\nHow can I use this to my advantage?",\
+	"{0} is above petty theft\nA useful character tait"\
 	]
+func corruption_tooltip():
+	return _corruption_tooltip[corruption].format([She[gender]])

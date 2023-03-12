@@ -52,16 +52,18 @@ func _refresh():
 		suspicion.visible = !npc.is_player
 		faction.visible = !npc.is_player
 		faction.text = NPC.faction_name[npc.faction]
-		faction.hint_tooltip = NPC.faction_tooltip[npc.faction]
+		faction.hint_tooltip = npc.faction_tooltip()
+		var his = NPC.her[npc.gender]
+		var he = NPC.she[npc.gender]
 		if !npc.intel_known(NPC.INTEL.FACTION):
 			faction.text = "???"
-			faction.hint_tooltip = "I do not know their alleigence\nAre they going to help me? Or get in the way?"
+			faction.hint_tooltip = "I do not know {0} allegiance\nIs {1} going to help me? Or get in the way?".format([his, he])
 		corruption.visible = !npc.is_player
 		corruption.text = NPC.corruption_name[npc.corruption]
-		corruption.hint_tooltip = NPC.corruption_tooltip[npc.corruption]
+		corruption.hint_tooltip = npc.corruption_tooltip()
 		if !npc.intel_known(NPC.INTEL.CORRUPTION):
 			corruption.text = "???"
-			corruption.hint_tooltip = "What kind of person are you, {0}?\nI need to learn more about their personality".format([npc.name])
+			corruption.hint_tooltip = "What kind of person are you, {0}?\nI need to learn more about {1} personality".format([npc.name, his])
 		character_name.visible = true
 		character_name.text = npc.name
 
@@ -79,14 +81,14 @@ func _refresh():
 					item_panel.hint_tooltip = "I wonder how that got there"
 			if !npc.intel_known(NPC.INTEL.INVENTORY):
 				item_panel.text = "Item: ???"
-				item_panel.hint_tooltip = "I do not know what they are carrying"
+				item_panel.hint_tooltip = "I do not know what {0} is carrying".format([he])
 
 		resolve.visible = !npc.is_player
 		resolve.text = "Resolve: {0}%".format([npc.resolve])
 		resolve.hint_tooltip = "If enough of your friends join my cause\nwon't your mind be made up for you?"
 		if !npc.intel_known(NPC.INTEL.RESOLVE):
 			resolve.text = "Resolve: ???"
-			resolve.hint_tooltip = "I do not know stubborn they are"
+			resolve.hint_tooltip = "I do not know stubborn {0} is".format([he])
 
 		title.visible = npc.title != ""
 		title.text = npc.title
@@ -100,7 +102,7 @@ func _refresh():
 		title.visible = false
 	if dancer:
 		var sus_percent = int(dancer.sus_chance * 100)
-		suspicion.hint_tooltip = "Suspicion\nHow strongly this person suspects you are a spy. \nDon't let it reach a critical level. Based on your current \nposition and how well you are dancing, there is a {0}% \nchance for this to increase each turn.".format([sus_percent])
+		suspicion.hint_tooltip = "Suspicion\nHow strongly {1} suspects you are a spy. \nDon't let it reach a critical level. Based on your current \nposition and how well you are dancing, there is a {0}% \nchance for this to increase each turn.".format([sus_percent])
 
 	if dance_tracker && dancer:
 		for c in dance_tracker.get_children():
