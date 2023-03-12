@@ -21,6 +21,8 @@ onready var dance_gauge = $DanceTimer
 onready var rest_gauge = $RestTimer
 onready var dance_icon = $DanceIcon
 onready var rest_icon = $RestIcon
+onready var report = $report
+onready var report_log = report.rlog
 
 var glyphs: Array = []
 
@@ -42,9 +44,11 @@ func _ready():
 # warning-ignore:return_value_discarded
 	gamestate.connect("write_log", logger, "_on_write_log")
 # warning-ignore:return_value_discarded
-	gamestate.connect("dance_started", self, "_on_dance_start")
+	gamestate.connect("write_report", report_log, "_on_write_log")
 # warning-ignore:return_value_discarded
 	gamestate.connect("dance_ended", self, "_on_dance_end")
+# warning-ignore:return_value_discarded
+	gamestate.connect("dance_started", self, "_on_dance_start")
 # warning-ignore:return_value_discarded
 	gamestate.connect("connection_made", connection_graph, "add_spring")
 # warning-ignore:return_value_discarded
@@ -53,7 +57,9 @@ func _ready():
 	gamestate.connect("song_end", self, "_on_song_end")
 # warning-ignore:return_value_discarded
 	gamestate.connect("connection_broken", connection_graph, "remove_spring")
+# warning-ignore:return_value_discarded
 	gamestate.connect("begin_rest", self, "_on_begin_rest")
+# warning-ignore:return_value_discarded
 	gamestate.connect("end_rest", self, "_on_end_rest")
 	view_connections.connect("mouse_entered", self , "_on_connection_hover")
 	view_connections.connect("mouse_exited", self , "_on_connection_unhover")
@@ -66,6 +72,8 @@ func _ready():
 	dance_gauge.stages = [gamestate.dance_duration]
 	rest_gauge.stages = [gamestate.rest_duration]
 
+	report.connect("hide", self, "_report_done")
+	
 	randomize()
 	patterns.shuffle()
 	gamestate.init()
@@ -122,11 +130,15 @@ func update_see_connection_panel():
 
 func _on_game_end(did_win):
 	if did_win:
+# warning-ignore:return_value_discarded
 		get_tree().change_scene("res://victory.tscn")
 	else:
+# warning-ignore:return_value_discarded
 		get_tree().change_scene("res://defeat.tscn")
 
 func _unhandled_input(event):
+	if paused:
+		return
 	var moved = false
 	var acted = false
 	var dir: int = -1
@@ -208,7 +220,9 @@ func advance_move_queue():
 	glyph.position = target_pos
 	glyph.kick(kick)
 
+var paused = false
 func _physics_process(delta):
+	if paused: return
 	var more = false
 	if move_queue_wait.size() > 0:
 		more = true
@@ -368,11 +382,19 @@ func _on_dance_start():
 
 
 func _on_dance_end():
+	trigger_report()
 	for g in glyphs:
 		g.queue_free()
 	glyphs = []
 	clear_player_dances()
 
+func trigger_report():
+	paused = true
+	report.night = gamestate.night
+	report.show_modal(true)
+
+func _report_done():
+	paused = false
 
 func _on_song_start():
 	sfx.start_song()

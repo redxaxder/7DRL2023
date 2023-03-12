@@ -42,8 +42,8 @@ func _refresh():
 	if npc != null:
 		intel.visible = !npc.is_player
 		if npc.is_full_intel():
+			intel.stages = [1]
 			intel.show_numbers = false
-			intel.stages = [0]
 		else:
 			intel.current = npc.intel
 			intel.stages = [NPC.intel_threshold]

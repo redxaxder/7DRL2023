@@ -10,6 +10,7 @@ signal dance_change(dances)
 signal game_end(did_win)
 signal pilfer(occupant)
 signal write_log(log_text)
+signal write_report(log_text)
 signal begin_rest()
 signal end_rest()
 
@@ -125,6 +126,7 @@ func start_dance(attendees = 7):
 		if d.id > 0:
 			assert(d.npc)
 	emit_signal("dance_started")
+	emit_signal("begin_rest")
 
 func throw_a_party(n: int) -> Array:  # Array of NPC
 # warning-ignore:integer_division
@@ -563,7 +565,12 @@ func trigger_pilfer(target_id: int):
 
 func exit_dance():
 	emit_signal("write_log", "Eventually, the party winds down.")
+	emit_signal("dance_ended")
+	var ordering = []
 	for d in dancers:
+		ordering.append(d)
+	ordering.shuffle()
+	for d in ordering:
 		if d.id == player_id:
 			continue
 		if d.item_id != Trinkets.NO_ITEM && d.item_id != d.id:
@@ -571,30 +578,25 @@ func exit_dance():
 			var owner = dancers[d.item_id].npc
 			var is_connected = holder.connections.find(owner.npc_id) >= 0
 			var item_name = get_item_name(d.item_id)
-			var message = "After the party, {0} somehow came into possession of {1}.".format([holder.name,item_name])
-			emit_signal("write_log", message)
 			match holder.corruption:
 				NPC.CORRUPT:
-					message = "{0} greedily held onto it.".format([holder.name])
-					emit_signal("write_log", message)
+					var message
 					if is_connected:
-						message = "A rift has formed between {0} and {1}.".format([holder.name, owner.name])
+						message = "{0} stole {1}. Their relationship has soured.".format([holder.name, item_name])
 						break_connection(holder.npc_id, owner.npc_id)
 					else:
-						message = "The preexisting poor relationship between {0} and {1} is unchanged.".format([holder.name, owner.name])
-					emit_signal("write_log", message)
+						message = "{0} stole {1}. Their relationship was already bad.".format([holder.name, item_name])
+					emit_signal("write_report", message)
 				NPC.HONEST:
-					message = "{0} virtuously returned it.".format([holder.name])
-					emit_signal("write_log", message)
+					var message
 					if !is_connected:
-						message = "The relationship between {0} and {1} has deepened.".format([holder.name, owner.name])
+						message = "{0} found and returned {2} to {1}. Their relationship has deepened.".format([holder.name, owner.name, item_name])
 						make_connection(holder.npc_id,owner.npc_id)
 					else:
-						message = "{0} and {1} remain friends.".format([holder.name, owner.name])
-					emit_signal("write_log", message)
+						message = "{0} found and returned {2} to {1}. Their relationship was already good".format([holder.name, owner.name, item_name])
+					emit_signal("write_report", message)
 # warning-ignore:return_value_discarded
 	do_contagion()
-	emit_signal("dance_ended")
 	emit_signal("song_end")
 
 	night += 1

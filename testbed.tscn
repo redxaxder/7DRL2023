@@ -19,7 +19,7 @@
 [ext_resource path="res://ui/ability_selector.tscn" type="PackedScene" id=17]
 [ext_resource path="res://ui/log.tscn" type="PackedScene" id=18]
 [ext_resource path="res://ui/music_toggle.tscn" type="PackedScene" id=19]
-[ext_resource path="res://resources/musical-notes.png" type="Texture" id=20]
+[ext_resource path="res://ui/report.tscn" type="PackedScene" id=20]
 [ext_resource path="res://resources/sofa.png" type="Texture" id=21]
 
 [sub_resource type="StyleBoxTexture" id=1]
@@ -29,7 +29,6 @@ region_rect = Rect2( 0, 0, 64, 64 )
 [sub_resource type="StyleBoxTexture" id=2]
 
 [sub_resource type="StyleBoxTexture" id=4]
-texture = ExtResource( 20 )
 region_rect = Rect2( 0, 0, 512, 512 )
 
 [sub_resource type="StyleBoxTexture" id=3]
@@ -239,6 +238,63 @@ anchor_top = 0.005
 anchor_right = 0.912109
 margin_right = -5.0
 
+[node name="music_toggle" parent="." instance=ExtResource( 19 )]
+anchor_top = 1.0
+anchor_right = 0.0
+margin_top = -48.0
+margin_right = 48.0
+margin_bottom = 0.0
+
+[node name="sfx" parent="." instance=ExtResource( 15 )]
+
+[node name="DanceIcon" type="Panel" parent="."]
+anchor_left = 0.577148
+anchor_top = 0.891667
+anchor_right = 0.616211
+anchor_bottom = 0.958333
+custom_styles/panel = SubResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="RestIcon" type="Panel" parent="."]
+anchor_left = 0.577148
+anchor_top = 0.891667
+anchor_right = 0.616211
+anchor_bottom = 0.958333
+custom_styles/panel = SubResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="DanceTimer" parent="." instance=ExtResource( 5 )]
+anchor_left = 0.620117
+anchor_top = 0.891667
+anchor_right = 0.701172
+anchor_bottom = 0.958333
+margin_right = 0.0
+margin_bottom = 0.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0.227451, 0.407843, 0.952941, 1 )
+border_color = Color( 0.1128, 0.2021, 0.47, 1 )
+display_move_speed = 50.0
+stages = [ 50 ]
+
+[node name="RestTimer" parent="." instance=ExtResource( 5 )]
+anchor_left = 0.620117
+anchor_top = 0.891667
+anchor_right = 0.701172
+anchor_bottom = 0.958333
+margin_right = 0.0
+margin_bottom = 0.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0.286275, 0.227451, 0.94902, 1 )
+border_color = Color( 0.142567, 0.1128, 0.47, 1 )
+display_move_speed = 50.0
+stages = [ 5 ]
+
 [node name="PanelContainer" type="PanelContainer" parent="."]
 visible = false
 anchor_left = 0.248047
@@ -255,7 +311,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 765.0
+margin_right = 764.997
 margin_bottom = 599.0
 mouse_filter = 1
 springs = PoolVector2Array(  )
@@ -265,6 +321,9 @@ friction = 0.99
 max_velocity = 30.0
 has_anchor = true
 anchor_attraction = 0.05
+
+[node name="report" parent="." instance=ExtResource( 20 )]
+mouse_filter = 1
 
 [node name="view_connections" type="Button" parent="."]
 visible = false
@@ -280,49 +339,3 @@ expand_icon = true
 __meta__ = {
 "_edit_use_anchors_": true
 }
-
-[node name="music_toggle" parent="." instance=ExtResource( 19 )]
-margin_top = 552.0
-margin_right = -976.0
-margin_bottom = 0.0
-
-[node name="sfx" parent="." instance=ExtResource( 15 )]
-
-[node name="DanceIcon" type="Panel" parent="."]
-margin_left = 591.0
-margin_top = 535.0
-margin_right = 631.0
-margin_bottom = 575.0
-custom_styles/panel = SubResource( 4 )
-
-[node name="RestIcon" type="Panel" parent="."]
-margin_left = 591.0
-margin_top = 535.0
-margin_right = 631.0
-margin_bottom = 575.0
-custom_styles/panel = SubResource( 3 )
-
-[node name="DanceTimer" parent="." instance=ExtResource( 5 )]
-margin_left = 635.0
-margin_top = 535.0
-margin_right = 718.0
-margin_bottom = 575.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-color = Color( 0.227451, 0.407843, 0.952941, 1 )
-border_color = Color( 0.1128, 0.2021, 0.47, 1 )
-display_move_speed = 50.0
-stages = [ 50 ]
-
-[node name="RestTimer" parent="." instance=ExtResource( 5 )]
-visible = false
-margin_left = 635.0
-margin_top = 535.0
-margin_right = 718.0
-margin_bottom = 575.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-color = Color( 0.286275, 0.227451, 0.94902, 1 )
-border_color = Color( 0.142567, 0.1128, 0.47, 1 )
-display_move_speed = 50.0
-stages = [ 50 ]
