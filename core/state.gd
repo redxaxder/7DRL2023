@@ -588,10 +588,11 @@ func exit_dance():
 		if d.id == player_id:
 			continue
 		if d.item_id != Trinkets.NO_ITEM && d.item_id != d.id:
-			var holder = d.npc
+			var holder: NPC = d.npc
 			var owner = dancers[d.item_id].npc
 			var is_connected = holder.connections.find(owner.npc_id) >= 0
 			var item_name = get_item_name(d.item_id)
+			holder.discover_intel(NPC.INTEL.CORRUPTION)
 			match holder.corruption:
 				NPC.CORRUPT:
 					var message
