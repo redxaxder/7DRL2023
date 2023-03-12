@@ -5,6 +5,6 @@ func _ready():
 
 func _unhandled_input(event):
 	if event.is_action_pressed("ui_accept"):
-		sfx.end_song()
 # warning-ignore:return_value_discarded
+		sfx.end_song(true)
 		get_tree().change_scene("res://testbed.tscn")

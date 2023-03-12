@@ -85,7 +85,7 @@ valign = 1
 [node name="Subtitle" type="Label" parent="CanvasLayer/VBoxContainer"]
 margin_top = 53.0
 margin_right = 369.0
-margin_bottom = 89.0
+margin_bottom = 88.0
 theme = ExtResource( 2 )
 text = "Party Like It's 1815"
 align = 1

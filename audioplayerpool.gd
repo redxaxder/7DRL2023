@@ -76,8 +76,12 @@ func start_song(ix: int = -1):
 			music.append(played_songs.pop_back())
 		start_song()
 
-func end_song():
-	fading = true
+func end_song(now = false):
+	if now:
+		music_player.stop()
+		target_volume = orig_volume
+	else:
+		fading = true
 
 func _process(delta: float) -> void:
 	if fading:
