@@ -43,6 +43,8 @@ var target_volume = orig_volume
 
 var toggle_music_delta = 0
 
+signal song_ended()
+
 func _ready():
 # warning-ignore:return_value_discarded
 	Globals.connect("music_toggled", self, "_music_toggled")
@@ -91,6 +93,7 @@ func _process(delta: float) -> void:
 			fading = false
 			music_player.stop()
 			target_volume = orig_volume
+			emit_signal("song_ended")
 		else:
 			target_volume -= fade_term * delta
 	music_player.volume_db = target_volume + toggle_music_delta

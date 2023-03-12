@@ -27,7 +27,7 @@ func _unhandled_input(event):
 	if event.is_action_pressed("ui_accept"):
 		sfx.end_song()
 # warning-ignore:return_value_discarded
-		get_tree().change_scene("res://testbed.tscn")
+		sfx.connect("song_ended",self, "_transition", [],CONNECT_ONESHOT | CONNECT_DEFERRED)
 
 func _refresh():
 	if !epilogue: return
@@ -40,4 +40,7 @@ func _refresh():
 		epilogue.text += defeat.text
 	victory_box.visible = is_victory
 	defeat_box.visible = !is_victory
-	
+
+func _transition():
+	# warning-ignore:return_value_discarded
+	get_tree().change_scene("res://testbed.tscn")
