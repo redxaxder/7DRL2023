@@ -62,7 +62,8 @@ margin_top = 76.0
 margin_right = 1010.0
 margin_bottom = 101.0
 rect_min_size = Vector2( 0, 25 )
-hint_tooltip = "Intel"
+hint_tooltip = "Intel
+You will discover new information once this fills"
 color = Color( 0.521569, 0.505882, 0.490196, 1 )
 border_color = Color( 0.35, 0.34125, 0.329, 1 )
 width = 2.0
