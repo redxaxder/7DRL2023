@@ -124,6 +124,8 @@ func update_visible_support():
 	for i in get_child_count():
 		if denominators[i] > 0:
 			get_child(i).support = float(100 * numerators[i]) / float(denominators[i])
+		else:
+			get_child(i).support = 0
 
 func _draw():
 	var n = get_child_count()
