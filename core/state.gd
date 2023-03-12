@@ -62,7 +62,8 @@ func init():
 		npc.npc_id = i
 		npc.portrait = NPC_Names.portraits[i]
 		npc.gender = npc_entry[NPC_Names.gender]
-		npc.resolve = (randi() % 9) * 5 + 50
+		npc.resolve = (randi() % 11) * 5 + 40
+		npc.gs = weakref(self)
 #		npc.resolve = 10
 		if npc_entry.has(NPC_Names.title):
 			npc.title = npc_entry[NPC_Names.title]
@@ -70,7 +71,7 @@ func init():
 		npcs.append(npc)
 		npc.corruption = randi() % 2
 		for j in range(i):
-			if randi() % 3 == 0:
+			if randi() % 4 == 0:
 				make_connection(i,j)
 	var ids = range(npcs.size())
 	ids.shuffle()

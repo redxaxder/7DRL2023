@@ -59,7 +59,9 @@ func _refresh():
 #		else:
 #			support_guage.modulate = Color(0,0,0,0)
 	if support_label:
-		support_label.text = "{0}% ?".format([int(support)])
+		support_label.text = "{0}%".format([int(support)])
+		if !npc.support_known():
+			support_label.text += " ?"
 #		if npc.intel_known(NPC.INTEL.SUPPORT):
 #			support_label.modulate = Color(1,1,1,1)
 #		else:
@@ -81,5 +83,5 @@ func _refresh():
 	var enough = "enough"
 	if n.intel_known(NPC.INTEL.RESOLVE):
 		enough = "{0}%".format([n.resolve])
-	var she = NPC.she[n.gender]	
+	var she = NPC.she[n.gender]
 	hint_tooltip = "If {0} of her contacts join my cause\n{1} will as well".format([enough, she])

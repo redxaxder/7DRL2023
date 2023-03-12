@@ -20,13 +20,14 @@ enum INTEL{ FACTION=1, CONNECTIONS=2, RESOLVE=4, CORRUPTION=8, INVENTORY = 16}
 const FULL_INTEL = INTEL.FACTION | INTEL.CONNECTIONS | INTEL.RESOLVE | INTEL.CORRUPTION | INTEL.INVENTORY
 
 
-const intel_threshold: int = 40
+const intel_threshold: int = 30
 
 export var intel: int = 0
 export (int, FLAGS, "faction","connections","resolve","corruption", "inventory") var known_intel = 0
 export var suspicion: int = 0
 export var letter: String
 var dancer: WeakRef = null
+var gs: WeakRef = null
 
 export (int, "m", "f") var gender = 0
 export (int, "corrupt", "honest") var corruption: int = CORRUPT
@@ -111,6 +112,22 @@ func decay_suspicion():
 # warning-ignore:integer_division
 		suspicion -= int(suspicion / 2)
 	scandalous = false
+
+func support_known() -> bool:
+	if !gs:
+		return false
+	var gamestate = gs.get_ref()
+	if !gamestate:
+		return false
+	if !intel_known(INTEL.CONNECTIONS):
+		return false
+	for conn in connections:
+		var npc = gamestate.npcs[conn]
+		if !npc.intel_known(INTEL.CONNECTIONS):
+			return false
+		if !npc.intel_known(INTEL.FACTION):
+			return false
+	return true
 
 const faction_name =  ["Supporter", "Neutral", "Opposition"]
 const _faction_tooltip = [\
