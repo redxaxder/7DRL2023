@@ -22,6 +22,7 @@ onready var dance_icon = $DanceIcon
 onready var rest_icon = $RestIcon
 onready var report = $report
 onready var report_log = report.rlog
+onready var done = $done
 
 var glyphs: Array = []
 
@@ -67,6 +68,7 @@ func _ready():
 	connection_graph.connect("npc_unfocus", self, "_unfocus_npc")
 	connection_graph.connect("npc_click", self, "_focus_npc", [true])
 	ability_selector.connect("selector_click", self, "toggle_ability")
+	done.connect("pressed", self, "_show_game_over_screen")
 
 	dance_gauge.stages = [gamestate.dance_duration]
 	rest_gauge.stages = [gamestate.rest_duration]
@@ -127,16 +129,19 @@ func update_see_connection_panel():
 	if gamestate.count_revealed_vertices() == 0:
 		connection_panel.visible = false
 
-func _on_game_end(did_win):
-	if did_win:
-# warning-ignore:return_value_discarded
-		get_tree().change_scene("res://victory.tscn")
-	else:
-# warning-ignore:return_value_discarded
-		get_tree().change_scene("res://defeat.tscn")
+var game_is_over: bool = false
+func _on_game_end():
+	game_is_over = true
+	$dance.visible = false
+	$grace.visible = false
+	dance_icon.visible = false
+	rest_icon.visible = false
+	dance_gauge.visible = false
+	rest_gauge.visible = false
+	$done.visible = true
 
 func _unhandled_input(event):
-	if paused:
+	if paused || game_is_over:
 		return
 	var moved = false
 	var acted = false
@@ -451,3 +456,11 @@ func _on_end_rest():
 	rest_gauge.visible = false
 	rest_icon.visible = false
 	dance_gauge.current = gamestate.rest_duration
+
+func _show_game_over_screen():
+	if gamestate.did_win():
+# warning-ignore:return_value_discarded
+		get_tree().change_scene("res://victory.tscn")
+	else:
+# warning-ignore:return_value_discarded
+		get_tree().change_scene("res://defeat.tscn")

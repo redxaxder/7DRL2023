@@ -7,7 +7,7 @@ signal got_intel(dancer)
 signal grace(amount, quick)
 signal dance_time(countdown)
 signal dance_change(dances)
-signal game_end(did_win)
+signal game_end()
 signal pilfer(occupant)
 signal write_log(log_text)
 signal write_report(log_text)
@@ -159,8 +159,8 @@ func gen_trinket(gender: int) -> String:
 	var pool = Trinkets.trinkets[gender]
 	return pool[randi() % pool.size()]
 
-func epilogue(did_win: bool):
-	emit_signal("game_end", did_win)
+func epilogue():
+	emit_signal("game_end")
 
 func make_partners(id: int, target: int, dir: int):
 	var m
@@ -538,7 +538,8 @@ func npc_mill_around(id: int) -> bool:
 	return try_move_dancer(id, dir)
 
 func cause_scandal(npc_id: int):
-	emit_signal("write_log", "{0} has caused a scandal!".format([dancers[npc_id].npc.name]))
+	emit_signal("write_log", "{0} has caught on to your malfeasance!".format([dancers[npc_id].npc.name]))
+	emit_signal("game_end")
 	exit_dance()
 
 func trigger_grace():
@@ -603,9 +604,8 @@ func exit_dance():
 	if night > 7:
 		while do_contagion():
 			pass
-		epilogue(did_win())
-	else:
-		start_dance()
+		epilogue()
+	start_dance()
 
 func do_contagion() -> bool:
 	var changed = false
@@ -619,7 +619,7 @@ func do_contagion() -> bool:
 			emit_signal("write_log", "{0} has decided to support the coalition!".format([npc.name]));
 			changed = true
 	if did_win():
-		epilogue(true)
+		epilogue()
 	return changed
 
 func did_win() -> bool:
