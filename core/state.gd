@@ -63,7 +63,7 @@ func init():
 		npc.npc_id = i
 		npc.portrait = NPC_Names.portraits[i]
 		npc.gender = npc_entry[NPC_Names.gender]
-		npc.resolve = (randi() % 11) * 5 + 40
+		npc.resolve = (randi() % 13) * 5 + 30
 		npc.gs = weakref(self)
 #		npc.resolve = 10
 		if npc_entry.has(NPC_Names.title):
