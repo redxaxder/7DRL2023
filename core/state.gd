@@ -58,6 +58,7 @@ func init():
 		npc.name = key
 		npc.letter = npc_entry[NPC_Names.character]
 		npc.npc_id = i
+		npc.portrait = NPC_Names.portraits[i]
 		npc.gender = npc_entry[NPC_Names.gender]
 		npc.resolve = (randi() % 9) * 5 + 50
 #		npc.resolve = 10

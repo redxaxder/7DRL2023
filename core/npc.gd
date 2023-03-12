@@ -36,6 +36,7 @@ export var resolve: int = 70
 export var name: String = ""
 export var title: String = ""
 export var is_player = false
+export var portrait: Texture
 
 export var npc_id: int = 0
 export var spouse_id: int = -1 #TODO: make spouses matter

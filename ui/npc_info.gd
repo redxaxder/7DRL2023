@@ -14,6 +14,7 @@ onready var resolve = $VBoxContainer/resolve
 onready var item_panel = $VBoxContainer/item
 onready var character_name = $VBoxContainer/name
 onready var title = $VBoxContainer/title
+onready var portrait = $portrait
 
 const DirString = preload("res://ui/dirstring.tscn")
 
@@ -66,6 +67,7 @@ func _refresh():
 			corruption.hint_tooltip = "What kind of person are you, {0}?\nI need to learn more about {1} personality".format([npc.name, his])
 		character_name.visible = true
 		character_name.text = npc.name
+		portrait.img = npc.portrait
 
 		item_panel.visible = !npc.is_player && !!gamestate
 		if gamestate && dancer:
@@ -103,7 +105,7 @@ func _refresh():
 	if dancer:
 		var sus_percent = int(dancer.sus_chance * 100)
 		suspicion.hint_tooltip = "Suspicion\nHow strongly {1} suspects you are a spy. \nDon't let it reach a critical level. Based on your current \nposition and how well you are dancing, there is a {0}% \nchance for this to increase each turn.".format([sus_percent])
-
+	
 	if dance_tracker && dancer:
 		for c in dance_tracker.get_children():
 			c.queue_free()

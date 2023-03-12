@@ -139,9 +139,12 @@ third pass:
     + faction changed (x3)
 
 final spurt:
-  - portraits?
+  + portraits?
   + tooltips for graph view
     + highlight edges in graph view
+  - suspicion decays between nights (-50%?)
+    - bump suspicion chance (n =10?)
+    - bump intel threshold (30?)
   - put in epologue text
   - visual indication for hunting npc
   - play music in epilogue

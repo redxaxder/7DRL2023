@@ -17,6 +17,27 @@ const character: String = "character"
 const M: int = 0
 const F: int = 1
 
+const portraits: Array = [ \
+	preload("res://resources/portraits/jpg/01 Klemens von Metternich.jpg"), \
+	preload("res://resources/portraits/jpg/02 Eleonore von Kaunitz.jpg"), \
+	preload("res://resources/portraits/jpg/03 Johann Philipp Freiherr von Wessenberg-Ampringen.jpg"), \
+	preload("res://resources/portraits/jpg/04 Arthur Wellesley.jpg"), \
+	preload("res://resources/portraits/jpg/05 Catherine Pakenham.jpg"), \
+	preload("res://resources/portraits/jpg/06 Tsar Alexander I.jpg"), \
+	preload("res://resources/portraits/jpg/07 Elizabeth Alexeievna.jpg"), \
+	preload("res://resources/portraits/jpg/08 Karl Nesselrode.jpg"), \
+	preload("res://resources/portraits/jpg/09 Maria Guryeva.jpg"), \
+	preload("res://resources/portraits/jpg/10 Karl August Furst von Hardenberg.jpg"), \
+	preload("res://resources/portraits/jpg/11 Christiane von Reventlow.jpg"), \
+	preload("res://resources/portraits/jpg/12 Wilhelm von Humboldt.jpg"), \
+	preload("res://resources/portraits/jpg/13 Caroline von Humboldt.jpg"), \
+	preload("res://resources/portraits/jpg/14 Friedrich Wilhelm III.jpg"), \
+	preload("res://resources/portraits/jpg/15 Charles Maurice de Talleyrand-Perigord.jpg"), \
+	preload("res://resources/portraits/jpg/16 Catherine Noel Grand.jpg"), \
+	preload("res://resources/portraits/jpg/17 Wilhelmine Benigna.jpg"), \
+	preload("res://resources/portraits/jpg/18 Catherine Bagration.jpg"), \
+]\
+
 const name_map: Dictionary = {
 	"Klemens von Metternich": {
 		faction: austria,
