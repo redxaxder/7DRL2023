@@ -65,7 +65,7 @@ func _process(delta):
 	velocity = velocity.move_toward(target, delta * acceleration)
 	var skid = velocity - velocity.project(target)
 	var unskid = min(skid_correction * delta,1.0) * -skid
-	velocity += unskid 
+	velocity += unskid
 	velocity *= pow(1.0 - friction, delta)
 	velocity = velocity.clamped(top_speed)
 	if cos(velocity.angle_to(-offset)) < -0.5:
@@ -73,7 +73,7 @@ func _process(delta):
 
 	var prev_offset = offset
 	offset += velocity * delta
-	
+
 	var l: float = offset.length()
 	var do_snap = false
 	if snap_close && offset.length() < snap_dist:
@@ -85,7 +85,7 @@ func _process(delta):
 	c.rect_position = offset
 	if (velocity.abs() + offset.abs()).length() < snap_dist:
 		_stop()
-	
+
 func _stop():
 		set_process(false)
 		if autoremove:

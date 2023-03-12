@@ -83,6 +83,7 @@ func _ready():
 		npc.connect("intel_level_up", self, "_on_intel_level_up")
 		npc.connect("write_log", logger, "_on_write_log")
 		npc.connect("faction_changed", self, "_on_npc_faction_change", [npc])
+		npc.connect("scandal", self, "_on_scandal", [npc])
 		var vertex = Vertex.instance()
 		vertex.npc = npc
 		connection_graph.add_child(vertex)
@@ -464,3 +465,15 @@ func _show_game_over_screen():
 	else:
 # warning-ignore:return_value_discarded
 		get_tree().change_scene("res://defeat.tscn")
+
+var scandal_particle = preload("res://ui/scandal_particle.tscn")
+func _on_scandal(npc):
+	var dancer: Dancer = null
+	var ref: WeakRef = npc.dancer
+	if ref:
+		dancer = ref.get_ref()
+	var particle_source = null
+	if dancer:
+		particle_source = glyphs[dancer.id]
+	var particle_target = glyphs[0]
+	send_particle(particle_source,particle_target,scandal_particle.instance(), 0)

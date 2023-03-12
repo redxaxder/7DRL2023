@@ -68,6 +68,6 @@ func _refresh():
 		_anchor.add_child(_label)
 	_label.text = character
 	_label.self_modulate = color
-	
+
 	if Engine.editor_hint: # the script is running in the editor!
 		property_list_changed_notify()

@@ -45,6 +45,7 @@ export (Array, int) var connections: Array = [] # array of npc ids
 signal intel_level_up(npc, intel_type)
 signal faction_changed()
 signal write_log(log_text)
+signal scandal(npc)
 
  # return true when unlocking something with intel
 func advance_intel() -> bool:
@@ -96,6 +97,7 @@ func advance_suspicion() -> bool:
 		suspicion = 100
 		scandalous = true
 		emit_signal("write_log", "{0} has become suspicious of you!".format([name]))
+		emit_signal("scandal")
 		return true
 	return false
 
