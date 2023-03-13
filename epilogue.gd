@@ -3,13 +3,13 @@ extends Control
 export var is_scandal: bool setget set_scandal
 export var is_victory: bool setget set_victory
 
-onready var epilogue = $CanvasLayer/epilogue/Label
+onready var epilogue = $epilogue/Label
 onready var victory = $victory_text
 onready var defeat = $defeat_text
 onready var space = $initial_space
 onready var scandal = $scandal_text
-onready var victory_box = $CanvasLayer/victory_box
-onready var defeat_box = $CanvasLayer/defeat_box
+onready var victory_box = $victory_box
+onready var defeat_box = $defeat_box
 
 func set_scandal(x):
 	is_scandal = x
