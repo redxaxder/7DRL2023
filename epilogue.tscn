@@ -180,9 +180,8 @@ For I am still a king under his rule.
 "
 
 [node name="music_toggle" parent="." instance=ExtResource( 6 )]
-anchor_left = 1.0
 anchor_top = 1.0
-margin_left = -64.0
-margin_top = -64.0
-margin_right = 0.0
+anchor_right = 0.0
+margin_top = -48.0
+margin_right = 48.0
 margin_bottom = 0.0
