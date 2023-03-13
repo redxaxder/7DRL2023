@@ -80,9 +80,15 @@ func _refresh():
 			if tick:
 				tick.visible = n.intel_known(NPC.INTEL.RESOLVE)
 				tick.percentage = float(n.resolve) / 100.0
-	var enough = "enough"
-	if n.intel_known(NPC.INTEL.RESOLVE):
-		enough = "{0}%".format([n.resolve])
 	var she = NPC.she[n.gender]
+	var She = NPC.She[n.gender]
 	var her = NPC.her[n.gender]
-	hint_tooltip = "If {0} of {2} contacts join my cause\n{1} will as well".format([enough, she, her])
+	hint_tooltip = ""
+	match displayed_faction:
+		NPC.SUPPORT:
+			hint_tooltip = "{0} is supporting my cause\nThe more {1} influence increases, the more this will spread".format([She, her])
+		NPC.NEUTRAL:
+			var enough = "enough"
+			if n.intel_known(NPC.INTEL.RESOLVE):
+				enough = "{0}%".format([n.resolve])
+			hint_tooltip = "If {0} of {2} contacts join my cause\n{1} will as well".format([enough, she, her])

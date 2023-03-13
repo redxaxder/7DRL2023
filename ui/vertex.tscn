@@ -10,8 +10,6 @@
 [node name="vertex" type="MarginContainer"]
 margin_right = 50.0
 margin_bottom = 82.0
-hint_tooltip = "If enough of her contacts join my cause
- she will as well"
 mouse_filter = 1
 script = ExtResource( 2 )
 npc = ExtResource( 4 )
