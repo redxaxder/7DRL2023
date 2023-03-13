@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://ui/npc_info.gd" type="Script" id=1]
 [ext_resource path="res://examples/example_npc.tres" type="Resource" id=2]
@@ -6,21 +6,16 @@
 [ext_resource path="res://ui/guage.tscn" type="PackedScene" id=4]
 [ext_resource path="res://ui/npc_name.tres" type="Theme" id=5]
 [ext_resource path="res://resources/dihjauti.regular.otf" type="DynamicFontData" id=6]
-[ext_resource path="res://examples/example_dancer.tres" type="Resource" id=7]
 [ext_resource path="res://ui/portrait.tscn" type="PackedScene" id=8]
 
 [sub_resource type="DynamicFont" id=1]
-size = 22
+size = 19
 font_data = ExtResource( 6 )
-
-[sub_resource type="Theme" id=2]
-default_font = SubResource( 1 )
 
 [node name="npc_info" type="PanelContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
-dancer = ExtResource( 7 )
 npc = ExtResource( 2 )
 
 [node name="portrait" parent="." instance=ExtResource( 8 )]
@@ -46,11 +41,11 @@ text = "A"
 align = 1
 
 [node name="name" type="Label" parent="VBoxContainer"]
-visible = false
 margin_top = 37.0
 margin_right = 1010.0
-margin_bottom = 72.0
-theme = SubResource( 2 )
+margin_bottom = 68.0
+custom_fonts/font = SubResource( 1 )
+text = "Johann Philipp Freiherr von Wessenberg-Ampringen"
 align = 1
 autowrap = true
 
@@ -64,10 +59,9 @@ align = 1
 autowrap = true
 
 [node name="intel" parent="VBoxContainer" instance=ExtResource( 4 )]
-visible = false
-margin_top = 76.0
+margin_top = 72.0
 margin_right = 1010.0
-margin_bottom = 101.0
+margin_bottom = 97.0
 rect_min_size = Vector2( 0, 25 )
 hint_tooltip = "Intel
 You will discover new information once this fills"
@@ -75,13 +69,12 @@ color = Color( 0.521569, 0.505882, 0.490196, 1 )
 border_color = Color( 0.35, 0.34125, 0.329, 1 )
 width = 2.0
 current = 30.0
-stages = [ 20 ]
+stages = [ 30 ]
 
 [node name="suspicion" parent="VBoxContainer" instance=ExtResource( 4 )]
-visible = false
-margin_top = 37.0
+margin_top = 101.0
 margin_right = 1010.0
-margin_bottom = 62.0
+margin_bottom = 126.0
 rect_min_size = Vector2( 0, 25 )
 hint_tooltip = "Suspicion.
 How strongly this person suspects you are a spy. 
@@ -94,56 +87,59 @@ width = 2.0
 current = 100.0
 
 [node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
-margin_top = 37.0
+margin_top = 130.0
 margin_right = 1010.0
-margin_bottom = 41.0
+margin_bottom = 134.0
 
 [node name="faction" type="Label" parent="VBoxContainer"]
-visible = false
-margin_top = 37.0
+margin_top = 138.0
 margin_right = 1010.0
-margin_bottom = 51.0
+margin_bottom = 152.0
+hint_tooltip = "I do not know his allegiance
+Is he going to help me? Or get in the way?"
 mouse_filter = 1
-text = "Opposed"
+text = "???"
 align = 1
 autowrap = true
 
 [node name="corruption" type="Label" parent="VBoxContainer"]
-visible = false
-margin_top = 37.0
+margin_top = 156.0
 margin_right = 1010.0
-margin_bottom = 51.0
+margin_bottom = 170.0
+hint_tooltip = "What kind of person are you, Thanos?
+I need to learn more about his personality"
 mouse_filter = 1
-text = "Opposed"
+text = "???"
 align = 1
 autowrap = true
 
 [node name="resolve" type="Label" parent="VBoxContainer"]
-visible = false
-margin_top = 37.0
+margin_top = 174.0
 margin_right = 1010.0
-margin_bottom = 51.0
+margin_bottom = 188.0
+hint_tooltip = "I do not know stubborn he is"
 mouse_filter = 1
-text = "Opposed"
+text = "Resolve: ???"
 align = 1
 autowrap = true
 
 [node name="item" type="Label" parent="VBoxContainer"]
-margin_top = 45.0
+visible = false
+margin_top = 85.0
 margin_right = 1010.0
-margin_bottom = 59.0
+margin_bottom = 99.0
 mouse_filter = 1
 text = "Opposedasdfasdfasfasdf"
 align = 1
 autowrap = true
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
-margin_top = 63.0
+margin_top = 192.0
 margin_right = 1010.0
-margin_bottom = 67.0
+margin_bottom = 196.0
 
 [node name="dance_tracker" type="VBoxContainer" parent="VBoxContainer"]
-margin_top = 71.0
+margin_top = 200.0
 margin_right = 1010.0
-margin_bottom = 71.0
+margin_bottom = 200.0
 alignment = 1
