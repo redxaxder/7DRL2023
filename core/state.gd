@@ -613,9 +613,6 @@ func exit_dance():
 # warning-ignore:return_value_discarded
 	do_contagion()
 	emit_signal("song_end")
-	night += 1
-	if night > 7:
-		game_over = true
 	if game_over:
 		for n in npcs:
 			n.reveal_all_intel()
