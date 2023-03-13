@@ -24,7 +24,7 @@ func _ready():
 	_refresh()
 
 func _unhandled_input(event):
-	if event.is_action_pressed("ui_accept"):
+	if event.is_class("InputEventKey"):
 		sfx.end_song()
 # warning-ignore:return_value_discarded
 		sfx.connect("song_ended",self, "_transition", [],CONNECT_ONESHOT | CONNECT_DEFERRED)

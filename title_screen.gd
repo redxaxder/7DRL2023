@@ -4,7 +4,7 @@ func _ready():
 	sfx.start_song(0)
 
 func _unhandled_input(event):
-	if event.is_action_pressed("ui_accept"):	
+	if event.is_class("InputEventKey"):
 		sfx.end_song()
 # warning-ignore:return_value_discarded
 		if !sfx.is_connected("song_ended", self, "_transition"):
