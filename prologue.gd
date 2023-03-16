@@ -4,7 +4,7 @@ extends Control
 export (float,0,1000) var progress:float = 0.0 setget set_progress
 export var speed:float = 1.0
 
-onready var label = $Label
+onready var label = $MarginContainer/Label
 
 func set_progress(x):
 	progress = x

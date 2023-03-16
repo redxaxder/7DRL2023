@@ -39,10 +39,13 @@ __meta__ = {
 }
 speed = 7.0
 
-[node name="Label" type="Label" parent="prologue"]
-anchor_top = -1.74718
+[node name="MarginContainer" type="MarginContainer" parent="prologue"]
 anchor_right = 1.0
-anchor_bottom = 7.28986
+anchor_bottom = 1.0
+
+[node name="Label" type="Label" parent="prologue/MarginContainer"]
+margin_right = 384.0
+margin_bottom = 1125.0
 rect_min_size = Vector2( 300, 100 )
 custom_fonts/font = SubResource( 1 )
 text = "

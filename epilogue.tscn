@@ -38,11 +38,13 @@ size_flags_vertical = 3
 script = ExtResource( 5 )
 speed = 7.0
 
-[node name="Label" type="Label" parent="epilogue"]
-anchor_top = -1.74718
+[node name="MarginContainer" type="MarginContainer" parent="epilogue"]
 anchor_right = 1.0
-anchor_bottom = 14.5862
-margin_bottom = -985.0
+anchor_bottom = 1.0
+
+[node name="Label" type="Label" parent="epilogue/MarginContainer"]
+margin_right = 384.0
+margin_bottom = 141.0
 rect_min_size = Vector2( 300, 100 )
 custom_fonts/font = SubResource( 1 )
 text = "

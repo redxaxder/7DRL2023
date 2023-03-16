@@ -3,7 +3,7 @@ extends Control
 export var is_scandal: bool setget set_scandal
 export var is_victory: bool setget set_victory
 
-onready var epilogue = $epilogue/Label
+onready var epilogue = $epilogue/MarginContainer/Label
 onready var victory = $victory_text
 onready var defeat = $defeat_text
 onready var space = $initial_space
